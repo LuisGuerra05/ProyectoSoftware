@@ -27,6 +27,9 @@ function HomePage() {
         <Link to="/register">Registro</Link>
         <Link to="/login">Login</Link>
         <Link to="/userlist">Lista de Usuarios</Link>
+        <Link to="/cart">
+          <img src="/images/carrito.png" alt="Carrito de Compras" style={{ width: '20px', marginLeft: '5px' }} />
+        </Link>
       </nav>
  
       <section className="home-content">
