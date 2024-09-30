@@ -2,5 +2,9 @@
     "title": "Welcome to the T-shirt store",
     "subtitle":"Find the shirts of your favorite teams in the Spanish League here.",
     "inicio": "Home",
-    "productos":"Products"
+    "productos":"Products",
+    "produ-title" : "Product catalog",
+    "equipo" : "Team :",
+    "price" : "Price :",
+    "stock" : "Stock :"
 }
