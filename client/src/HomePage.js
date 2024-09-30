@@ -16,8 +16,8 @@ function HomePage() {
         <h1>{t('title')}</h1>
         <p>{t('subtitle')}</p>
         <select onChange={(e) => changeLanguage(e.target.value)} aria-label="Cambiar idioma">
-          <option value="en">English</option>
           <option value="es">Español</option>
+          <option value="en">English</option>
         </select>
       </header>
       
