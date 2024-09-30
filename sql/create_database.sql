@@ -62,5 +62,48 @@ CREATE TABLE IF NOT EXISTS cart_items (
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
+
+
+
+
+-- FC Barcelona
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/barcelona2024.jpg');
+VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/Barca/Barca_Local_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Cuarta 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Cuarta_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Portero_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Tercera_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Visita_24_1.jpg');
+
+-- Atlético de Madrid
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Atletico_Local_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Portero_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Tercera_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Visita_24_1.jpg');
+
+-- Real Madrid
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025', 'Real Madrid', 19.99, 100, '/images/Madrid/Madrid_Local_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Portero_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Tercera_24_1.jpg');
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Visita_24_1.jpg');
