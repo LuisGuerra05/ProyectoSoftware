@@ -18,9 +18,17 @@ CREATE TABLE IF NOT EXISTS products (
   team VARCHAR(100),
   price DECIMAL(10, 2) NOT NULL,
   stock INT DEFAULT 0,
-  image_url VARCHAR(255),  -- Aquí agregamos una columna para la URL de la imagen del producto
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Crear tabla para almacenar imágenes de los productos
+CREATE TABLE IF NOT EXISTS product_images (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT,
+  image_url VARCHAR(255) NOT NULL,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
 
 -- Crear tabla de pedidos
 CREATE TABLE IF NOT EXISTS orders (
@@ -61,143 +69,152 @@ CREATE TABLE IF NOT EXISTS cart_items (
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
--- FC Barcelona - Insertar imágenes de camisetas de local, visita, tercera, cuarte y portero 
+
+
+-- FC Barcelona
 
 -- Camiseta Local
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (2)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (3)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (4)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_4.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (5)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_5.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100);
+-- Obtener el ID del producto
+SET @product_id = LAST_INSERT_ID();
+-- Insertar las imágenes para el producto
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Barca/Local/Barca_Local_24_1.jpg'),
+(@product_id, '/images/Barca/Local/Barca_Local_24_2.jpg'),
+(@product_id, '/images/Barca/Local/Barca_Local_24_3.jpg'),
+(@product_id, '/images/Barca/Local/Barca_Local_24_4.jpg'),
+(@product_id, '/images/Barca/Local/Barca_Local_24_5.jpg');
 
 -- Camiseta Visita
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (3)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (4)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_4.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (5)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_5.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Visita 2024-2025', 'FC Barcelona', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Barca/Visita/Barca_Visita_24_1.jpg'),
+(@product_id, '/images/Barca/Visita/Barca_Visita_24_2.jpg'),
+(@product_id, '/images/Barca/Visita/Barca_Visita_24_3.jpg'),
+(@product_id, '/images/Barca/Visita/Barca_Visita_24_4.jpg'),
+(@product_id, '/images/Barca/Visita/Barca_Visita_24_5.jpg');
 
 -- Camiseta Tercera
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025(3)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025 (4)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_4.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025 (5)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_5.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Tercera 2024-2025', 'FC Barcelona', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Barca/Tercera/Barca_Tercera_24_1.jpg'),
+(@product_id, '/images/Barca/Tercera/Barca_Tercera_24_2.jpg'),
+(@product_id, '/images/Barca/Tercera/Barca_Tercera_24_3.jpg'),
+(@product_id, '/images/Barca/Tercera/Barca_Tercera_24_4.jpg'),
+(@product_id, '/images/Barca/Tercera/Barca_Tercera_24_5.jpg');
 
 -- Camiseta Cuarta
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Cuarta 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Cuarta/Barca_Cuarta_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Cuarta 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Cuarta/Barca_Cuarta_24_2.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Cuarta 2024-2025', 'FC Barcelona', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Barca/Cuarta/Barca_Cuarta_24_1.jpg'),
+(@product_id, '/images/Barca/Cuarta/Barca_Cuarta_24_2.jpg');
 
 -- Camiseta Portero
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (2)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (3)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (4)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_4.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Portero 2024-2025', 'FC Barcelona', 14.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Barca/Portero/Barca_Portero_24_1.jpg'),
+(@product_id, '/images/Barca/Portero/Barca_Portero_24_2.jpg'),
+(@product_id, '/images/Barca/Portero/Barca_Portero_24_3.jpg'),
+(@product_id, '/images/Barca/Portero/Barca_Portero_24_4.jpg');
 
-
-
--- Atlético de Madrid - Insertar imágenes de camisetas de local, visita, tercera y portero 
+-- Atlético de Madrid
 
 -- Camiseta Local
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (2)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (3)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (4)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_4.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Local 2024-2025', 'Atlético de Madrid', 19.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Atletico/Local/Atletico_Local_24_1.jpg'),
+(@product_id, '/images/Atletico/Local/Atletico_Local_24_2.jpg'),
+(@product_id, '/images/Atletico/Local/Atletico_Local_24_3.jpg'),
+(@product_id, '/images/Atletico/Local/Atletico_Local_24_4.jpg');
 
 -- Camiseta Visita
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (2)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (3)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (4)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_4.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (5)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_5.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Visita 2024-2025', 'Atlético de Madrid', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Atletico/Visita/Atletico_Visita_24_1.jpg'),
+(@product_id, '/images/Atletico/Visita/Atletico_Visita_24_2.jpg'),
+(@product_id, '/images/Atletico/Visita/Atletico_Visita_24_3.jpg'),
+(@product_id, '/images/Atletico/Visita/Atletico_Visita_24_4.jpg'),
+(@product_id, '/images/Atletico/Visita/Atletico_Visita_24_5.jpg');
 
 -- Camiseta Tercera
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025 (2)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025 (3)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_3.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Tercera 2024-2025', 'Atlético de Madrid', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Atletico/Tercera/Atletico_Tercera_24_1.jpg'),
+(@product_id, '/images/Atletico/Tercera/Atletico_Tercera_24_2.jpg'),
+(@product_id, '/images/Atletico/Tercera/Atletico_Tercera_24_3.jpg');
 
 -- Camiseta Portero
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'Atlético de Madrid', 14.99, 100, '/images/Atletico/Portero/Atletico_Portero_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (2)', 'Atlético de Madrid', 14.99, 100, '/images/Atletico/Portero/Atletico_Portero_24_2.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Portero 2024-2025', 'Atlético de Madrid', 14.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Atletico/Portero/Atletico_Portero_24_1.jpg'),
+(@product_id, '/images/Atletico/Portero/Atletico_Portero_24_2.jpg');
 
-
-
--- Real Madrid - Insertar imágenes de camisetas de local, visita, tercera y portero
+-- Real Madrid
 
 -- Camiseta Local
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (2)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (3)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025 (4)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_4.jpg');
-
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Local 2024-2025', 'Real Madrid', 19.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Local/Madrid_Local_24_1.jpg'),
+(@product_id, '/images/Madrid/Local/Madrid_Local_24_2.jpg'),
+(@product_id, '/images/Madrid/Local/Madrid_Local_24_3.jpg'),
+(@product_id, '/images/Madrid/Local/Madrid_Local_24_4.jpg');
 
 -- Camiseta Visita
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (2)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (3)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (4)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Visita/Madrid_Visita_24_1.jpg'),
+(@product_id, '/images/Madrid/Visita/Madrid_Visita_24_2.jpg'),
+(@product_id, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg'),
+(@product_id, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
 
 -- Camiseta Tercera
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (2)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (3)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025 (4)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Tercera 2024-2025', 'Real Madrid', 17.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_1.jpg'),
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_2.jpg'),
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_3.jpg');
 
 -- Camiseta Portero
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_1.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (2)', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_2.jpg');
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025 (3)', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg');
-
-
-
-
+INSERT INTO products (name, team, price, stock)
+VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 14.99, 100);
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_1.jpg'),
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_2.jpg'),
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg');

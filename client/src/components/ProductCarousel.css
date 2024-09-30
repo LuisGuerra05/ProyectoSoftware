@@ -1,0 +1,10 @@
+.carousel-container {
+    max-width: 400px; /* Ajusta el tamaño total del carrusel */
+    margin: 0 auto; /* Centra el carrusel horizontalmente */
+  }
+  
+  .carousel-image {
+    max-height: 300px; /* Ajusta el tamaño máximo de las imágenes */
+    object-fit: contain; /* Asegura que la imagen se ajuste bien dentro del contenedor */
+  }
+  

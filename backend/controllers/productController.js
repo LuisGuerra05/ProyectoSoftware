@@ -28,4 +28,17 @@ const getProductById = (req, res) => {
   });
 };
 
-module.exports = { getAllProducts, getProductById };
+// Obtener las imágenes de un producto por su ID
+const getProductImages = (req, res) => {
+  const productId = req.params.id;
+  const sql = 'SELECT image_url FROM product_images WHERE product_id = ?';
+  db.query(sql, [productId], (err, results) => {
+    if (err) {
+      console.error('Error obteniendo las imágenes del producto:', err);
+      return res.status(500).json({ message: 'Error en el servidor' });
+    }
+    res.json(results);
+  });
+};
+
+module.exports = { getAllProducts, getProductById, getProductImages };

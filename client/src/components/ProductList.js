@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import ProductCarousel from './ProductCarousel'; // Importa el componente del carrusel
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ const ProductList = () => {
             <p>{t('equipo')} {product.team}</p>
             <p>{t('price')} ${product.price}</p>
             <p>{t('stock')} {product.stock}</p>
-            <img src={product.image_url} alt={product.name} width="100" />
+            <ProductCarousel productId={product.id} /> {/* Usamos el carrusel aquí */}
           </li>
         ))}
       </ul>
