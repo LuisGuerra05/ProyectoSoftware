@@ -17,12 +17,12 @@ function HomePage() {
         <Link to="/login">Login</Link>
         <Link to="/userlist">Lista de Usuarios</Link>
       </nav>
-
+ 
       <section className="home-content">
-        {/* Utiliza las imágenes desde la carpeta public */}
-        <img src="/images/Madrid/Madrid_Local_24_1.jpg" alt="Real Madrid Camiseta Local 2024-2025" />
-        <img src="/images/Barca/Barca_Local_24_1.jpg" alt="Barcelona Camiseta Local 2024-2025" />
-        <img src="/images/Atletico/Atletico_Local_24_1.jpg" alt="Atlético Madrid Camiseta Local 2024-2025" />
+        {/* Nuevas rutas de imágenes */}
+        <img src="/images/Madrid/Local/Madrid_Local_24_1.jpg" alt="Real Madrid Camiseta Local" />
+        <img src="/images/Barca/Local/Barca_Local_24_1.jpg" alt="Barcelona Camiseta Local" />
+        <img src="/images/Atletico/Local/Atletico_Local_24_1.jpg" alt="Atlético Madrid Camiseta Local" />
       </section>
     </div>
   );

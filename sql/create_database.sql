@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS products (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 -- Crear tabla de pedidos
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,48 +61,143 @@ CREATE TABLE IF NOT EXISTS cart_items (
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
+-- FC Barcelona - Insertar imágenes de camisetas de local, visita, tercera, cuarte y portero 
 
-
-
-
--- FC Barcelona
+-- Camiseta Local
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/Barca/Barca_Local_24_1.jpg');
-
+VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_1.jpg');
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Cuarta 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Cuarta_24_1.jpg');
-
+VALUES ('Camiseta Local 2024-2025 (2)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_2.jpg');
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Portero_24_1.jpg');
-
+VALUES ('Camiseta Local 2024-2025 (3)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_3.jpg');
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Tercera_24_1.jpg');
-
+VALUES ('Camiseta Local 2024-2025 (4)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_4.jpg');
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Barca_Visita_24_1.jpg');
+VALUES ('Camiseta Local 2024-2025 (5)', 'FC Barcelona', 19.99, 100, '/images/Barca/Local/Barca_Local_24_5.jpg');
 
--- Atlético de Madrid
+-- Camiseta Visita
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Atletico_Local_24_1.jpg');
+VALUES ('Camiseta Visita 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (3)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (4)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_4.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (5)', 'FC Barcelona', 17.99, 100, '/images/Barca/Visita/Barca_Visita_24_5.jpg');
 
+-- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Portero_24_1.jpg');
+VALUES ('Camiseta Tercera 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025(3)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025 (4)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_4.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025 (5)', 'FC Barcelona', 17.99, 100, '/images/Barca/Tercera/Barca_Tercera_24_5.jpg');
 
+-- Camiseta Cuarta
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Tercera_24_1.jpg');
+VALUES ('Camiseta Cuarta 2024-2025', 'FC Barcelona', 17.99, 100, '/images/Barca/Cuarta/Barca_Cuarta_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Cuarta 2024-2025 (2)', 'FC Barcelona', 17.99, 100, '/images/Barca/Cuarta/Barca_Cuarta_24_2.jpg');
 
+-- Camiseta Portero
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Atletico_Visita_24_1.jpg');
+VALUES ('Camiseta Portero 2024-2025', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (2)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (3)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (4)', 'FC Barcelona', 14.99, 100, '/images/Barca/Portero/Barca_Portero_24_4.jpg');
 
--- Real Madrid
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Local 2024-2025', 'Real Madrid', 19.99, 100, '/images/Madrid/Madrid_Local_24_1.jpg');
 
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Portero_24_1.jpg');
 
-INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Tercera 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Tercera_24_1.jpg');
+-- Atlético de Madrid - Insertar imágenes de camisetas de local, visita, tercera y portero 
 
+-- Camiseta Local
 INSERT INTO products (name, team, price, stock, image_url)
-VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Madrid_Visita_24_1.jpg');
+VALUES ('Camiseta Local 2024-2025', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (2)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (3)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (4)', 'Atlético de Madrid', 19.99, 100, '/images/Atletico/Local/Atletico_Local_24_4.jpg');
+
+-- Camiseta Visita
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (2)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (3)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (4)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_4.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (5)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Visita/Atletico_Visita_24_5.jpg');
+
+-- Camiseta Tercera
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025 (2)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Tercera 2024-2025 (3)', 'Atlético de Madrid', 17.99, 100, '/images/Atletico/Tercera/Atletico_Tercera_24_3.jpg');
+
+-- Camiseta Portero
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025', 'Atlético de Madrid', 14.99, 100, '/images/Atletico/Portero/Atletico_Portero_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (2)', 'Atlético de Madrid', 14.99, 100, '/images/Atletico/Portero/Atletico_Portero_24_2.jpg');
+
+
+
+-- Real Madrid - Insertar imágenes de camisetas de local, visita, tercera y portero
+
+-- Camiseta Local
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (2)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (3)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025 (4)', 'Real Madrid', 19.99, 100, '/images/Madrid/Local/Madrid_Local_24_4.jpg');
+
+
+-- Camiseta Visita
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (2)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (3)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (4)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
+
+-- Camiseta Tercera
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (2)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (3)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Visita 2024-2025 (4)', 'Real Madrid', 17.99, 100, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
+
+-- Camiseta Portero
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_1.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (2)', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_2.jpg');
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Portero 2024-2025 (3)', 'Real Madrid', 14.99, 100, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg');
+
+
+
+
