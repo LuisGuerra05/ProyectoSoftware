@@ -18,8 +18,10 @@ CREATE TABLE IF NOT EXISTS products (
   team VARCHAR(100),
   price DECIMAL(10, 2) NOT NULL,
   stock INT DEFAULT 0,
+  image_url VARCHAR(255),  -- Aquí agregamos una columna para la URL de la imagen del producto
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Crear tabla de pedidos
 CREATE TABLE IF NOT EXISTS orders (
@@ -59,3 +61,6 @@ CREATE TABLE IF NOT EXISTS cart_items (
   FOREIGN KEY (cart_id) REFERENCES carts(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
+
+INSERT INTO products (name, team, price, stock, image_url)
+VALUES ('Camiseta Local 2024-2025', 'FC Barcelona', 19.99, 100, '/images/barcelona2024.jpg');
