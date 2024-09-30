@@ -15,7 +15,7 @@ i18n
   .use(initReactI18next) // Conectar con React
   .init({
     resources,
-    fallbackLng: 'es', // Idioma predeterminado si no se detecta otro
+    fallbackLng: 'en', // Idioma predeterminado si no se detecta otro
     interpolation: {
       escapeValue: false, // React ya escapa los valores
     },
