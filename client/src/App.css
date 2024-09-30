@@ -8,17 +8,22 @@ body, html {
 /* Header Styles */
 .main-header {
   text-align: center;
-  padding: 20px;
-  background-color: #333;
-  color: #fff;
 }
 
-.main-header h1 {
-  margin: 0;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-/* Navigation Bar Styles */
-.nav-bar {
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   background-color: #444;
