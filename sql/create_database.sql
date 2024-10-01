@@ -198,11 +198,11 @@ VALUES
 (@product_id, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg'),
 (@product_id, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
 
--- Athletic de Bilbao
+-- Athletic de Club
 
 -- Camiseta Local
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Local 2024-2025', 'Athletic de Bilbao', 19.99, 100, 'Castore');
+VALUES ('Camiseta Local 2024-2025', 'Athletic Club', 19.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -214,7 +214,7 @@ VALUES
 
 -- Camiseta Visita
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Visita 2024-2025', 'Athletic de Bilbao', 17.99, 100, 'Castore');
+VALUES ('Camiseta Visita 2024-2025', 'Athletic Club', 17.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -225,7 +225,7 @@ VALUES
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Tercera 2024-2025', 'Athletic de Bilbao', 17.99, 100, 'Castore');
+VALUES ('Camiseta Tercera 2024-2025', 'Athletic Club', 17.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -236,7 +236,7 @@ VALUES
 
 -- Camiseta Portero
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Portero 2024-2025', 'Athletic de Bilbao', 14.99, 100, 'Castore');
+VALUES ('Camiseta Portero 2024-2025', 'Athletic Club', 14.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -683,7 +683,7 @@ VALUES
 
 -- Camiseta Local
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Local 2024-2025', 'Sevilla', 19.99, 100, 'Castore');
+VALUES ('Camiseta Local 2024-2025', 'Sevilla FC', 19.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -693,7 +693,7 @@ VALUES
 
 -- Camiseta Visita
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Visita 2024-2025', 'Sevilla', 17.99, 100, 'Castore');
+VALUES ('Camiseta Visita 2024-2025', 'Sevilla FC', 17.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -703,7 +703,7 @@ VALUES
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Tercera 2024-2025', 'Sevilla', 17.99, 100, 'Castore');
+VALUES ('Camiseta Tercera 2024-2025', 'Sevilla FC', 17.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -713,7 +713,7 @@ VALUES
 
 -- Camiseta Portero
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Portero 2024-2025', 'Sevilla', 14.99, 100, 'Castore');
+VALUES ('Camiseta Portero 2024-2025', 'Sevilla FC', 14.99, 100, 'Castore');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -723,7 +723,7 @@ VALUES
 
 -- Camiseta Local
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Local 2024-2025', 'Las Palmas', 19.99, 100, 'Hummel');
+VALUES ('Camiseta Local 2024-2025', 'U.D. Las Palmas', 19.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -734,7 +734,7 @@ VALUES
 
 -- Camiseta Visita
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Visita 2024-2025', 'Las Palmas', 17.99, 100, 'Hummel');
+VALUES ('Camiseta Visita 2024-2025', 'U.D. Las Palmas', 17.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
@@ -744,7 +744,7 @@ VALUES
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Tercera 2024-2025', 'Las Palmas', 17.99, 100, 'Hummel');
+VALUES ('Camiseta Tercera 2024-2025', 'U.D. Las Palmas', 17.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
