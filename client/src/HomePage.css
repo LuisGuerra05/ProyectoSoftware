@@ -1,0 +1,46 @@
+/* Estilos generales para la página de inicio */
+.home-page {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Contenedor de la cuadrícula */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Estilo para cada equipo */
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Estilo para las imágenes de los escudos */
+  .team-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 50%; /* Para darles una forma circular */
+    border: 2px solid #000;
+  }
+  
+  /* Responsivo para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .team-logo {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .team-logo {
+      width: 60px;
+      height: 60px;
+    }
+  }
+

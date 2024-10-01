@@ -1,7 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';  // Asegúrate de tener el CSS incluido.
+import './HomePage.css';  // Asegúrate de incluir el archivo de estilo para la cuadrícula.
 import { useTranslation } from 'react-i18next';
+
+const teams = [
+  { name: 'FC Barcelona', logo: '/images/Barca/Barca_Escudo.png' },
+  { name: 'Real Madrid', logo: '/images/Madrid/Madrid_Escudo.png' },
+  { name: 'Atletico de Madrid', logo: '/images/Atletico/Atletico_Escudo.png' },
+  { name: 'Athletic Club', logo: '/images/Bilbao/Bilbao_Escudo.png' },
+  { name: 'Celta de Vigo', logo: '/images/Celta/Celta_Escudo.png' },
+  { name: 'Deportivo Alavés', logo: '/images/Alaves/Alaves_Escudo.png' },
+  { name: 'Espanyol', logo: '/images/Espanyol/Espanyol_Escudo.png' },
+  { name: 'Getafe', logo: '/images/Getafe/Getafe_Escudo.png' },
+  { name: 'Girona', logo: '/images/Girona/Girona_Escudo.png' },
+  { name: 'Leganés', logo: '/images/Leganes/Leganes_Escudo.png' },
+  { name: 'Osasuna', logo: '/images/Osasuna/Osasuna_Escudo.png' },
+  { name: 'RCD Mallorca', logo: '/images/Mollorca/Mallorca_Escudo.png' },
+  { name: 'Rayo Vallecano', logo: '/images/Rayo/Rayo_Escudo.png' },
+  { name: 'Betis', logo: '/images/Betis/Betis_Escudo.png' },
+  { name: 'Real Sociedad', logo: '/images/Sociedad/Sociedad_Escudo.png' },
+  { name: 'Sevilla FC', logo: '/images/Sevilla/Sevilla_Escudo.png' },
+  { name: 'U.D. Las Palmas', logo: '/images/Palmas/Palmas_Escudo.png' },
+  { name: 'Valencia', logo: '/images/Valencia/Valencia_Escudo.png' },
+  { name: 'Valladolid', logo: '/images/Valladolid/Valladolid_Escudo.png' },
+  { name: 'Villarreal', logo: '/images/Villarreal/Villarreal_Escudo.png' }
+];
 
 function HomePage() {
   const { t , i18n } = useTranslation(); // Hook de traducción
@@ -10,6 +34,7 @@ function HomePage() {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
+
   return (
     <div className="homepage">
       <header className="main-header">
@@ -31,12 +56,17 @@ function HomePage() {
           <img src="/images/carrito.png" alt="Carrito de Compras" style={{ width: '20px', marginLeft: '5px' }} />
         </Link>
       </nav>
- 
+
       <section className="home-content">
-        {/* Utiliza las imágenes desde la carpeta public */}
-        <img src="/images/Madrid/Local/Madrid_Local_24_1.jpg" alt="Real Madrid Camiseta Local 2024-2025" />
-        <img src="/images/Barca/Local/Barca_Local_24_1.jpg" alt="Barcelona Camiseta Local 2024-2025" />
-        <img src="/images/Atletico/Local/Atletico_Local_24_1.jpg" alt="Atlético Madrid Camiseta Local 2024-2025" />
+        {/* Aquí va la cuadrícula de escudos */}
+        <div className="grid-container">
+          {teams.map((team, index) => (
+            <div key={index} className="grid-item">
+              <img src={team.logo} alt={`${team.name} Escudo`} className="team-logo" />
+              <p>{team.name}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
