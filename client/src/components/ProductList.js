@@ -21,6 +21,7 @@ const ProductList = () => {
           <li key={product.id}>
             <h3>{product.name}</h3>
             <p>{t('equipo')} {product.team}</p>
+            <p>{t('brand')} {product.brand}</p>
             <p>{t('price')} ${product.price}</p>
             <p>{t('stock')} {product.stock}</p>
             <ProductCarousel productId={product.id} /> {/* Usamos el carrusel aquí */}
