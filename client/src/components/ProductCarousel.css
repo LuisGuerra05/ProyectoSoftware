@@ -1,10 +1,13 @@
 .carousel-container {
-    max-width: 400px; /* Ajusta el tamaño total del carrusel */
-    margin: 0 auto; /* Centra el carrusel horizontalmente */
-  }
-  
-  .carousel-image {
-    max-height: 300px; /* Ajusta el tamaño máximo de las imágenes */
-    object-fit: contain; /* Asegura que la imagen se ajuste bien dentro del contenedor */
-  }
-  
+  margin: 20px 0;
+}
+
+.carousel-slide {
+  text-align: center;
+}
+
+.carousel-image {
+  width: 100%;        /* Asegura que la imagen ocupe el ancho del contenedor */
+  max-height: 500px;  /* Ajusta la altura máxima según el diseño del carrusel */
+  object-fit: contain; /* Mantén la proporción de la imagen */
+}
