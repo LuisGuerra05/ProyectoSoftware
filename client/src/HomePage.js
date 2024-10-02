@@ -1,7 +1,7 @@
 // src/HomePage.js
 import React from 'react';
 import './HomePage.css';
-import PromotionsCarousel from './funciones/PromotionsCarousel'; // Importa el carrusel
+import PromotionsCarousel from './components/PromotionsCarousel'; // Importa el carrusel
 
 const teams = [
   { name: 'FC Barcelona', logo: '/images/Barca/Barca_Escudo.png' },
