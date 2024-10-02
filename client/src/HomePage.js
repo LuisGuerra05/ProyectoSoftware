@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './App.css';  // Asegúrate de tener el CSS incluido.
 import './HomePage.css';  // Asegúrate de incluir el archivo de estilo para la cuadrícula.
 import { useTranslation } from 'react-i18next';
-import PromotionsCarousel from './PromotionsCarousel'; // Importa el carrusel
+import PromotionsCarousel from './funciones/PromotionsCarousel'; // Importa el carrusel
 const teams = [
   { name: 'FC Barcelona', logo: '/images/Barca/Barca_Escudo.png' },
   { name: 'Real Madrid', logo: '/images/Madrid/Madrid_Escudo.png' },

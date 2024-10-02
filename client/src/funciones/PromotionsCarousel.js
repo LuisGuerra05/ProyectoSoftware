@@ -18,8 +18,8 @@ function PromotionsCarousel() {
         <p className="legend">¡Oferta especial en camisetas del Barcelona! 20% de descuento</p>
       </div>
       <div>
-        <img src="/images/Madrid/Tercera/Madrid_Tercera_24_4.jpg" alt="Promoción 2" />
-        <p className="legend">Real Madrid - Camisetas 2x1 por tiempo limitado</p>
+        <img src="/images/Getafe/Local/Getafe_Local_24_4.jpg" alt="Promoción 2" />
+        <p className="legend">Getafe - Camisetas 2x1 por tiempo limitado</p>
       </div>
       <div>
         <img src="/images/Atletico/Local/Atletico_Local_24_3.jpg" alt="Promoción 3" />
