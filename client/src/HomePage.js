@@ -7,7 +7,7 @@ const teams = [
   { name: 'Real Madrid', logo: '/images/Madrid/Madrid_Escudo.png' },
   { name: 'Atlético de Madrid', logo: '/images/Atletico/Atletico_Escudo.png' },
   { name: 'Athletic Club', logo: '/images/Bilbao/Bilbao_Escudo.png' },
-  { name: 'Celta de Vigo', logo: '/images/Celta/Celta_Escudo.png' },
+  { name: 'Celta de Vigo', logo: '/images/Calta/Celta_Escudo.png' },
   { name: 'Deportivo Alavés', logo: '/images/Alaves/Alaves_Escudo.png' },
   { name: 'Espanyol', logo: '/images/Espanyol/Espanyol_Escudo.png' },
   { name: 'Getafe', logo: '/images/Getafe/Getafe_Escudo.png' },
