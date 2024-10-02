@@ -1,0 +1,44 @@
+.language-switch {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100px;
+    height: 40px;
+    background-color: #f1f1f1;
+    border: 2px solid black;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 20px; /* Ajusta el margen para separar del resto de los elementos */
+  }
+  
+  .language-text {
+    position: absolute;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .language-text.esp {
+    left: 10px;
+  }
+  
+  .language-text.eng {
+    right: 10px;
+  }
+  
+  .toggle-ball {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+  
+  .toggle-ball.left {
+    transform: translateX(5px);
+  }
+  
+  .toggle-ball.right {
+    transform: translateX(55px);
+  }
+  

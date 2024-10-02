@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Usar useNavigate para redirigir
+import React, { useState } from 'react'; 
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap'; // Importar componentes de React Bootstrap
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false); // Estado para verificar si la respuesta fue exitosa
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -22,44 +24,65 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message); // Mensaje de éxito
+        setIsSuccess(true);
         localStorage.setItem('token', data.token);
         navigate('/'); // Redirige a la página de inicio
       } else {
         setMessage(data.message); // Mostrar el error
+        setIsSuccess(false);
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       setMessage('Error en el inicio de sesión');
+      setIsSuccess(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <h1>Iniciar Sesión</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Iniciar Sesión</button>
-      </form>
-      {message && <p>{message}</p>}
-      <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p> {/* Link a registro */}
-    </div>
+    <Container className="login-container" style={{ marginTop: '50px', maxWidth: '500px' }}>
+      <Row className="justify-content-md-center">
+        <Col>
+          <h1 className="text-center">Iniciar Sesión</h1>
+          <Form onSubmit={handleLogin}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Ingresa tu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Ingresa tu contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="w-100">
+              Iniciar Sesión
+            </Button>
+          </Form>
+
+          {message && (
+            <Alert variant={isSuccess ? 'success' : 'danger'} className="mt-3">
+              {message}
+            </Alert>
+          )}
+
+          <div className="mt-3 text-center">
+            <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

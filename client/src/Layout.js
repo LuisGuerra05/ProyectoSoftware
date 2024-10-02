@@ -3,12 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import './App.css';
+import './LanguageSwitch.css'; // Archivo CSS para el conmutador de idioma
 
 function Layout({ children }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(true);
-  const lastScrollY = useRef(0); // Usar useRef para preservar el valor entre renderizados
+  const [isEnglish, setIsEnglish] = useState(i18n.language === 'en');
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,11 +28,13 @@ function Layout({ children }) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // No hace falta agregar `handleScroll` como dependencia
+  }, []);
 
   // Función para cambiar el idioma
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+  const toggleLanguage = () => {
+    const newLanguage = isEnglish ? 'es' : 'en';
+    i18n.changeLanguage(newLanguage);
+    setIsEnglish(!isEnglish);
   };
 
   // Verificar si el usuario está autenticado
@@ -76,10 +80,11 @@ function Layout({ children }) {
               <Nav.Link as={Link} to="/products">{t('productos')}</Nav.Link>
               <Nav.Link as={Link} to="/about">{t('Acerca de Nosotros')}</Nav.Link>
             </Nav>
-            <select onChange={(e) => changeLanguage(e.target.value)} aria-label="Cambiar idioma">
-              <option value="es">Español</option>
-              <option value="en">English</option>
-            </select>
+            <div className="language-switch" onClick={toggleLanguage}>
+              <div className={`toggle-ball ${isEnglish ? 'right' : 'left'}`}></div>
+              <span className="language-text esp">ESP</span>
+              <span className="language-text eng">ENG</span>
+            </div>
             <img 
               src="/images/perfil.png" 
               alt="Perfil" 
