@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import { FaCartShopping } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
 import './App.css';
 
 function Layout({ children }) {
@@ -76,23 +78,24 @@ function Layout({ children }) {
               <Nav.Link as={Link} to="/products">{t('productos')}</Nav.Link>
               <Nav.Link as={Link} to="/about">{t('Acerca de Nosotros')}</Nav.Link>
             </Nav>
-            <select onChange={(e) => changeLanguage(e.target.value)} aria-label="Cambiar idioma">
+            <select 
+              onChange={(e) => changeLanguage(e.target.value)} 
+              aria-label="Cambiar idioma" 
+              className="language-selector"
+            >
               <option value="es">Español</option>
               <option value="en">English</option>
             </select>
-            <img 
-              src="/images/perfil.png" 
-              alt="Perfil" 
-              className="profile-icon" 
+            <CgProfile 
+              size={40}
               onClick={handleProfileClick}
-              style={{ cursor: 'pointer' }} 
+              style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px', color: 'white' }} 
             />
-            <img 
-              src="/images/carrito.png" 
-              alt="Carrito" 
-              className="cart-icon" 
-              onClick={handleCartClick}
-              style={{ cursor: 'pointer' }} 
+
+            <FaCartShopping
+              size={30} // Ajustar el tamaño del icono
+              onClick={handleCartClick} 
+              style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
             />
           </Navbar.Collapse>
         </Container>
