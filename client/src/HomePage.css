@@ -1,8 +1,15 @@
 /* Estilos generales para la página de inicio */
-.home-page {
+.homepage {
     text-align: center;
-    padding: 20px;
-  }
+    background-image: url('/public/images/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Asegura que cubra toda la ventana de la página */
+    
+    }
+    
+
   
   /* Contenedor de la cuadrícula */
   .grid-container {
@@ -28,6 +35,14 @@
     border-radius: 50%; /* Para darles una forma circular */
     border: 2px solid #000;
   }
+  /* animación para las imágenes de los escudos */
+  .team-logo {
+    transition: transform 0.3s ease;
+  }
+  
+  .team-logo:hover {
+    transform: scale(1.1);
+  }
   
   /* Responsivo para pantallas pequeñas */
   @media (max-width: 768px) {
@@ -44,3 +59,10 @@
     }
   }
 
+  select {
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  

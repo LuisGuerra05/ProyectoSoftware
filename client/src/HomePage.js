@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './App.css';  // Asegúrate de tener el CSS incluido.
 import './HomePage.css';  // Asegúrate de incluir el archivo de estilo para la cuadrícula.
 import { useTranslation } from 'react-i18next';
-
+import PromotionsCarousel from './PromotionsCarousel'; // Importa el carrusel
 const teams = [
   { name: 'FC Barcelona', logo: '/images/Barca/Barca_Escudo.png' },
   { name: 'Real Madrid', logo: '/images/Madrid/Madrid_Escudo.png' },
@@ -56,6 +56,8 @@ function HomePage() {
           <img src="/images/carrito.png" alt="Carrito de Compras" style={{ width: '20px', marginLeft: '5px' }} />
         </Link>
       </nav>
+
+      <PromotionsCarousel /> {/* Carrusel de promociones */}  
 
       <section className="home-content">
         {/* Aquí va la cuadrícula de escudos */}
