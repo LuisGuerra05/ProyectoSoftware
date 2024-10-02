@@ -59,19 +59,48 @@
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
-  
-  /* Responsivo para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .team-logo {
-      width: 80px;
-      height: 80px;
-    }
+}
+
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  @media (max-width: 480px) {
-    .team-logo {
-      width: 60px;
-      height: 60px;
-    }
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .team-logo {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Estilos para los botones de perfil y carrito */
+.profile-icon, .cart-icon {
+  margin-left: 15px; /* Añade margen izquierdo para separarlos */
+}
+
+select {
+  margin-right: 15px; /* Añade margen derecho al selector de idioma */
+}
+
+/* Ajusta el tamaño y espaciado para dispositivos pequeños */
+@media (max-width: 768px) {
+  .profile-icon, .cart-icon {
+    margin-left: 10px; /* Reduce el margen en pantallas pequeñas */
+  }
+
+  select {
+    margin-right: 10px; /* Reduce el margen del selector en pantallas pequeñas */
+  }
+}
 

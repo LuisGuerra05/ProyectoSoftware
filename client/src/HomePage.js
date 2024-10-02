@@ -14,7 +14,7 @@ const teams = [
   { name: 'Girona', logo: '/images/Girona/Girona_Escudo.png' },
   { name: 'Leganés', logo: '/images/Leganes/Leganes_Escudo.png' },
   { name: 'Osasuna', logo: '/images/Osasuna/Osasuna_Escudo.png' },
-  { name: 'RCD Mallorca', logo: '/images/Mollorca/Mallorca_Escudo.png' },
+  { name: 'RCD Mallorca', logo: '/images/Mallorca/Mallorca_Escudo.png' },
   { name: 'Rayo Vallecano', logo: '/images/Rayo/Rayo_Escudo.png' },
   { name: 'Real Betis', logo: '/images/Betis/Betis_Escudo.png' },
   { name: 'Real Sociedad', logo: '/images/Sociedad/Sociedad_Escudo.png' },
