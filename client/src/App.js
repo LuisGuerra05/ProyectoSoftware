@@ -11,6 +11,7 @@ import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import Profile from './components/Profile';
 import AboutUs from './components/AboutUs';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
@@ -22,10 +23,25 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<UserList />} />
           <Route path="/products" element={<ProductList />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/product/:id" element={<ProductDetail />} /> {/* Ruta para los detalles del producto */}
+          <Route path="/product/:id" element={<ProductDetail />} />
+          {/* Rutas protegidas */}
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/cart" 
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </Layout>
     </Router>
