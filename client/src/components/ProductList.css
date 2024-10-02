@@ -1,0 +1,16 @@
+/* ProductList.css */
+.card {
+    height: 100%;
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* ProductDetail.css */
+  .carousel-item img {
+    height: 400px;
+    object-fit: contain;
+  }
+  

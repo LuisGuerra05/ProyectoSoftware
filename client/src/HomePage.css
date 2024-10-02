@@ -1,46 +1,106 @@
-/* Estilos generales para la página de inicio */
-.home-page {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  /* Contenedor de la cuadrícula */
+/* Personalización del logo */
+.logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+/* Personalización de la imagen de perfil */
+.profile-icon {
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
+}
+
+/* Personalización de la imagen de carrito */
+.cart-icon {
+  width: 65px;
+  height: 65px;
+  background-color: transparent;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
+}
+
+/* Estilos para el contenido de la página */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-logo {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.team-logo:hover {
+  transform: scale(1.1);
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
   .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(4, 1fr);
   }
-  
-  /* Estilo para cada equipo */
-  .grid-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  /* Estilo para las imágenes de los escudos */
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
   .team-logo {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 50%; /* Para darles una forma circular */
-    border: 2px solid #000;
+    width: 80px;
+    height: 80px;
   }
-  
-  /* Responsivo para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .team-logo {
-      width: 80px;
-      height: 80px;
-    }
+}
+
+/* Estilos para los botones de perfil y carrito */
+.profile-icon, .cart-icon {
+  margin-left: 15px; /* Añade margen izquierdo para separarlos */
+}
+
+select {
+  margin-right: 15px; /* Añade margen derecho al selector de idioma */
+}
+
+/* Ajusta el tamaño y espaciado para dispositivos pequeños */
+@media (max-width: 768px) {
+  .profile-icon, .cart-icon {
+    margin-left: 10px; /* Reduce el margen en pantallas pequeñas */
   }
-  
-  @media (max-width: 480px) {
-    .team-logo {
-      width: 60px;
-      height: 60px;
-    }
+
+  select {
+    margin-right: 10px; /* Reduce el margen del selector en pantallas pequeñas */
   }
+}
 

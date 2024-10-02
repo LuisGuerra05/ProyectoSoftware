@@ -5,6 +5,24 @@ body, html {
   font-family: 'Arial', sans-serif;
 }
 
+/* Navbar hide/show animation */
+.navbar-hide {
+  top: -100px;
+  transition: top 0.4s ease-in-out;
+}
+
+.navbar-show {
+  top: 0;
+  transition: top 0.4s ease-in-out;
+}
+
+/* Estilo para el Navbar para que permanezca fijo en la parte superior */
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
 /* Header Styles */
 .main-header {
   text-align: center;

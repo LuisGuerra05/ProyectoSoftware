@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Usar useNavigate para redirigir
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,8 +22,8 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message); // Mensaje de éxito
-        // Guardar el token en el localStorage
         localStorage.setItem('token', data.token);
+        navigate('/'); // Redirige a la página de inicio
       } else {
         setMessage(data.message); // Mostrar el error
       }
@@ -32,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Iniciar Sesión</h1>
       <form onSubmit={handleLogin}>
         <div>
@@ -56,6 +58,7 @@ const Login = () => {
         <button type="submit">Iniciar Sesión</button>
       </form>
       {message && <p>{message}</p>}
+      <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p> {/* Link a registro */}
     </div>
   );
 };

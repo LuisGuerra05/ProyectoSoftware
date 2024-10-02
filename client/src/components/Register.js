@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [error, setError] = useState(''); // Para manejar mensajes de error
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Usar navigate para redirigir después del registro
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Limpiar mensajes previos
     setMessage('');
     setError('');
     
@@ -25,11 +26,12 @@ const Register = () => {
 
       const data = await response.json();
 
-      // Si el registro fue exitoso
       if (response.ok) {
-        setMessage(data.message); // Mostrar mensaje de bienvenida
+        setMessage(data.message);
+        localStorage.setItem('token', data.token); // Guardar el token
+        navigate('/'); // Redirigir a la página de inicio después del registro
       } else {
-        setError(data.message || 'Error desconocido en el registro'); // Mostrar mensaje de error si hay algún problema (ej. email ya registrado)
+        setError(data.message || 'Error desconocido en el registro');
       }
     } catch (error) {
       console.error('Error registrando el usuario:', error);
@@ -71,7 +73,6 @@ const Register = () => {
         <button type="submit">Registrarse</button>
       </form>
 
-      {/* Mostrar el mensaje de bienvenida o el error */}
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

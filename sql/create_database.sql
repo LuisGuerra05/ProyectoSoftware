@@ -253,11 +253,11 @@ VALUES ('Camiseta Local 2024-2025', 'Celta de Vigo', 19.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Celta/Local/Calta_Local_24_1.jpg'),
-(@product_id, '/images/Celta/Local/Calta_Local_24_2.jpg'),
-(@product_id, '/images/Celta/Local/Calta_Local_24_3.jpg'),
-(@product_id, '/images/Celta/Local/Calta_Local_24_4.jpg'),
-(@product_id, '/images/Celta/Local/Calta_Local_24_5.jpg');
+(@product_id, '/images/Calta/Local/Calta_Local_24_1.jpg'),
+(@product_id, '/images/Calta/Local/Calta_Local_24_2.jpg'),
+(@product_id, '/images/Calta/Local/Calta_Local_24_3.jpg'),
+(@product_id, '/images/Calta/Local/Calta_Local_24_4.jpg'),
+(@product_id, '/images/Calta/Local/Calta_Local_24_5.jpg');
 
 -- Camiseta Visita
 INSERT INTO products (name, team, price, stock, brand)
@@ -265,21 +265,21 @@ VALUES ('Camiseta Visita 2024-2025', 'Celta de Vigo', 17.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Celta/Visita/Calta_Visita_24_1.jpg'),
-(@product_id, '/images/Celta/Visita/Calta_Visita_24_2.jpg'),
-(@product_id, '/images/Celta/Visita/Calta_Visita_24_3.jpg'),
-(@product_id, '/images/Celta/Visita/Calta_Visita_24_4.jpg');
+(@product_id, '/images/Calta/Visita/Calta_Visita_24_1.jpg'),
+(@product_id, '/images/Calta/Visita/Calta_Visita_24_2.jpg'),
+(@product_id, '/images/Calta/Visita/Calta_Visita_24_3.jpg'),
+(@product_id, '/images/Calta/Visita/Calta_Visita_24_4.jpg');
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Tercera 2024-2025', 'Celta de Vigo', 17.99, 100, 'Hummel');
+VALUES ('Camiseta Tercera 2024-2025', 'Calta de Vigo', 17.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Celta/Tercera/Calta_Tercera_24_1.jpg'),
-(@product_id, '/images/Celta/Tercera/Calta_Tercera_24_2.jpg'),
-(@product_id, '/images/Celta/Tercera/Calta_Tercera_24_3.jpg'),
-(@product_id, '/images/Celta/Tercera/Calta_Tercera_24_4.jpg');
+(@product_id, '/images/Calta/Tercera/Calta_Tercera_24_1.jpg'),
+(@product_id, '/images/Calta/Tercera/Calta_Tercera_24_2.jpg'),
+(@product_id, '/images/Calta/Tercera/Calta_Tercera_24_3.jpg'),
+(@product_id, '/images/Calta/Tercera/Calta_Tercera_24_4.jpg');
 
 -- Camiseta Portero
 INSERT INTO products (name, team, price, stock, brand)
@@ -287,10 +287,10 @@ VALUES ('Camiseta Portero 2024-2025', 'Celta de Vigo', 14.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Celta/Portero/Calta_Portero_24_1.jpg'),
-(@product_id, '/images/Celta/Portero/Calta_Portero_24_2.jpg'),
-(@product_id, '/images/Celta/Portero/Calta_Portero_24_3.jpg'),
-(@product_id, '/images/Celta/Portero/Calta_Portero_24_4.jpg');
+(@product_id, '/images/Calta/Portero/Calta_Portero_24_1.jpg'),
+(@product_id, '/images/Calta/Portero/Calta_Portero_24_2.jpg'),
+(@product_id, '/images/Calta/Portero/Calta_Portero_24_3.jpg'),
+(@product_id, '/images/Calta/Portero/Calta_Portero_24_4.jpg');
 
 -- Deportivo Alavés
 
@@ -526,11 +526,11 @@ VALUES ('Camiseta Local 2024-2025', 'RCD Mallorca', 19.99, 100, 'Nike');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Mollorca/Local/Mallorca_Local_24_1.jpg'),
-(@product_id, '/images/Mollorca/Local/Mallorca_Local_24_2.jpg'),
-(@product_id, '/images/Mollorca/Local/Mallorca_Local_24_3.jpg'),
-(@product_id, '/images/Mollorca/Local/Mallorca_Local_24_4.jpg'),
-(@product_id, '/images/Mollorca/Local/Mallorca_Local_24_5.jpg');
+(@product_id, '/images/Mallorca/Local/Mallorca_Local_24_1.jpg'),
+(@product_id, '/images/Mallorca/Local/Mallorca_Local_24_2.jpg'),
+(@product_id, '/images/Mallorca/Local/Mallorca_Local_24_3.jpg'),
+(@product_id, '/images/Mallorca/Local/Mallorca_Local_24_4.jpg'),
+(@product_id, '/images/Mallorca/Local/Mallorca_Local_24_5.jpg');
 
 -- Camiseta Visita
 INSERT INTO products (name, team, price, stock, brand)
@@ -538,11 +538,11 @@ VALUES ('Camiseta Visita 2024-2025', 'RCD Mallorca', 17.99, 100, 'Nike');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Mollorca/Visita/Mallorca_Visita_24_1.jpg'),
-(@product_id, '/images/Mollorca/Visita/Mallorca_Visita_24_2.jpg'),
-(@product_id, '/images/Mollorca/Visita/Mallorca_Visita_24_3.jpg'),
-(@product_id, '/images/Mollorca/Visita/Mallorca_Visita_24_4.jpg'),
-(@product_id, '/images/Mollorca/Visita/Mallorca_Visita_24_5.jpg');
+(@product_id, '/images/Mallorca/Visita/Mallorca_Visita_24_1.jpg'),
+(@product_id, '/images/Mallorca/Visita/Mallorca_Visita_24_2.jpg'),
+(@product_id, '/images/Mallorca/Visita/Mallorca_Visita_24_3.jpg'),
+(@product_id, '/images/Mallorca/Visita/Mallorca_Visita_24_4.jpg'),
+(@product_id, '/images/Mallorca/Visita/Mallorca_Visita_24_5.jpg');
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
@@ -550,11 +550,11 @@ VALUES ('Camiseta Tercera 2024-2025', 'RCD Mallorca', 17.99, 100, 'Nike');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Mollorca/Tercera/Mallorca_Tercera_24_1.jpg'),
-(@product_id, '/images/Mollorca/Tercera/Mallorca_Tercera_24_2.jpg'),
-(@product_id, '/images/Mollorca/Tercera/Mallorca_Tercera_24_3.jpg'),
-(@product_id, '/images/Mollorca/Tercera/Mallorca_Tercera_24_4.jpg'),
-(@product_id, '/images/Mollorca/Tercera/Mallorca_Tercera_24_5.jpg');
+(@product_id, '/images/Mallorca/Tercera/Mallorca_Tercera_24_1.jpg'),
+(@product_id, '/images/Mallorca/Tercera/Mallorca_Tercera_24_2.jpg'),
+(@product_id, '/images/Mallorca/Tercera/Mallorca_Tercera_24_3.jpg'),
+(@product_id, '/images/Mallorca/Tercera/Mallorca_Tercera_24_4.jpg'),
+(@product_id, '/images/Mallorca/Tercera/Mallorca_Tercera_24_5.jpg');
 
 -- Camiseta Portero
 INSERT INTO products (name, team, price, stock, brand)
@@ -562,8 +562,8 @@ VALUES ('Camiseta Portero 2024-2025', 'RCD Mallorca', 14.99, 100, 'Nike');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 
-(@product_id, '/images/Mollorca/Portero/Mallorca_Portero_24_1.jpg'),
-(@product_id, '/images/Mollorca/Portero/Mallorca_Portero_24_2.jpg');
+(@product_id, '/images/Mallorca/Portero/Mallorca_Portero_24_1.jpg'),
+(@product_id, '/images/Mallorca/Portero/Mallorca_Portero_24_2.jpg');
 
 -- Rayo Vallecano
 
