@@ -34,6 +34,7 @@ const Register = () => {
         // Asegurarte de que el backend te devuelve el nombre y el token
         localStorage.setItem('token', data.token); // Guardar el token
         localStorage.setItem('username', data.username); // Guardar el nombre del usuario
+        localStorage.setItem('email', email); // Guardar el email del usuario
 
         navigate('/'); // Redirigir a la página de inicio después del registro
       } else {

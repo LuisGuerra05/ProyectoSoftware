@@ -28,6 +28,7 @@ const Login = () => {
         setIsSuccess(true);
         localStorage.setItem('token', data.token); // Guarda el token en el localStorage
         localStorage.setItem('username', data.username); // Guarda el username en el localStorage
+        localStorage.setItem('email', data.email); // Guarda el email en el localStorage
         navigate('/'); // Redirige a la página de inicio
       } else {
         setMessage(data.message); 

@@ -88,9 +88,11 @@ const login = (req, res) => {
         { expiresIn: '1h' }
       );
 
+      // Aquí agregamos el campo email en la respuesta
       res.status(200).json({
         token,
         username: user.username, // Devolver el username
+        email: user.email,       // Devolver el email
         message: 'Inicio de sesión exitoso'
       });
     } catch (err) {
@@ -99,5 +101,6 @@ const login = (req, res) => {
     }
   });
 };
+
 
 module.exports = { register, login };

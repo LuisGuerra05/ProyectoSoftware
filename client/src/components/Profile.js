@@ -4,11 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate();
+  
+  // Retrieve username and email from localStorage
+  const username = localStorage.getItem('username');
+  const email = localStorage.getItem('email'); 
 
-  // Función para cerrar sesión
+  // Function to log out the user
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Elimina el token
-    navigate('/'); // Redirige al inicio
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email'); 
+    navigate('/');
   };
 
   return (
@@ -18,7 +24,8 @@ const Profile = () => {
           <Card className="shadow-sm">
             <Card.Body>
               <h1 className="mb-4">Perfil de Usuario</h1>
-              <p>Bienvenido a tu perfil.</p>
+              <p><strong>Nombre:</strong> {username ? username : 'Usuario'}</p>
+              <p><strong>Email:</strong> {email ? email : 'correo@ejemplo.com'}</p> {/* Display email */}
               <Button variant="danger" onClick={handleLogout}>
                 Cerrar Sesión
               </Button>
