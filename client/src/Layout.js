@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FaCartShopping } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import './App.css';
-import './LanguageSwitch.css'; // Asegúrate de tener el CSS para el selector de idioma
-import LanguageSwitcher from './LanguageSwitcher'; // Importa el nuevo componente
+import './LanguageSwitch.css'; 
+import LanguageSwitcher from './LanguageSwitcher'; 
+import { CartContext } from './context/CartProvider'; // Importa el contexto del carrito
 
 function Layout({ children }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(true);
   const lastScrollY = useRef(0); 
+  const { cart } = useContext(CartContext); // Consumir el contexto del carrito
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,7 +57,6 @@ function Layout({ children }) {
 
   return (
     <div>
-      {/* Barra de navegación */}
       <Navbar
         bg="dark"
         variant="dark"
@@ -76,7 +77,6 @@ function Layout({ children }) {
               <Nav.Link as={Link} to="/about">{t('Acerca de Nosotros')}</Nav.Link>
             </Nav>
 
-            {/* Nuevo selector de idioma */}
             <LanguageSwitcher changeLanguage={changeLanguage} />
 
             <CgProfile 
@@ -85,11 +85,18 @@ function Layout({ children }) {
               style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px', color: 'white' }} 
             />
 
-            <FaCartShopping
-              size={30}
-              onClick={handleCartClick}
-              style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
-            />
+            <div style={{ position: 'relative' }}>
+              <FaCartShopping
+                size={30}
+                onClick={handleCartClick}
+                style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
+              />
+              {cart.length > 0 && (
+                <span className="cart-count">
+                  {cart.length}
+                </span>
+              )}
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

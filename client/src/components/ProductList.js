@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Button, Container, Row, Col, Modal } from 'react-bootstrap'; // Importa Modal desde react-bootstrap
+import { Card, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 import './ProductList.css';
+import { CartContext } from '../context/CartProvider'; // Importar el contexto del carrito
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -29,19 +30,21 @@ const teamFolderMap = {
 
 // Función para generar la URL de la imagen
 const getImageUrl = (team, name) => {
-  const basePath = '/images'; // Ruta base de las imágenes
+  const basePath = '/images';
   const teamFolder = teamFolderMap[team] || team.replace(/\s+/g, '').toLowerCase();
   const productType = name.includes('Local') ? 'Local' :
                       name.includes('Visita') ? 'Visita' :
                       name.includes('Tercera') ? 'Tercera' : 
-                      name.includes('Cuarta') ? 'Cuarta' :'Portero';
+                      name.includes('Cuarta') ? 'Cuarta' : 'Portero';
   const fileName = `${teamFolder}_${productType}_24_1.jpg`;
   return `${basePath}/${teamFolder}/${productType}/${fileName}`;
 };
 
 const ProductList = () => {
+  const { addToCart } = useContext(CartContext); // Usar el contexto del carrito
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -53,13 +56,31 @@ const ProductList = () => {
 
   // Función para abrir el modal
   const handleAddToCart = (e, product) => {
-    e.stopPropagation(); // Detiene la propagación del click para no activar el detalle del producto
+    e.stopPropagation(); // Detiene la propagación del click
     setSelectedProduct(product);
+    setSelectedSize(null); // Reiniciar la talla seleccionada
   };
 
   // Función para cerrar el modal
   const handleClose = () => {
     setSelectedProduct(null);
+  };
+
+  // Función para seleccionar la talla
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+  };
+
+  // Función para agregar el producto al carrito
+  const handleConfirmAddToCart = () => {
+    if (!selectedSize) {
+      alert(t('Por favor selecciona una talla.'));
+      return;
+    }
+
+    // Agregar el producto al carrito con la talla seleccionada
+    addToCart(selectedProduct, selectedSize);
+    handleClose(); // Cerrar el modal
   };
 
   if (!Array.isArray(products) || products.length === 0) {
@@ -83,10 +104,10 @@ const ProductList = () => {
                 }} 
               />
               <Card.Body>
-                <small>{product.brand}</small> {/* Marca del producto */}
-                <Card.Title>{product.team}</Card.Title> {/* Nombre del equipo */}
-                <Card.Text>{product.name}</Card.Text> {/* Nombre del producto */}
-                <h4>${product.price}</h4> {/* Precio */}
+                <small>{product.brand}</small>
+                <Card.Title>{product.team}</Card.Title>
+                <Card.Text>{product.name}</Card.Text>
+                <h4>${product.price}</h4>
                 <div className="d-flex justify-content-center mt-2">
                   <Button variant="danger" onClick={(e) => handleAddToCart(e, product)}>
                     {t('add-to-cart')}
@@ -101,11 +122,10 @@ const ProductList = () => {
       {/* Modal para seleccionar talla y agregar al carrito */}
       <Modal show={!!selectedProduct} onHide={handleClose}>
         <Modal.Header closeButton>
-          {/* Mostrar el equipo en grande y la descripción del producto más pequeña */}
           <Modal.Title>
-            <span style={{ fontSize: '1.2em' }}>{selectedProduct?.team}</span> {/* Nombre del equipo más grande */}
+            <span style={{ fontSize: '1.2em' }}>{selectedProduct?.team}</span>
             <br />
-            <span style={{ fontSize: '0.8em', color: '#555' }}>{selectedProduct?.name}</span> {/* Nombre del producto más pequeño */}
+            <span style={{ fontSize: '0.8em', color: '#555' }}>{selectedProduct?.name}</span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -114,17 +134,25 @@ const ProductList = () => {
 
           <div>
             <strong>{t('select-size')}:</strong>
-            <div>
-              <Button variant="outline-secondary">S</Button>
-              <Button variant="outline-secondary">M</Button>
-              <Button variant="outline-secondary">L</Button>
-              <Button variant="outline-secondary">XL</Button>
+            <div className="size-buttons">
+              {['S', 'M', 'L', 'XL'].map((size) => (
+                <Button
+                  key={size}
+                  variant={selectedSize === size ? 'dark' : 'outline-secondary'}
+                  onClick={() => handleSizeSelect(size)}
+                  className="size-btn"
+                >
+                  {size}
+                </Button>
+              ))}
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>{t('close')}</Button>
-          <Button variant="success">{t('add-to-cart')}</Button>
+          <Button variant="danger" onClick={handleConfirmAddToCart}>
+            {t('add-to-cart')}
+          </Button>
         </Modal.Footer>
       </Modal>
     </Container>

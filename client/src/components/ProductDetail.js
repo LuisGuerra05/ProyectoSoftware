@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Asegúrate de importar useNavigate
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import ProductCarousel from './ProductCarousel'; // Carrusel para las imágenes
-import './ProductDetail.css'; // Importa el CSS
+import ProductCarousel from './ProductCarousel';
+import './ProductDetail.css';
+import { CartContext } from '../context/CartProvider'; // Importa el contexto del carrito
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { t } = useTranslation();
-  const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
-  const navigate = useNavigate(); // Hook para redirigir
+  const [selectedSize, setSelectedSize] = useState(null);
+  const { addToCart } = useContext(CartContext); // Usar el método addToCart del contexto
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/products/${id}`)
@@ -27,44 +29,21 @@ const ProductDetail = () => {
     setSelectedSize(size);
   };
 
-  const handleAddToCart = async () => {
-    const token = localStorage.getItem('token'); // Asegúrate de que el token exista
-  
-    if (!token) {
+  const handleAddToCart = () => {
+    if (!localStorage.getItem('token')) {
       alert('Por favor, inicie sesión para agregar productos al carrito');
-      navigate('/login');  // Redirigir a la página de login si no está logueado
+      navigate('/login');
       return;
     }
-  
+
     if (!selectedSize) {
       alert('Debe seleccionar una talla');
       return;
     }
-  
-    try {
-      const response = await fetch('http://localhost:5000/api/cart/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Aquí es donde se envía el token
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          size: selectedSize,
-        }),
-      });
-  
-      if (response.ok) {
-        alert('Producto agregado al carrito');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Error al agregar el producto al carrito');
-      }
-    } catch (error) {
-      console.error('Error al agregar el producto al carrito:', error);
-    }
+
+    addToCart(product, selectedSize); // Añadir el producto al carrito del frontend
+    alert('Producto agregado al carrito');
   };
-  
 
   return (
     <Container className="product-detail-container">
@@ -74,10 +53,10 @@ const ProductDetail = () => {
         </Col>
         <Col md={6}>
           <div className="product-info">
-            <small>{product.brand}</small> {/* Marca */}
-            <h2 className="product-title">{product.team}</h2> {/* Nombre del equipo */}
-            <p className="product-name">{product.name}</p> {/* Nombre del producto */}
-            <h3 className="product-price">${product.price}</h3> {/* Precio */}
+            <small>{product.brand}</small>
+            <h2 className="product-title">{product.team}</h2>
+            <p className="product-name">{product.name}</p>
+            <h3 className="product-price">${product.price}</h3>
 
             <div className="size-selection">
               <p>{t('Select-size')}:</p>

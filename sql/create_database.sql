@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS cart_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   cart_id INT,
   product_id INT,
-  quantity INT NOT NULL,  -- Cantidad de productos agregados al carrito
-  size VARCHAR(5),  -- Añadir la talla del producto
+  quantity INT NOT NULL DEFAULT 1,
+  size VARCHAR(10),  -- Añadir la talla del producto
   FOREIGN KEY (cart_id) REFERENCES carts(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );

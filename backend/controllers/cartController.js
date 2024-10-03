@@ -13,7 +13,7 @@ exports.getCart = (req, res) => {
 // Añadir un producto al carrito
 exports.addToCart = (req, res) => {
   const userId = req.user.id;
-  const { productId, size, quantity } = req.body; // Asegúrate de recibir la talla
+  const { productId, quantity = 1  } = req.body; // Aquí le asignamos el valor por defecto de 1
 
   // Comprobar que el producto exista
   const sqlCheckProduct = 'SELECT * FROM products WHERE id = ?';
@@ -21,8 +21,8 @@ exports.addToCart = (req, res) => {
     if (err) return res.status(500).json({ message: 'Error al buscar el producto' });
     if (results.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
 
-    // Añadir el producto al carrito con la talla
-    Cart.addItemToCart(userId, productId, size, quantity, (err) => {
+    // Añadir el producto al carrito
+    Cart.addItemToCart(userId, productId, quantity, (err) => {
       if (err) return res.status(500).json({ message: 'Error al añadir al carrito' });
       res.json({ message: 'Producto añadido al carrito' });
     });

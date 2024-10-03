@@ -13,6 +13,12 @@ const Cart = {
   },
 
   addItemToCart: (userId, productId, size, quantity, callback) => {
+    // Comprobar si la talla es válida
+    const validSizes = ['S', 'M', 'L', 'XL'];
+    if (!validSizes.includes(size)) {
+      return callback(new Error('Talla no válida')); // Aquí se retorna el callback si la talla no es válida
+    }
+
     // Comprobar si ya existe un carrito para el usuario
     const sqlCheckCart = 'SELECT id FROM carts WHERE user_id = ?';
     db.query(sqlCheckCart, [userId], (err, results) => {
@@ -29,16 +35,16 @@ const Cart = {
         db.query(sqlCreateCart, [userId], (err, results) => {
           if (err) return callback(err);
           cartId = results.insertId;
+
+          // Agregar el producto al carrito
+          insertCartItem(cartId, productId, size, quantity, callback);
         });
       }
 
-      // Finalmente, agregar el producto al carrito, incluyendo la talla (size)
-      const sqlInsertItem = `
-        INSERT INTO cart_items (cart_id, product_id, size, quantity)
-        VALUES (?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
-      `;
-      db.query(sqlInsertItem, [cartId, productId, size, quantity], callback);
+      if (cartId) {
+        // Si ya hay un carrito, añadir el producto directamente
+        insertCartItem(cartId, productId, size, quantity, callback);
+      }
     });
   },
 
@@ -60,5 +66,15 @@ const Cart = {
     db.query(sql, [userId], callback);
   }
 };
+
+// Función auxiliar para agregar un producto al carrito
+function insertCartItem(cartId, productId, size, quantity, callback) {
+  const sqlInsertItem = `
+    INSERT INTO cart_items (cart_id, product_id, size, quantity)
+    VALUES (?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
+  `;
+  db.query(sqlInsertItem, [cartId, productId, size, quantity], callback);
+}
 
 module.exports = Cart;

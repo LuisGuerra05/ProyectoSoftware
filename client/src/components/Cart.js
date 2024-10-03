@@ -1,91 +1,157 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { CartContext } from '../context/CartProvider';
+import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { FaTrash } from 'react-icons/fa';
+
+// Diccionario de mapeo entre nombres de equipos y nombres de carpetas
+const teamFolderMap = {
+  'FC Barcelona': 'Barca',
+  'Atlético de Madrid': 'Atletico',
+  'Real Madrid': 'Madrid',
+  'Athletic Club': 'Bilbao',
+  'Celta de Vigo': 'Calta',
+  'Espanyol': 'Espanyol',
+  'Getafe': 'Getafe',
+  'Girona': 'Girona',
+  'Leganés': 'Leganes',
+  'Deportivo Alavés': 'Alaves',
+  'Osasuna': 'Osasuna',
+  'RCD Mallorca': 'Mallorca',
+  'Rayo Vallecano': 'Rayo',
+  'Real Betis': 'Betis',
+  'Real Sociedad': 'Sociedad',
+  'Sevilla FC': 'Sevilla',
+  'U.D. Las Palmas': 'Palmas',
+  'Valencia': 'Valencia',
+  'Real Valladolid': 'Valladolid',
+  'Villarreal': 'Villarreal'
+};
+
+// Función para generar la URL de la imagen
+const getImageUrl = (team, name) => {
+  const basePath = '/images';
+  const teamFolder = teamFolderMap[team] || team.replace(/\s+/g, '').toLowerCase();
+  const productType = name.includes('Local') ? 'Local' :
+                      name.includes('Visita') ? 'Visita' :
+                      name.includes('Tercera') ? 'Tercera' : 
+                      name.includes('Cuarta') ? 'Cuarta' : 'Portero';
+  const fileName = `${teamFolder}_${productType}_24_1.jpg`;
+  return `${basePath}/${teamFolder}/${productType}/${fileName}`;
+};
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
+  const { cart, clearCart, removeFromCart } = useContext(CartContext);
+  const { t } = useTranslation();
+  const [showModal, setShowModal] = useState(false); // Estado para mostrar/ocultar el modal
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await fetch('/api/cart', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          setCart(data);
-        } else {
-          console.error('Error al obtener el carrito:', data.message);
-        }
-      } catch (error) {
-        console.error('Error al obtener el carrito:', error);
-      }
-    };
-    fetchCart();
-  }, []);
-
-  const removeFromCart = async (productId) => {
-    try {
-      const response = await fetch('/api/cart/remove', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ productId })
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setCart(cart.filter(item => item.product_id !== productId));
-      } else {
-        console.error('Error al eliminar el producto del carrito:', data.message);
-      }
-    } catch (error) {
-      console.error('Error al eliminar el producto del carrito:', error);
-    }
+  const handlePurchase = () => {
+    alert('Gracias por tu compra');
+    clearCart();
   };
-  const clearCart = async () => {
-    try {
-      const response = await fetch('/api/cart/clear', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
 
-      if (response.ok) {
-        setCart([]);
-      } else {
-        const data = await response.json();
-        console.error('Error al vaciar el carrito:', data.message);
-      }
-    } catch (error) {
-      console.error('Error al vaciar el carrito:', error);
-    }
+  // Calcular el total de la compra
+  const calculateTotal = () => {
+    return cart
+      .reduce((total, product) => total + parseFloat(product.price || 0), 0)
+      .toFixed(2); // Asegúrate de convertir a número con parseFloat
+  };
+
+  // Función para manejar la acción de vaciar el carrito
+  const handleClearCart = () => {
+    setShowModal(true); // Mostrar el modal de confirmación
+  };
+
+  // Función para confirmar la acción de vaciar el carrito
+  const confirmClearCart = () => {
+    clearCart();
+    setShowModal(false); // Ocultar el modal después de vaciar el carrito
   };
 
   return (
-    <div>
-      <h2>Tu Carrito</h2>
+    <Container style={{ marginTop: '50px' }}>
+      <h1>Carrito</h1>
       {cart.length === 0 ? (
-        <p>El carrito está vacío</p>
+        <p>{t('El carrito está vacío.')}</p>
       ) : (
-        <ul>
-          {cart.map(item => (
-            <li key={item.product_id}>
-              Producto ID: {item.product_id} - Cantidad: {item.quantity}
-              <button onClick={() => removeFromCart(item.product_id)}>Eliminar</button>
-            </li>
+        <>
+          {cart.map((product, index) => (
+            <Card key={index} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
+              <Row className="align-items-center">
+                <Col xs={2} className="d-flex align-items-center justify-content-center">
+                  <img 
+                    src={getImageUrl(product.team, product.name)} 
+                    alt={product.name} 
+                    style={{ 
+                      maxWidth: '100px', 
+                      maxHeight: '100px', 
+                      objectFit: 'contain',
+                      padding: '5px'
+                    }}  
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/images/default-product.png';
+                    }}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <h5>{product.team}: {product.name}</h5>
+                  <p>Talla: {product.selectedSize}</p>
+                </Col>
+                <Col xs={2} className="text-right">
+                  <p>${product.price}</p>
+                </Col>
+                <Col xs={2} className="text-right">
+                  <p>Cantidad: 1</p>
+                  <Button variant="outline-danger" onClick={() => removeFromCart(index)}>
+                    <FaTrash />
+                  </Button>
+                </Col>
+              </Row>
+            </Card>
           ))}
-        </ul>
+
+          {/* Mostrar el total de la compra */}
+          <Row className="mt-4">
+            <Col xs={6}>
+              <h4>Total: ${calculateTotal()}</h4>
+            </Col>
+          </Row>
+
+          {/* Botones debajo del carrito */}
+          <Row className="mt-4">
+            <Col>
+              <Button variant="outline-secondary" onClick={handleClearCart}>
+                {t('Vaciar')}
+              </Button>
+            </Col>
+            <Col className="text-right">
+              <Button variant="danger" onClick={handlePurchase}>
+                {t('Comprar')}
+              </Button>
+            </Col>
+          </Row>
+        </>
       )}
-      <button onClick={clearCart}>Vaciar Carrito</button>
-    </div>
+
+      {/* Modal de confirmación para vaciar el carrito */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que quieres vaciar el carrito?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={confirmClearCart}>
+            Vaciar carrito
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
   );
 };
 
