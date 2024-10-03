@@ -5,40 +5,38 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FaCartShopping } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import './App.css';
+import './LanguageSwitch.css'; // Asegúrate de tener el CSS para el selector de idioma
+import LanguageSwitcher from './LanguageSwitcher'; // Importa el nuevo componente
 
 function Layout({ children }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(true);
-  const lastScrollY = useRef(0); // Usar useRef para preservar el valor entre renderizados
+  const lastScrollY = useRef(0); 
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 50) {
-        setShowNavbar(false); // Ocultar navbar si se hace scroll hacia abajo
+        setShowNavbar(false);
       } else {
-        setShowNavbar(true); // Mostrar navbar si se hace scroll hacia arriba
+        setShowNavbar(true);
       }
-      lastScrollY.current = window.scrollY; // Actualizar la referencia de lastScrollY
+      lastScrollY.current = window.scrollY;
     };
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup al desmontar el componente
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // No hace falta agregar `handleScroll` como dependencia
+  }, []);
 
-  // Función para cambiar el idioma
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
 
-  // Verificar si el usuario está autenticado
   const isAuthenticated = !!localStorage.getItem('token');
 
-  // Redirigir dependiendo de si el usuario está logueado
   const handleProfileClick = () => {
     if (isAuthenticated) {
       navigate('/profile');
@@ -47,7 +45,6 @@ function Layout({ children }) {
     }
   };
 
-  // Redirigir al carrito si el usuario está logueado, de lo contrario, al login
   const handleCartClick = () => {
     if (isAuthenticated) {
       navigate('/cart');
@@ -78,14 +75,10 @@ function Layout({ children }) {
               <Nav.Link as={Link} to="/products">{t('productos')}</Nav.Link>
               <Nav.Link as={Link} to="/about">{t('Acerca de Nosotros')}</Nav.Link>
             </Nav>
-            <select 
-              onChange={(e) => changeLanguage(e.target.value)} 
-              aria-label="Cambiar idioma" 
-              className="language-selector"
-            >
-              <option value="es">Español</option>
-              <option value="en">English</option>
-            </select>
+
+            {/* Nuevo selector de idioma */}
+            <LanguageSwitcher changeLanguage={changeLanguage} />
+
             <CgProfile 
               size={40}
               onClick={handleProfileClick}
@@ -93,8 +86,8 @@ function Layout({ children }) {
             />
 
             <FaCartShopping
-              size={30} // Ajustar el tamaño del icono
-              onClick={handleCartClick} 
+              size={30}
+              onClick={handleCartClick}
               style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
             />
           </Navbar.Collapse>
@@ -102,7 +95,7 @@ function Layout({ children }) {
       </Navbar>
 
       {/* Contenido dinámico de la página */}
-      <div style={{ paddingTop: '80px' }}>{children}</div>
+      <div style={{ paddingTop: '60px' }}>{children}</div>
     </div>
   );
 }

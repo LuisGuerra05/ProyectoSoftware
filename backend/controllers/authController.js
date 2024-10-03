@@ -33,7 +33,18 @@ const register = async (req, res) => {
           return res.status(500).json({ message: 'Error en el servidor al insertar el usuario' });
         }
 
-        res.status(201).json({ message: `¡Bienvenido, ${name}!` });
+        // Generar el token JWT
+        const token = jwt.sign(
+          { id: result.insertId, username: name }, // El token contiene el id y el nombre de usuario
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        res.status(201).json({
+          message: `¡Bienvenido, ${name}!`,
+          token: token,
+          username: name, // Devolver el username también
+        });
       });
     } catch (err) {
       console.error('Error cifrando la contraseña:', err);
@@ -72,12 +83,16 @@ const login = (req, res) => {
 
       // Generar el token JWT
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, username: user.username }, // Incluye el username en el payload
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
 
-      res.status(200).json({ token, message: 'Inicio de sesión exitoso' });
+      res.status(200).json({
+        token,
+        username: user.username, // Devolver el username
+        message: 'Inicio de sesión exitoso'
+      });
     } catch (err) {
       console.error('Error verificando la contraseña:', err);
       return res.status(500).json({ message: 'Error en el servidor al verificar la contraseña' });

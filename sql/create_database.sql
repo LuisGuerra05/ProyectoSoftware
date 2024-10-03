@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS product_images (
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
-
 -- Crear tabla de pedidos
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,6 +47,7 @@ CREATE TABLE IF NOT EXISTS order_items (
   product_id INT,
   quantity INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,  -- Precio del producto al momento del pedido
+  size VARCHAR(5),  -- Añadir la talla del producto
   FOREIGN KEY (order_id) REFERENCES orders(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -66,9 +66,11 @@ CREATE TABLE IF NOT EXISTS cart_items (
   cart_id INT,
   product_id INT,
   quantity INT NOT NULL,  -- Cantidad de productos agregados al carrito
+  size VARCHAR(5),  -- Añadir la talla del producto
   FOREIGN KEY (cart_id) REFERENCES carts(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
+
 
 
 
@@ -272,7 +274,7 @@ VALUES
 
 -- Camiseta Tercera
 INSERT INTO products (name, team, price, stock, brand)
-VALUES ('Camiseta Tercera 2024-2025', 'Calta de Vigo', 17.99, 100, 'Hummel');
+VALUES ('Camiseta Tercera 2024-2025', 'Celta de Vigo', 17.99, 100, 'Hummel');
 SET @product_id = LAST_INSERT_ID();
 INSERT INTO product_images (product_id, image_url)
 VALUES 

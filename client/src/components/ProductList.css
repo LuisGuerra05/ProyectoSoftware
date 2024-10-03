@@ -1,16 +1,72 @@
-/* ProductList.css */
+/* Estilos generales de las tarjetas de producto */
 .card {
-    height: 100%;
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  /* ProductDetail.css */
-  .carousel-item img {
-    height: 400px;
-    object-fit: contain;
-  }
-  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Ajusta el contenedor de la imagen para agrandarla */
+.card-img-top {
+  height: 300px; /* Aumenta la altura a 300px para agrandar las imágenes */
+  object-fit: contain; /* Asegura que toda la imagen sea visible */
+  padding: 5px; /* Reduce el padding si deseas más espacio para la imagen */
+  background-color: #f9f9f9; /* O cualquier color de fondo que prefieras */
+}
+
+/* Estiliza el cuerpo de la tarjeta para que mantenga un diseño uniforme */
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.card-text {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.card h4 {
+  margin-top: 1em;
+  color: #000;
+}
+
+/* Estiliza el botón de agregar al carrito */
+button.btn-danger, .modal-footer button.btn-success {
+  padding: 10px;
+  background-color: rgba(220, 53, 69, 0.85); /* Rojo suave */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-danger:hover, .modal-footer button.btn-success:hover {
+  background-color: rgba(220, 53, 69, 1); /* Rojo más oscuro al pasar el mouse */
+}
+
+button.btn-danger:focus, .modal-footer button.btn-success:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Sombra en tonos rojos */
+}
+
+/* Estilo para los botones dentro del modal */
+button.outline-secondary {
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+/* Remueve el texto centrado del modal body */
+.modal-body {
+  text-align: left;
+  padding: 10px;
+}
+
+

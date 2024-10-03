@@ -1,10 +1,9 @@
 const db = require('./db'); // Conexión a la base de datos
 
-// Modelo básico del carrito
 const Cart = {
   getCartByUserId: (userId, callback) => {
     const sql = `
-      SELECT ci.product_id, ci.quantity, p.name, p.price
+      SELECT ci.product_id, ci.quantity, ci.size, p.name, p.price
       FROM cart_items ci
       JOIN products p ON ci.product_id = p.id
       JOIN carts c ON ci.cart_id = c.id
@@ -13,7 +12,7 @@ const Cart = {
     db.query(sql, [userId], callback);
   },
 
-  addItemToCart: (userId, productId, quantity, callback) => {
+  addItemToCart: (userId, productId, size, quantity, callback) => {
     // Comprobar si ya existe un carrito para el usuario
     const sqlCheckCart = 'SELECT id FROM carts WHERE user_id = ?';
     db.query(sqlCheckCart, [userId], (err, results) => {
@@ -33,13 +32,13 @@ const Cart = {
         });
       }
 
-      // Finalmente, agregar el producto al carrito
+      // Finalmente, agregar el producto al carrito, incluyendo la talla (size)
       const sqlInsertItem = `
-        INSERT INTO cart_items (cart_id, product_id, quantity)
-        VALUES (?, ?, ?)
+        INSERT INTO cart_items (cart_id, product_id, size, quantity)
+        VALUES (?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
       `;
-      db.query(sqlInsertItem, [cartId, productId, quantity], callback);
+      db.query(sqlInsertItem, [cartId, productId, size, quantity], callback);
     });
   },
 
@@ -63,4 +62,3 @@ const Cart = {
 };
 
 module.exports = Cart;
-

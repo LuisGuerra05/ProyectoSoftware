@@ -1,12 +1,13 @@
 import React, { useState } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap'; // Importar componentes de React Bootstrap
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false); // Estado para verificar si la respuesta fue exitosa
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -23,12 +24,13 @@ const Login = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage(data.message); // Mensaje de éxito
+        setMessage(data.message);
         setIsSuccess(true);
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token); // Guarda el token en el localStorage
+        localStorage.setItem('username', data.username); // Guarda el username en el localStorage
         navigate('/'); // Redirige a la página de inicio
       } else {
-        setMessage(data.message); // Mostrar el error
+        setMessage(data.message); 
         setIsSuccess(false);
       }
     } catch (error) {
@@ -42,7 +44,7 @@ const Login = () => {
     <Container className="login-container" style={{ marginTop: '50px', maxWidth: '500px' }}>
       <Row className="justify-content-md-center">
         <Col>
-          <h1 className="text-center">Iniciar Sesión</h1>
+          <h1 className="text-center">Inicia Sesión</h1>
           <Form onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
@@ -77,9 +79,10 @@ const Login = () => {
             </Alert>
           )}
 
-          <div className="mt-3 text-center">
-            <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
-          </div>
+        <div className="mt-3 text-center">
+          <p>¿No tienes cuenta? <Link to="/register" className="register-link">Regístrate aquí</Link></p>
+        </div>
+
         </Col>
       </Row>
     </Container>

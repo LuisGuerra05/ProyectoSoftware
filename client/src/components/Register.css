@@ -23,18 +23,26 @@
     border-radius: 5px;
     border: 1px solid #ccc;
   }
+
+  .register-container input:focus {
+    border-color: rgba(220, 53, 69, 0.85); /* Cambia el azul a un rojo suave */
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Añade una sombra en tonos rojos */
+    outline: none; /* Elimina el borde azul predeterminado */
+  }
+  
   
   .register-container button {
     padding: 10px;
-    background-color: #333;
+    background-color: rgba(220, 53, 69, 0.85); /* Rojo suave con transparencia */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
   .register-container button:hover {
-    background-color: #555;
+    background-color: rgba(220, 53, 69, 0.95); /* Tono de rojo más fuerte al pasar el mouse */
   }
   
   .register-container p {

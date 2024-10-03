@@ -1,43 +1,58 @@
-.language-switch {
-  display: flex;
-  align-items: center;
+.language-selector-container {
   position: relative;
-  width: 100px;
-  height: 40px;
-  background-color: #f1f1f1;
-  border: 2px solid black;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-right: 20px; /* Ajusta el margen para separar del resto de los elementos */
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.language-text {
-  position: absolute;
+.language-selector-button {
+  background-color: #f1f1f1;
+  color: black;
+  border: 2px solid black;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
   font-weight: bold;
+  font-size: 14px;
+  text-align: left;
+  width: auto;
+}
+
+.language-selector-options {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px; /* Ajustamos el borde aquí */
+  width: 100px;
+  z-index: 1000;
+  margin-top: 5px;
   font-size: 14px;
 }
 
-.language-text.esp {
-  left: 10px;
+.language-selector-container.active .language-selector-options {
+  display: block;
 }
 
-.language-text.eng {
-  right: 10px;
+.language-selector-options div {
+  padding: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: white;
+  color: black;
+  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.toggle-ball {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: #202020; /* Cambia el color al del logo */
-  border-radius: 50%;
-  transition: transform 0.3s ease;
+.language-selector-options div:hover {
+  background-color: rgba(220, 53, 69, 0.85); /* Color rojo suave */
+  color: white;
+  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
 }
 
-.toggle-ball.left {
-  transform: translateX(5px);
-}
-
-.toggle-ball.right {
-  transform: translateX(55px);
+/* Aplica el estilo rojo solo al que está seleccionado si no hay hover */
+.language-selector-options div.selected:not(:hover) {
+  background-color: rgba(220, 53, 69, 0.85);
+  color: white;
+  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
 }

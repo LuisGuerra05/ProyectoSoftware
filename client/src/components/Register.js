@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap'; // Importar componentes de React Bootstrap
+import './Register.css';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -29,7 +30,11 @@ const Register = () => {
 
       if (response.ok) {
         setMessage(data.message);
+        
+        // Asegurarte de que el backend te devuelve el nombre y el token
         localStorage.setItem('token', data.token); // Guardar el token
+        localStorage.setItem('username', data.username); // Guardar el nombre del usuario
+
         navigate('/'); // Redirigir a la página de inicio después del registro
       } else {
         setError(data.message || 'Error desconocido en el registro');
@@ -44,7 +49,7 @@ const Register = () => {
     <Container className="register-container" style={{ marginTop: '50px', maxWidth: '500px' }}>
       <Row className="justify-content-md-center">
         <Col>
-          <h1 className="text-center">Registro de Usuario</h1>
+          <h1 className="text-center">Regístrate</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>Nombre</Form.Label>

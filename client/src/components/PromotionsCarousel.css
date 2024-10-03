@@ -5,8 +5,13 @@
   }
   
   .carousel .legend {
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mejorar la legibilidad */
-    color: #fff;
-    font-size: 1.2em;
-  }
+    background: rgba(0, 0, 0, 0.5) !important; /* Fondo semitransparente */
+    color: #ffffff !important; /* Verde oliva suave */
+    font-size: 1.1em !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+}
+
+
   
