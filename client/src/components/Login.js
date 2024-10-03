@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import './Login.css';
@@ -9,6 +9,34 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+
+  const syncCartWithDatabase = async (token) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) {
+      return; // Si el carrito está vacío, no hay nada que sincronizar.
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/cart/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ cartItems: cart })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        console.error(data.message);
+      } else {
+        console.log('Carrito sincronizado con éxito');
+      }
+    } catch (error) {
+      console.error('Error al sincronizar el carrito:', error);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,9 +57,13 @@ const Login = () => {
         localStorage.setItem('token', data.token); // Guarda el token en el localStorage
         localStorage.setItem('username', data.username); // Guarda el username en el localStorage
         localStorage.setItem('email', data.email); // Guarda el email en el localStorage
+
+        // Sincroniza el carrito con la base de datos
+        await syncCartWithDatabase(data.token);
+
         navigate('/'); // Redirige a la página de inicio
       } else {
-        setMessage(data.message); 
+        setMessage(data.message);
         setIsSuccess(false);
       }
     } catch (error) {
@@ -79,11 +111,9 @@ const Login = () => {
               {message}
             </Alert>
           )}
-
-        <div className="mt-3 text-center">
-          <p>¿No tienes cuenta? <Link to="/register" className="register-link">Regístrate aquí</Link></p>
-        </div>
-
+          <div className="mt-3 text-center">
+            <p>¿No tienes cuenta? <Link to="/register" className="register-link">Regístrate aquí</Link></p>
+          </div>
         </Col>
       </Row>
     </Container>

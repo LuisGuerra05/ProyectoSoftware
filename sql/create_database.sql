@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS tienda_camisetas;
 USE tienda_camisetas;
 
--- Crear tabla de usuarios
+-- Tabla de usuarios
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(100) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Crear tabla de productos
+-- Tabla de productos
 CREATE TABLE IF NOT EXISTS products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS products (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Crear tabla para almacenar imágenes de los productos
+-- Tabla para almacenar imágenes de los productos
 CREATE TABLE IF NOT EXISTS product_images (
   id INT AUTO_INCREMENT PRIMARY KEY,
   product_id INT,
@@ -30,45 +30,37 @@ CREATE TABLE IF NOT EXISTS product_images (
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
--- Crear tabla de pedidos
+-- Tabla de pedidos
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
   order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  total_amount DECIMAL(10, 2) NOT NULL,
   status VARCHAR(50) DEFAULT 'pending',  -- Estado del pedido (pendiente, completado, etc.)
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Crear tabla de detalles del pedido (relacionar productos y pedidos)
+-- Tabla de detalles del pedido (relacionar productos y pedidos)
 CREATE TABLE IF NOT EXISTS order_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   order_id INT,
   product_id INT,
   quantity INT NOT NULL,
-  price DECIMAL(10, 2) NOT NULL,  -- Precio del producto al momento del pedido
-  size VARCHAR(5),  -- Añadir la talla del producto
+  size VARCHAR(5),
   FOREIGN KEY (order_id) REFERENCES orders(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
--- Crear tabla de carritos (un carrito por usuario)
-CREATE TABLE IF NOT EXISTS carts (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,  -- El usuario dueño del carrito
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
 
 -- Crear tabla de detalles del carrito (productos en el carrito)
 CREATE TABLE IF NOT EXISTS cart_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   cart_id INT,
   product_id INT,
+  user_id INT,
   quantity INT NOT NULL DEFAULT 1,
   size VARCHAR(10),  -- Añadir la talla del producto
-  FOREIGN KEY (cart_id) REFERENCES carts(id),
-  FOREIGN KEY (product_id) REFERENCES products(id)
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 
