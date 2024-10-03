@@ -54,7 +54,7 @@ const ProductDetail = () => {
         <Col md={6}>
           <div className="product-info">
             <small>{product.brand}</small>
-            <h2 className="product-title">{product.team}</h2>
+            <h2 className="product-title" style={{ textAlign: 'left' }}>{product.team}</h2>
             <p className="product-name">{product.name}</p>
             <h3 className="product-price">${product.price}</h3>
 

@@ -70,9 +70,14 @@ const Cart = () => {
 
   return (
     <Container style={{ marginTop: '50px' }}>
-      <h1>Carrito</h1>
+      <h1 style={{ textAlign: 'left' }}>Carrito</h1>
       {cart.length === 0 ? (
-        <p>{t('El carrito está vacío.')}</p>
+        <Card className="shadow-sm p-3 mb-4">
+          <Card.Body>
+            <h3 style={{ textAlign: 'center' }}>{t('Carrito vacío')}</h3>
+            <p style={{ textAlign: 'center' }}>{t('No has añadido productos aún')}</p>
+          </Card.Body>
+        </Card>
       ) : (
         <>
           {cart.map((product, index) => (
