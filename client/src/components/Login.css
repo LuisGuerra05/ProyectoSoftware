@@ -11,7 +11,7 @@
 /* Título del formulario de login */
 .login-container h2 {
   text-align: center;
-  color: #B71C1C; /* Rojo oscuro */
+  color: #007BFF; /* Azul Principal */
 }
 
 /* Estilos de los inputs */
@@ -23,15 +23,15 @@
 }
 
 .login-container input:focus {
-  border-color: rgba(220, 53, 69, 0.85); /* Cambia el azul a un rojo suave */
-  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Añade una sombra en tonos rojos */
-  outline: none; /* Elimina el borde azul predeterminado */
+  border-color: rgba(0, 123, 255, 0.85); /* Azul suave */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra en tonos azules */
+  outline: none; /* Elimina el borde predeterminado */
 }
 
 /* Estilo del botón de login */
 .login-container button {
   padding: 10px;
-  background-color: rgba(220, 53, 69, 0.85); /* Rojo suave con un poco de transparencia */
+  background-color: rgba(0, 123, 255, 0.85); /* Azul suave con un poco de transparencia */
   color: white;
   border: none;
   border-radius: 5px;
@@ -40,7 +40,13 @@
 }
 
 .login-container button:hover {
-  background-color: rgba(220, 53, 69, 1); /* Rojo más oscuro al pasar el mouse */
+  background-color: rgba(0, 123, 255, 1); /* Azul más oscuro al pasar el mouse */
+}
+
+.login-container button:active, .login-container button:focus {
+  background-color: rgba(0, 123, 255, 0.85); /* Mantiene el color al presionar */
+  box-shadow: none;
+  outline: none;
 }
 
 /* Estilo del texto debajo del botón */
@@ -51,11 +57,11 @@
 
 /* Estilo del enlace 'Regístrate aquí' */
 .register-link {
-  color: #B71C1C; /* Rojo oscuro */
+  color: #007BFF; /* Azul Principal */
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
 .register-link:hover {
-  color: #D32F2F; /* Rojo más claro al pasar el mouse */
+  color: #0056b3; /* Azul más oscuro */
 }

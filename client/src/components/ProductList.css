@@ -8,10 +8,10 @@
 
 /* Ajusta el contenedor de la imagen para agrandarla */
 .card-img-top {
-  height: 300px; /* Aumenta la altura a 300px para agrandar las imágenes */
-  object-fit: contain; /* Asegura que toda la imagen sea visible */
-  padding: 5px; /* Reduce el padding si deseas más espacio para la imagen */
-  background-color: #f9f9f9; /* O cualquier color de fondo que prefieras */
+  height: 300px;
+  object-fit: contain;
+  padding: 5px;
+  background-color: #f9f9f9;
 }
 
 /* Estiliza el cuerpo de la tarjeta para que mantenga un diseño uniforme */
@@ -40,7 +40,7 @@
 /* Estiliza el botón de agregar al carrito */
 button.btn-danger, .modal-footer button.btn-success {
   padding: 10px;
-  background-color: rgba(220, 53, 69, 0.85); /* Rojo suave */
+  background-color: rgba(0, 123, 255, 0.85); /* Azul suave */
   color: white;
   border: none;
   border-radius: 5px;
@@ -49,24 +49,12 @@ button.btn-danger, .modal-footer button.btn-success {
 }
 
 button.btn-danger:hover, .modal-footer button.btn-success:hover {
-  background-color: rgba(220, 53, 69, 1); /* Rojo más oscuro al pasar el mouse */
+  background-color: rgba(0, 123, 255, 1); /* Azul más oscuro al pasar el mouse */
 }
 
-button.btn-danger:focus, .modal-footer button.btn-success:focus {
+button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-success:focus, .modal-footer button.btn-success:active {
+  background-color: rgba(0, 123, 255, 0.85); /* Mantén el color azul al hacer focus o active */
   outline: none;
-  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Sombra en tonos rojos */
+  box-shadow: none;
 }
-
-/* Estilo para los botones dentro del modal */
-button.outline-secondary {
-  margin-right: 10px;
-  margin-top: 10px;
-}
-
-/* Remueve el texto centrado del modal body */
-.modal-body {
-  text-align: left;
-  padding: 10px;
-}
-
 

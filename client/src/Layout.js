@@ -66,8 +66,10 @@ function Layout({ children }) {
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <img src="/images/LaLiga_Logo.png" alt="Logo" className="logo" />
-            {t('Tienda de Camisetas')}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1px' }}>
+              <img src="/images/main-logo-icon.svg" alt="Logo" className="logo" style={{ width: '125px', height: 'auto' }} />
+              <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{t('Epic Kick')}</span>
+            </div>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

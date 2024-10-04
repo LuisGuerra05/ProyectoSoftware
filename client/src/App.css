@@ -77,3 +77,79 @@ body, html {
   font-size: 12px;
 }
 
+
+.custom-trash-button {
+  border-color: #808080; /* Gris */
+  background-color: transparent; /* Fondo transparente */
+}
+
+.custom-trash-button:hover {
+  background-color: #cdcdcd; /* Cambia el color de fondo cuando pasas el mouse */
+  border-color: #808080; /* Mantén el borde gris */
+}
+
+.custom-trash-button:focus {
+  box-shadow: none; /* Elimina el efecto de enfoque si lo deseas */
+}
+
+/* Estilo del botón "Vaciar" en el carrito */
+button.btn-secondary {
+  background-color: #6c757d; /* Gris oscuro */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.btn-secondary:hover {
+  background-color: #5a6268; /* Más oscuro en hover */
+}
+
+button.btn-secondary:focus, button.btn-secondary:active {
+  background-color: #6c757d; /* Mantén el gris en focus o active */
+  box-shadow: none;
+  outline: none;
+}
+
+/* Estilo del botón "Comprar" en el carrito */
+button.btn-danger {
+  background-color: rgba(0, 123, 255, 0.85); /* Azul suave */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.btn-danger:hover {
+  background-color: rgba(0, 123, 255, 1); /* Azul más oscuro */
+}
+
+button.btn-danger:focus, button.btn-danger:active {
+  background-color: rgba(0, 123, 255, 0.85); /* Mantén el azul en focus o active */
+  box-shadow: none;
+  outline: none;
+}
+
+/* Estilo personalizado para botones azules */
+button.custom-blue-btn, .modal-footer button.custom-blue-btn {
+  padding: 10px;
+  background-color: rgba(0, 123, 255, 0.85); /* Azul suave */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.custom-blue-btn:hover, .modal-footer button.custom-blue-btn:hover {
+  background-color: rgba(0, 123, 255, 1); /* Azul más oscuro al pasar el mouse */
+}
+
+button.custom-blue-btn:focus, button.custom-blue-btn:active, .modal-footer button.custom-blue-btn:focus, .modal-footer button.custom-blue-btn:active {
+  background-color: rgba(0, 123, 255, 0.85); /* Mantén el color azul al hacer focus o active */
+  outline: none;
+  box-shadow: none;
+}
+

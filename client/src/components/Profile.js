@@ -52,7 +52,7 @@ const Profile = () => {
               <h1 className="mb-4">Perfil de Usuario</h1>
               <p><strong>Nombre:</strong> {username ? username : 'Usuario'}</p>
               <p><strong>Email:</strong> {email ? email : 'correo@ejemplo.com'}</p> {/* Mostrar correo */}
-              <Button variant="danger" onClick={handleLogout}>
+              <Button className="custom-blue-btn" onClick={handleLogout}>
                 Cerrar Sesión
               </Button>
             </Card.Body>

@@ -88,7 +88,7 @@ const ProductList = () => {
   }
 
   return (
-    <Container style={{ paddingTop: '30px' }}>
+    <Container style={{ paddingTop: '40px' }}>
       <Row>
         {products.map(product => (
           <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
@@ -109,7 +109,7 @@ const ProductList = () => {
                 <Card.Text>{product.name}</Card.Text>
                 <h4>${product.price}</h4>
                 <div className="d-flex justify-content-center mt-2">
-                  <Button variant="danger" onClick={(e) => handleAddToCart(e, product)}>
+                  <Button className="custom-blue-btn" onClick={(e) => handleAddToCart(e, product)}>
                     {t('add-to-cart')}
                   </Button>
                 </div>
@@ -149,8 +149,8 @@ const ProductList = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>{t('close')}</Button>
-          <Button variant="danger" onClick={handleConfirmAddToCart}>
+          <Button variant="secondary" onClick={handleClose}>{t('Close')}</Button>
+          <Button className="custom-blue-btn" onClick={handleConfirmAddToCart}>
             {t('add-to-cart')}
           </Button>
         </Modal.Footer>

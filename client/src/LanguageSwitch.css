@@ -22,7 +22,7 @@
   position: absolute;
   background-color: white;
   border: 1px solid black;
-  border-radius: 10px; /* Ajustamos el borde aquí */
+  border-radius: 10px;
   width: 100px;
   z-index: 1000;
   margin-top: 5px;
@@ -39,20 +39,20 @@
   font-weight: bold;
   background-color: white;
   color: black;
-  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
+  border-radius: 8px;
   text-align: center;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .language-selector-options div:hover {
-  background-color: rgba(220, 53, 69, 0.85); /* Color rojo suave */
+  background-color: rgba(0, 123, 255, 0.85); /* Azul suave */
   color: white;
-  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
+  border-radius: 8px;
 }
 
-/* Aplica el estilo rojo solo al que está seleccionado si no hay hover */
+/* Aplica el estilo azul solo al que está seleccionado si no hay hover */
 .language-selector-options div.selected:not(:hover) {
-  background-color: rgba(220, 53, 69, 0.85);
+  background-color: rgba(0, 123, 255, 0.85);
   color: white;
-  border-radius: 8px; /* Ajustamos para que coincida con el borde negro */
+  border-radius: 8px;
 }

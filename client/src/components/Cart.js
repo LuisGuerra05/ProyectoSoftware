@@ -108,9 +108,9 @@ const Cart = () => {
                 </Col>
                 <Col xs={2} className="text-right">
                   <p>Cantidad: 1</p>
-                  <Button variant="outline-danger" onClick={() => removeFromCart(index)}>
-                    <FaTrash />
-                  </Button>
+                  <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
+                  <FaTrash color="#6c757d" />
+                </Button>
                 </Col>
               </Row>
             </Card>
@@ -126,14 +126,14 @@ const Cart = () => {
           {/* Botones debajo del carrito */}
           <Row className="mt-4">
             <Col>
-              <Button variant="outline-secondary" onClick={handleClearCart}>
-                {t('Vaciar')}
-              </Button>
+            <Button variant="secondary" onClick={handleClearCart}>
+              {t('Vaciar')}
+            </Button>
             </Col>
             <Col className="text-right">
-              <Button variant="danger" onClick={handlePurchase}>
-                {t('Comprar')}
-              </Button>
+            <Button className="custom-blue-btn" onClick={handlePurchase}>
+              {t('Comprar')}
+            </Button>
             </Col>
           </Row>
         </>
