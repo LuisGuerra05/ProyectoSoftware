@@ -67,3 +67,23 @@ button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-succ
   max-height: 350px; /* Altura máxima */
   overflow-y: auto; /* Permitir scroll si el contenido excede */
 }
+
+.add-to-cart-modal .modal-dialog {
+  max-width: 500px; /* Específico para este modal */
+}
+
+.add-to-cart-modal .modal-body {
+  min-height: 250px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.clear-cart-modal .modal-dialog {
+  max-width: 500px; /* Un tamaño más pequeño para este modal */
+}
+
+.clear-cart-modal .modal-body {
+  min-height: 100px; /* No es necesario que sea tan alto como el otro modal */
+  max-height: auto; /* Ajusta el contenido sin límite de altura */
+}
+

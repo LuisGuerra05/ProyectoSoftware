@@ -192,6 +192,28 @@ VALUES
 (@product_id, '/images/Madrid/Visita/Madrid_Visita_24_3.jpg'),
 (@product_id, '/images/Madrid/Visita/Madrid_Visita_24_4.jpg');
 
+-- Camiseta Tercera
+INSERT INTO products (name, team, price, stock, brand)
+VALUES ('Camiseta Tercera 2024-2025', 'Real Madrid', 17.99, 100, 'Adidas');
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_1.jpg'),
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_2.jpg'),
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_3.jpg'),
+(@product_id, '/images/Madrid/Tercera/Madrid_Tercera_24_4.jpg');
+
+-- Camiseta Portero
+INSERT INTO products (name, team, price, stock, brand)
+VALUES ('Camiseta Portero 2024-2025', 'Real Madrid', 14.99, 100, 'Adidas');
+SET @product_id = LAST_INSERT_ID();
+INSERT INTO product_images (product_id, image_url)
+VALUES 
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_1.jpg'),
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_2.jpg'),
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg'),
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_4.jpg');
+
 -- Athletic de Club
 
 -- Camiseta Local

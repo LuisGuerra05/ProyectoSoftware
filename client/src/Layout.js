@@ -102,7 +102,7 @@ function Layout({ children }) {
       </Navbar>
 
       {/* Contenido dinámico de la página */}
-      <div style={{ paddingTop: '60px', minHeight: '80vh' }}>{children}</div>  {/* minHeight garantiza que el contenido ocupe al menos la pantalla */}
+      <div style={{ paddingTop: '60px', minHeight: 'calc(100vh - 60px)' }}>{children}</div> {/* minHeight garantiza que el contenido ocupe al menos la pantalla */}
 
       <Footer />  {/* Colocar el footer aquí para que se muestre al final */}
     </div>

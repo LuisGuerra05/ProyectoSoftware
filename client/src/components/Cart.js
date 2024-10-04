@@ -152,7 +152,7 @@ const Cart = () => {
       )}
 
       {/* Modal de confirmación para vaciar el carrito */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal}  className="clear-cart-modal" onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmación</Modal.Title>
         </Modal.Header>
