@@ -3,6 +3,7 @@ import { CartContext } from '../context/CartProvider';
 import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaTrash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Importar para navegar
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -43,11 +44,22 @@ const getImageUrl = (team, name) => {
 const Cart = () => {
   const { cart, clearCart, removeFromCart } = useContext(CartContext);
   const { t } = useTranslation();
+  const navigate = useNavigate(); // Para navegar a la página de login
   const [showModal, setShowModal] = useState(false); // Estado para mostrar/ocultar el modal
 
+  // Verificar si el usuario está autenticado
+  const isAuthenticated = !!localStorage.getItem('token');
+
   const handlePurchase = () => {
-    alert('Gracias por tu compra');
-    clearCart();
+    if (!isAuthenticated) {
+      // Si no está autenticado, redirigir al login
+      alert('Debes iniciar sesión para completar la compra');
+      navigate('/login');
+    } else {
+      // Si está autenticado, completar la compra
+      alert('Gracias por tu compra');
+      clearCart();
+    }
   };
 
   // Calcular el total de la compra
@@ -117,14 +129,14 @@ const Cart = () => {
           ))}
 
           {/* Mostrar el total de la compra */}
-          <Row className="mt-4">
+          <Row className="mt-4 cart-footer">
             <Col xs={6}>
               <h4>Total: ${calculateTotal()}</h4>
             </Col>
           </Row>
 
           {/* Botones debajo del carrito */}
-          <Row className="mt-4">
+          <Row className="mt-4 cart-footer">
             <Col>
             <Button variant="secondary" onClick={handleClearCart}>
               {t('Vaciar')}

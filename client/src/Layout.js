@@ -48,11 +48,8 @@ function Layout({ children }) {
   };
 
   const handleCartClick = () => {
-    if (isAuthenticated) {
-      navigate('/cart');
-    } else {
-      navigate('/login');
-    }
+    // Permitir acceder al carrito independientemente de si está autenticado o no
+    navigate('/cart');
   };
 
   return (
@@ -87,7 +84,7 @@ function Layout({ children }) {
               style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px', color: 'white' }} 
             />
 
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
               <FaCartShopping
                 size={30}
                 onClick={handleCartClick}
@@ -99,6 +96,7 @@ function Layout({ children }) {
                 </span>
               )}
             </div>
+
           </Navbar.Collapse>
         </Container>
       </Navbar>

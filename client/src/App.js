@@ -28,22 +28,8 @@ function App() {
             <Route path="/products" element={<ProductPage />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/cart" 
-              element={
-                <ProtectedRoute>
-                  <Cart />
-                </ProtectedRoute>
-              } 
-            />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
           </Routes>
         </Layout>
       </Router>

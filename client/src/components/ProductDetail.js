@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ProductCarousel from './ProductCarousel';
@@ -12,7 +12,7 @@ const ProductDetail = () => {
   const { t } = useTranslation();
   const [selectedSize, setSelectedSize] = useState(null);
   const { addToCart } = useContext(CartContext); // Usar el método addToCart del contexto
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/products/${id}`)
@@ -27,22 +27,22 @@ const ProductDetail = () => {
 
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
+    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
   };
 
   const handleAddToCart = () => {
-    if (!localStorage.getItem('token')) {
-      alert('Por favor, inicie sesión para agregar productos al carrito');
-      navigate('/login');
-      return;
-    }
-
     if (!selectedSize) {
-      alert('Debe seleccionar una talla');
+      // Si no hay talla seleccionada, mostrar mensaje de error
+      setErrorMessage('Debe seleccionar una talla');
       return;
     }
 
-    addToCart(product, selectedSize); // Añadir el producto al carrito del frontend
-    alert('Producto agregado al carrito');
+    // Agregar el producto al carrito con la talla seleccionada
+    addToCart(product, selectedSize);
+
+    // Limpiar la selección de talla y el mensaje de error después de agregar al carrito
+    setSelectedSize(null);
+    setErrorMessage('');
   };
 
   return (
@@ -77,6 +77,13 @@ const ProductDetail = () => {
             <Button className="add-to-cart-btn" onClick={handleAddToCart}>
               {t('add-to-cart')}
             </Button>
+
+            {/* Mostrar el mensaje de error debajo del botón */}
+            {errorMessage && (
+              <p style={{ color: 'red', marginTop: '10px' }}>
+                {errorMessage}
+              </p>
+            )}
           </div>
         </Col>
       </Row>

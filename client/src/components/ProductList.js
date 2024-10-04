@@ -45,6 +45,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -59,22 +60,25 @@ const ProductList = () => {
     e.stopPropagation(); // Detiene la propagación del click
     setSelectedProduct(product);
     setSelectedSize(null); // Reiniciar la talla seleccionada
+    setErrorMessage(''); // Limpiar el mensaje de error cuando se abre el modal
   };
 
   // Función para cerrar el modal
   const handleClose = () => {
     setSelectedProduct(null);
+    setErrorMessage(''); // Limpiar el mensaje de error cuando se cierra el modal
   };
 
   // Función para seleccionar la talla
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
+    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
   };
 
   // Función para agregar el producto al carrito
   const handleConfirmAddToCart = () => {
     if (!selectedSize) {
-      alert(t('Por favor selecciona una talla.'));
+      setErrorMessage(t('Debe seleccionar una talla')); // Mostrar mensaje de error si no se selecciona una talla
       return;
     }
 
@@ -120,7 +124,7 @@ const ProductList = () => {
       </Row>
 
       {/* Modal para seleccionar talla y agregar al carrito */}
-      <Modal show={!!selectedProduct} onHide={handleClose}>
+      <Modal show={!!selectedProduct} onHide={handleClose} className="fixed-size-modal">
         <Modal.Header closeButton>
           <Modal.Title>
             <span style={{ fontSize: '1.2em' }}>{selectedProduct?.team}</span>
@@ -146,6 +150,13 @@ const ProductList = () => {
                 </Button>
               ))}
             </div>
+
+            {/* Mostrar el mensaje de error debajo de las tallas */}
+            {errorMessage && (
+              <p style={{ color: 'red', marginTop: '10px' }}>
+                {errorMessage}
+              </p>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -68,13 +68,22 @@ body, html {
 
 .cart-count {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #FF4C4C; /* Usa el código de tu color rojo */
+  top: -10px; /* Ajusta la distancia desde el icono */
+  right: -1px; /* Ajusta la distancia desde el icono */
+  background-color: #FF4C4C;
   color: white;
   border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
+  padding: 4px 8px; /* Ajusta el tamaño del contador */
+  font-size: 0.75rem; /* Usa rem en lugar de px para mejor escalado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 18px;
+  height: 18px;
+}
+
+.cart-footer {
+  margin-bottom: 150px; /* Ajusta este valor según el espacio que desees */
 }
 
 

@@ -58,3 +58,12 @@ button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-succ
   box-shadow: none;
 }
 
+.modal-dialog {
+  max-width: 500px; /* Ancho fijo */
+}
+
+.modal-body {
+  min-height: 250px; /* Altura mínima para evitar que el modal cambie de tamaño */
+  max-height: 350px; /* Altura máxima */
+  overflow-y: auto; /* Permitir scroll si el contenido excede */
+}
