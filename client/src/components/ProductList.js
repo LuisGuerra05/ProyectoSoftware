@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 import './ProductList.css';
@@ -40,20 +40,12 @@ const getImageUrl = (team, name) => {
   return `${basePath}/${teamFolder}/${productType}/${fileName}`;
 };
 
-const ProductList = () => {
+const ProductList = ({ products }) => { // Recibe los productos como props
   const { addToCart } = useContext(CartContext); // Usar el contexto del carrito
-  const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
   const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
   const { t } = useTranslation();
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/products')
-      .then(response => response.json())
-      .then(data => setProducts(data))
-      .catch(error => console.error('Error al cargar los productos:', error));
-  }, []);
 
   // Función para abrir el modal
   const handleAddToCart = (e, product) => {

@@ -34,7 +34,11 @@ function HomePage() {
       <section className="home-content">
         <div className="grid-container">
           {teams.map((team, index) => (
-            <div key={index} className="grid-item">
+            <div 
+              key={index} 
+              className="grid-item"
+              onClick={() => window.location.href = `/products?team=${encodeURIComponent(team.name)}`} // Usar encodeURIComponent
+            >
               <img src={team.logo} alt={`${team.name} Escudo`} className="team-logo" />
               <p>{team.name}</p>
             </div>
