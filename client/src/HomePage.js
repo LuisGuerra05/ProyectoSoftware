@@ -1,4 +1,3 @@
-// src/HomePage.js
 import React from 'react';
 import './HomePage.css';
 import PromotionsCarousel from './components/PromotionsCarousel'; // Importa el carrusel
@@ -29,7 +28,9 @@ const teams = [
 function HomePage() {
   return (
     <div className="homepage">
-      <PromotionsCarousel /> {/* Carrusel de promociones */}  
+      <PromotionsCarousel /> {/* Carrusel de promociones */}
+      <h2 className="homepage-title">Explora los productos de tu equipo favorito</h2>
+      <p className="homepage-subtitle">Adquiere la camiseta oficial de cualquiera de los 20 equipos de la liga española</p> {/* Subtítulo */}
       <section className="home-content">
         <div className="grid-container">
           {teams.map((team, index) => (

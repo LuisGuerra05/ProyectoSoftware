@@ -53,6 +53,13 @@ body, html {
   background-color: #555;
 }
 
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  background-color: #343a40; /* Color oscuro de la navbar */
+}
+
 /* Content Section Styles */
 .home-content {
   display: flex;
@@ -83,8 +90,27 @@ body, html {
 }
 
 .cart-footer {
-  margin-bottom: 150px; /* Ajusta este valor según el espacio que desees */
+  margin-bottom: 50px; /* Ajusta este valor según el espacio que desees */
 }
+
+/* Asegura que el contenedor del carrito ocupe toda la pantalla y empuje el footer hacia abajo */
+.cart-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 77.6vh; /* Ocupa al menos toda la altura de la ventana */
+}
+
+.cart-content {
+  flex-grow: 1; /* Crece para ocupar el espacio disponible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-cart {
+  text-align: center;
+}
+
 
 
 .custom-trash-button {

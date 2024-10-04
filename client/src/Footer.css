@@ -1,0 +1,34 @@
+.footer {
+    background-color: #343a40; /* Mismo color de la Navbar */
+    color: white;
+    padding: 8px 0;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+  }
+  
+  .footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer p {
+    margin: 5px 0;
+    color: #ddd; /* Un gris suave para contraste */
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .footer-links a {
+    color: #bbb; /* Color gris claro */
+    margin: 0 15px;
+    text-decoration: none;
+  }
+  
+  .footer-links a:hover {
+    color: white; /* Cambia a blanco al pasar el cursor */
+  }
+  

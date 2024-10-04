@@ -81,7 +81,7 @@ const Cart = () => {
   };
 
   return (
-    <Container style={{ marginTop: '50px' }}>
+    <Container className="cart-page" style={{ marginTop: '50px' }}>
       <h1 style={{ textAlign: 'left' }}>Carrito</h1>
       {cart.length === 0 ? (
         <Card className="shadow-sm p-3 mb-4">

@@ -8,6 +8,7 @@ import './App.css';
 import './LanguageSwitch.css'; 
 import LanguageSwitcher from './LanguageSwitcher'; 
 import { CartContext } from './context/CartProvider'; // Importa el contexto del carrito
+import Footer from './Footer';  // Importa el footer
 
 function Layout({ children }) {
   const { t, i18n } = useTranslation();
@@ -48,7 +49,6 @@ function Layout({ children }) {
   };
 
   const handleCartClick = () => {
-    // Permitir acceder al carrito independientemente de si está autenticado o no
     navigate('/cart');
   };
 
@@ -85,7 +85,7 @@ function Layout({ children }) {
             />
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
-              <FaCartShopping
+            <FaCartShopping
                 size={30}
                 onClick={handleCartClick}
                 style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
@@ -102,7 +102,9 @@ function Layout({ children }) {
       </Navbar>
 
       {/* Contenido dinámico de la página */}
-      <div style={{ paddingTop: '60px' }}>{children}</div>
+      <div style={{ paddingTop: '60px', minHeight: '80vh' }}>{children}</div>  {/* minHeight garantiza que el contenido ocupe al menos la pantalla */}
+
+      <Footer />  {/* Colocar el footer aquí para que se muestre al final */}
     </div>
   );
 }

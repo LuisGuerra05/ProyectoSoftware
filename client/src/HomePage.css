@@ -5,6 +5,15 @@
   margin-right: 10px;
 }
 
+/* Título principal de la página */
+.homepage-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 40px 0 20px; /* Espacio superior e inferior */
+  color: #333;
+  font-weight: bold;
+}
+
 /* Personalización de la imagen de perfil */
 .profile-icon {
   width: 60px;
@@ -103,4 +112,24 @@ select {
     margin-right: 10px; /* Reduce el margen del selector en pantallas pequeñas */
   }
 }
+
+/* Título principal con color negro */
+.homepage-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 40px 0 20px; /* Espaciado similar al About Us */
+  color: #333; /* Color similar al About Us */
+  font-family: 'Arial', sans-serif; /* Mismo estilo de fuente */
+  font-weight: bold; /* Peso de fuente */
+}
+
+/* Subtítulo */
+.homepage-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #666;
+  font-family: 'Arial', sans-serif; /* Asegura que el subtítulo también use la misma fuente */
+}
+
 
