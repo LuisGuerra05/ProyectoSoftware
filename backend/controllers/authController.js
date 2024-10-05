@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../models/db'); // Asegúrate de que tengas la conexión a la base de datos configurada
+const db = require('../models/db');
+
+// Cargar la pimienta desde una variable de entorno
+const PEPPER = process.env.PEPPER;
 
 // Registro de usuario
 const register = async (req, res) => {
@@ -22,8 +25,9 @@ const register = async (req, res) => {
     }
 
     try {
-      // Cifrar la contraseña
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // Añadir la pimienta a la contraseña y cifrarla
+      const passwordWithPepper = password + PEPPER;
+      const hashedPassword = await bcrypt.hash(passwordWithPepper, 10);
 
       // Insertar el nuevo usuario
       const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
@@ -35,7 +39,7 @@ const register = async (req, res) => {
 
         // Generar el token JWT
         const token = jwt.sign(
-          { id: result.insertId, username: name }, // El token contiene el id y el nombre de usuario
+          { id: result.insertId, username: name },
           process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );
@@ -43,7 +47,7 @@ const register = async (req, res) => {
         res.status(201).json({
           message: `¡Bienvenido, ${name}!`,
           token: token,
-          username: name, // Devolver el username también
+          username: name,
         });
       });
     } catch (err) {
@@ -76,23 +80,23 @@ const login = (req, res) => {
 
     // Verificar la contraseña usando bcrypt
     try {
-      const validPassword = await bcrypt.compare(password, user.password);
+      const passwordWithPepper = password + PEPPER;
+      const validPassword = await bcrypt.compare(passwordWithPepper, user.password);
       if (!validPassword) {
         return res.status(400).json({ message: 'Email o contraseña incorrectos' });
       }
 
       // Generar el token JWT
       const token = jwt.sign(
-        { id: user.id, email: user.email, username: user.username }, // Incluye el username en el payload
+        { id: user.id, email: user.email, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
 
-      // Aquí agregamos el campo email en la respuesta
       res.status(200).json({
         token,
-        username: user.username, // Devolver el username
-        email: user.email,       // Devolver el email
+        username: user.username,
+        email: user.email,
         message: 'Inicio de sesión exitoso'
       });
     } catch (err) {
@@ -101,6 +105,5 @@ const login = (req, res) => {
     }
   });
 };
-
 
 module.exports = { register, login };

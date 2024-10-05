@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Button, Container, Row, Col, Modal } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import './ProductList.css';
-import { CartContext } from '../context/CartProvider';
+import { CartContext } from '../context/CartProvider'; // Importar el contexto del carrito
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -32,101 +32,161 @@ const teamFolderMap = {
 const getImageUrl = (team, name) => {
   const basePath = '/images';
   const teamFolder = teamFolderMap[team] || team.replace(/\s+/g, '').toLowerCase();
-  const productType = name?.includes('Local') ? 'Local' :
-                      name?.includes('Visita') ? 'Visita' :
-                      name?.includes('Tercera') ? 'Tercera' : 
-                      name?.includes('Cuarta') ? 'Cuarta' : 'Portero';
+  const productType = name.includes('Local') ? 'Local' :
+                      name.includes('Visita') ? 'Visita' :
+                      name.includes('Tercera') ? 'Tercera' : 
+                      name.includes('Cuarta') ? 'Cuarta' : 'Portero';
   const fileName = `${teamFolder}_${productType}_24_1.jpg`;
   return `${basePath}/${teamFolder}/${productType}/${fileName}`;
 };
 
-// Función para obtener la clave de traducción según el nombre del producto
-const getProductTranslationKey = (name) => {
-  if (!name) {
-    return 'Unknown Jersey';  // Valor por defecto si no hay nombre
-  }
-  if (name.includes('Local')) {
-    return 'Home Jersey';
-  } else if (name.includes('Visita')) {
-    return 'Away Jersey';
-  } else if (name.includes('Tercera')) {
-    return 'Third Jersey';
-  } else if (name.includes('Cuarta')) {
-    return 'Fourth Jersey';
-  } else {
-    return 'Goalkeeper Jersey';
-  }
-};
-
-const ProductList = ({ products }) => { // Recibe los productos como props
-  const { addToCart } = useContext(CartContext);
+const ProductList = () => {
+  const { addToCart } = useContext(CartContext); // Usar el contexto del carrito
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null); 
-  const [errorMessageKey, setErrorMessageKey] = useState('');
+  const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+  const [selectedTeams, setSelectedTeams] = useState(Object.keys(teamFolderMap)); // Equipos seleccionados (todos por defecto)
+  const [selectAll, setSelectAll] = useState(true); // Estado para el checkbox "Todos"
   const { t } = useTranslation();
 
-  const handleAddToCart = (e, product) => {
-    e.stopPropagation();
-    setSelectedProduct(product);
-    setSelectedSize(null);
-    setErrorMessageKey('');
+  useEffect(() => {
+    fetch('http://localhost:5000/api/products')
+      .then(response => response.json())
+      .then(data => {
+        setProducts(data);
+        setFilteredProducts(data);
+      })
+      .catch(error => console.error('Error al cargar los productos:', error));
+  }, []);
+
+  // Función para filtrar productos por los equipos seleccionados
+  const handleTeamCheckboxChange = (team) => {
+    let newSelectedTeams;
+    if (team === 'all') {
+      // Manejar el checkbox "Todos"
+      if (selectAll) {
+        newSelectedTeams = [];
+        setSelectAll(false);
+      } else {
+        newSelectedTeams = Object.keys(teamFolderMap);
+        setSelectAll(true);
+      }
+    } else {
+      // Manejar checkboxes individuales de equipos
+      newSelectedTeams = selectedTeams.includes(team)
+        ? selectedTeams.filter((t) => t !== team)
+        : [...selectedTeams, team];
+      
+      setSelectAll(newSelectedTeams.length === Object.keys(teamFolderMap).length);
+    }
+
+    setSelectedTeams(newSelectedTeams);
+
+    // Aplicar filtro a los productos solo si hay algún equipo seleccionado
+    if (newSelectedTeams.length > 0) {
+      setFilteredProducts(products.filter(product => newSelectedTeams.includes(product.team)));
+    } else {
+      setFilteredProducts([]); // No mostrar ningún producto si no hay selección
+    }
   };
 
+  // Función para abrir el modal
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation(); // Detiene la propagación del click
+    setSelectedProduct(product);
+    setSelectedSize(null); // Reiniciar la talla seleccionada
+    setErrorMessage(''); // Limpiar el mensaje de error cuando se abre el modal
+  };
+
+  // Función para cerrar el modal
   const handleClose = () => {
     setSelectedProduct(null);
-    setErrorMessageKey('');
+    setErrorMessage(''); // Limpiar el mensaje de error cuando se cierra el modal
   };
 
+  // Función para seleccionar la talla
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
-    setErrorMessageKey('');
+    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
   };
 
+  // Función para agregar el producto al carrito
   const handleConfirmAddToCart = () => {
     if (!selectedSize) {
-      setErrorMessageKey('Debe seleccionar una talla');
+      setErrorMessage(t('Debe seleccionar una talla')); // Mostrar mensaje de error si no se selecciona una talla
       return;
     }
+
+    // Agregar el producto al carrito con la talla seleccionada
     addToCart(selectedProduct, selectedSize);
-    handleClose();
+    handleClose(); // Cerrar el modal
   };
 
-  if (!Array.isArray(products) || products.length === 0) {
-    return <p>{t('no-products')}</p>;
-  }
-
   return (
-    <Container style={{ paddingTop: '45px' }}>
+    <Container fluid style={{ paddingTop: '45px' }}>
       <Row>
-        {products.map(product => {
-          const productTranslationKey = getProductTranslationKey(product.name);
-          return (
-            <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-              <Card className="h-100 clickable-card" onClick={() => window.location.href = `/product/${product.id}`}>
-                <Card.Img 
-                  variant="top" 
-                  src={getImageUrl(product.team, product.name)} 
-                  alt={t(productTranslationKey)} 
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/images/default-product.png';
-                  }} 
-                />
-                <Card.Body>
-                  <small>{product.brand}</small>
-                  <Card.Title>{product.team}</Card.Title>
-                  <Card.Text>{t(productTranslationKey)} 2024-2025</Card.Text> {/* Traducir el nombre */}
-                  <h4>${product.price}</h4>
-                  <div className="d-flex justify-content-center mt-2">
-                    <Button className="custom-blue-btn" onClick={(e) => handleAddToCart(e, product)}>
-                      {t('add-to-cart')}
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
+        {/* Columna para el filtro de equipos */}
+        <Col xs={12} md={3}>
+          <Form.Group>
+            <Form.Label>{t('Selecciona equipos')}</Form.Label>
+            <Form.Check
+              type="checkbox"
+              label="Todos"
+              value="all"
+              onChange={() => handleTeamCheckboxChange('all')}
+              checked={selectAll}
+            />
+            {Object.keys(teamFolderMap).map((team) => (
+              <Form.Check 
+                key={team}
+                type="checkbox"
+                label={team}
+                value={team}
+                onChange={() => handleTeamCheckboxChange(team)}
+                checked={selectedTeams.includes(team)}
+              />
+            ))}
+          </Form.Group>
+        </Col>
+
+        {/* Columna para la lista de productos */}
+        <Col xs={12} md={9}>
+          <Row>
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map(product => (
+                <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                  <Card className="h-100 clickable-card" onClick={() => window.location.href = `/product/${product.id}`}>
+                    {/* Link al detalle del producto */}
+                    <Card.Img 
+                      variant="top" 
+                      src={getImageUrl(product.team, product.name)} 
+                      alt={product.name} 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/default-product.png';
+                      }} 
+                    />
+                    <Card.Body>
+                      <small>{product.brand}</small>
+                      <Card.Title>{product.team}</Card.Title>
+                      <Card.Text>{product.name}</Card.Text>
+                      <h4>${product.price}</h4>
+                      <div className="d-flex justify-content-center mt-2">
+                        <Button className="custom-blue-btn" onClick={(e) => handleAddToCart(e, product)}>
+                          {t('add-to-cart')}
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
+            ) : (
+              <p>{t('no-products')}</p>
+            )}
+          </Row>
+        </Col>
       </Row>
 
       {/* Modal para seleccionar talla y agregar al carrito */}
@@ -135,7 +195,7 @@ const ProductList = ({ products }) => { // Recibe los productos como props
           <Modal.Title>
             <span style={{ fontSize: '1.2em' }}>{selectedProduct?.team}</span>
             <br />
-            <span style={{ fontSize: '0.8em', color: '#555' }}>{t(getProductTranslationKey(selectedProduct?.name))} 2024-2025</span>
+            <span style={{ fontSize: '0.8em', color: '#555' }}>{selectedProduct?.name}</span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -157,9 +217,10 @@ const ProductList = ({ products }) => { // Recibe los productos como props
               ))}
             </div>
 
-            {errorMessageKey && (
+            {/* Mostrar el mensaje de error debajo de las tallas */}
+            {errorMessage && (
               <p style={{ color: 'red', marginTop: '10px' }}>
-                {t(errorMessageKey)}
+                {errorMessage}
               </p>
             )}
           </div>
