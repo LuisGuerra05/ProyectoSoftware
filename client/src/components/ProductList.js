@@ -44,7 +44,7 @@ const ProductList = ({ products }) => { // Recibe los productos como props
   const { addToCart } = useContext(CartContext); // Usar el contexto del carrito
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+  const [errorMessageKey, setErrorMessageKey] = useState(''); // Estado para la clave del mensaje de error
   const { t } = useTranslation();
 
   // Función para abrir el modal
@@ -52,25 +52,25 @@ const ProductList = ({ products }) => { // Recibe los productos como props
     e.stopPropagation(); // Detiene la propagación del click
     setSelectedProduct(product);
     setSelectedSize(null); // Reiniciar la talla seleccionada
-    setErrorMessage(''); // Limpiar el mensaje de error cuando se abre el modal
+    setErrorMessageKey(''); // Limpiar el mensaje de error cuando se abre el modal
   };
 
   // Función para cerrar el modal
   const handleClose = () => {
     setSelectedProduct(null);
-    setErrorMessage(''); // Limpiar el mensaje de error cuando se cierra el modal
+    setErrorMessageKey(''); // Limpiar el mensaje de error cuando se cierra el modal
   };
 
   // Función para seleccionar la talla
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
-    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
+    setErrorMessageKey(''); // Limpiar el mensaje de error al seleccionar una talla
   };
 
   // Función para agregar el producto al carrito
   const handleConfirmAddToCart = () => {
     if (!selectedSize) {
-      setErrorMessage(t('Debe seleccionar una talla')); // Mostrar mensaje de error si no se selecciona una talla
+      setErrorMessageKey('Debe seleccionar una talla'); // Mostrar la clave del mensaje de error si no se selecciona una talla
       return;
     }
 
@@ -143,10 +143,10 @@ const ProductList = ({ products }) => { // Recibe los productos como props
               ))}
             </div>
 
-            {/* Mostrar el mensaje de error debajo de las tallas */}
-            {errorMessage && (
+            {/* Mostrar el mensaje de error traducido basado en la clave */}
+            {errorMessageKey && (
               <p style={{ color: 'red', marginTop: '10px' }}>
-                {errorMessage}
+                {t(errorMessageKey)}
               </p>
             )}
           </div>

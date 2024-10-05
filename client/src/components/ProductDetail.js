@@ -12,7 +12,7 @@ const ProductDetail = () => {
   const { t } = useTranslation();
   const [selectedSize, setSelectedSize] = useState(null);
   const { addToCart } = useContext(CartContext); // Usar el método addToCart del contexto
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+  const [errorMessageKey, setErrorMessageKey] = useState(''); // Estado para la clave del mensaje de error
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/products/${id}`)
@@ -27,13 +27,13 @@ const ProductDetail = () => {
 
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
-    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
+    setErrorMessageKey(''); // Limpiar el mensaje de error al seleccionar una talla
   };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      // Si no hay talla seleccionada, mostrar mensaje de error
-      setErrorMessage('Debe seleccionar una talla');
+      // Si no hay talla seleccionada, establecer la clave del mensaje de error
+      setErrorMessageKey('Debe seleccionar una talla');
       return;
     }
 
@@ -42,7 +42,7 @@ const ProductDetail = () => {
 
     // Limpiar la selección de talla y el mensaje de error después de agregar al carrito
     setSelectedSize(null);
-    setErrorMessage('');
+    setErrorMessageKey('');
   };
 
   return (
@@ -59,7 +59,7 @@ const ProductDetail = () => {
             <h3 className="product-price">${product.price}</h3>
 
             <div className="size-selection">
-              <p>{t('Select-size')}:</p>
+              <p>{t('select-size')}:</p>
               <div className="size-buttons">
                 {['S', 'M', 'L', 'XL'].map((size) => (
                   <Button
@@ -78,10 +78,10 @@ const ProductDetail = () => {
               {t('add-to-cart')}
             </Button>
 
-            {/* Mostrar el mensaje de error debajo del botón */}
-            {errorMessage && (
+            {/* Mostrar el mensaje de error traducido basado en la clave */}
+            {errorMessageKey && (
               <p style={{ color: 'red', marginTop: '10px' }}>
-                {errorMessage}
+                {t(errorMessageKey)}
               </p>
             )}
           </div>

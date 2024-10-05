@@ -1,45 +1,33 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import './Login.css';
 
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [emailError, setEmailError] = useState('');
   const navigate = useNavigate();
 
-  const syncCartWithDatabase = async (token) => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    if (cart.length === 0) {
-      return; // Si el carrito está vacío, no hay nada que sincronizar.
-    }
-
-    try {
-      const response = await fetch('http://localhost:5000/api/cart/sync', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ cartItems: cart })
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        console.error(data.message);
-      } else {
-        console.log('Carrito sincronizado con éxito');
-      }
-    } catch (error) {
-      console.error('Error al sincronizar el carrito:', error);
-    }
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Validación de email personalizada
+    if (!validateEmail(email)) {
+      setEmailError(t('Por favor, introduce una dirección de correo electrónico válida.')); // Mensaje en español o traducido
+      return;
+    } else {
+      setEmailError('');
+    }
 
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -54,14 +42,11 @@ const Login = () => {
       if (response.ok) {
         setMessage(data.message);
         setIsSuccess(true);
-        localStorage.setItem('token', data.token); // Guarda el token en el localStorage
-        localStorage.setItem('username', data.username); // Guarda el username en el localStorage
-        localStorage.setItem('email', data.email); // Guarda el email en el localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', data.email);
 
-        // Sincroniza el carrito con la base de datos
-        await syncCartWithDatabase(data.token);
-
-        navigate('/'); // Redirige a la página de inicio
+        navigate('/');
       } else {
         setMessage(data.message);
         setIsSuccess(false);
@@ -77,24 +62,25 @@ const Login = () => {
     <Container className="login-container" style={{ marginTop: '50px', maxWidth: '500px' }}>
       <Row className="justify-content-md-center">
         <Col>
-          <h1 className="text-center">Inicia Sesión</h1>
-          <Form onSubmit={handleLogin}>
+          <h1 className="text-center">{t('login-title')}</h1>
+          <Form onSubmit={handleLogin} noValidate> {/* Deshabilitar validación automática del navegador */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>{t('login-email')}</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Ingresa tu email"
+                placeholder={t('login-email')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Contraseña</Form.Label>
+              <Form.Label>{t('login-password')}</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Ingresa tu contraseña"
+                placeholder={t('login-password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -102,7 +88,7 @@ const Login = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
-              Iniciar Sesión
+              {t('login-submit')}
             </Button>
           </Form>
 
@@ -112,7 +98,7 @@ const Login = () => {
             </Alert>
           )}
           <div className="mt-3 text-center">
-            <p>¿No tienes cuenta? <Link to="/register" className="register-link">Regístrate aquí</Link></p>
+            <p>{t('register-title')} <Link to="/register" className="register-link">{t('register-submit')}</Link></p>
           </div>
         </Col>
       </Row>

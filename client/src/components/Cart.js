@@ -53,11 +53,11 @@ const Cart = () => {
   const handlePurchase = () => {
     if (!isAuthenticated) {
       // Si no está autenticado, redirigir al login
-      alert('Debes iniciar sesión para completar la compra');
+      alert(t('Debes iniciar sesión para completar la compra'));
       navigate('/login');
     } else {
       // Si está autenticado, completar la compra
-      alert('Gracias por tu compra');
+      alert(t('Gracias por tu compra'));
       clearCart();
     }
   };
@@ -82,12 +82,12 @@ const Cart = () => {
 
   return (
     <Container className="cart-page" style={{ marginTop: '50px' }}>
-      <h1 style={{ textAlign: 'left' }}>Carrito</h1>
+      <h1 style={{ textAlign: 'left' }}>{t('cart')}</h1>
       {cart.length === 0 ? (
         <Card className="shadow-sm p-3 mb-4">
           <Card.Body>
-            <h3 style={{ textAlign: 'center' }}>{t('Carrito vacío')}</h3>
-            <p style={{ textAlign: 'center' }}>{t('No has añadido productos aún')}</p>
+            <h3 style={{ textAlign: 'center' }}>{t('cart-empty')}</h3>
+            <p style={{ textAlign: 'center' }}>{t('cart-no-products')}</p>
           </Card.Body>
         </Card>
       ) : (
@@ -113,13 +113,13 @@ const Cart = () => {
                 </Col>
                 <Col xs={6}>
                   <h5>{product.team}: {product.name}</h5>
-                  <p>Talla: {product.selectedSize}</p>
+                  <p>{t('size')}: {product.selectedSize}</p>
                 </Col>
                 <Col xs={2} className="text-right">
                   <p>${product.price}</p>
                 </Col>
                 <Col xs={2} className="text-right">
-                  <p>Cantidad: 1</p>
+                  <p>{t('quantity')}: 1</p>
                   <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
                   <FaTrash color="#6c757d" />
                 </Button>
@@ -139,12 +139,12 @@ const Cart = () => {
           <Row className="mt-4 cart-footer">
             <Col>
             <Button variant="secondary" onClick={handleClearCart}>
-              {t('Vaciar')}
+              {t('cart-clear')}
             </Button>
             </Col>
             <Col className="text-right">
             <Button className="custom-blue-btn" onClick={handlePurchase}>
-              {t('Comprar')}
+              {t('Buy')}
             </Button>
             </Col>
           </Row>
@@ -154,17 +154,17 @@ const Cart = () => {
       {/* Modal de confirmación para vaciar el carrito */}
       <Modal show={showModal}  className="clear-cart-modal" onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmación</Modal.Title>
+          <Modal.Title>{t('confirm')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ¿Estás seguro de que quieres vaciar el carrito?
+        {t('cart-clear-confirm')}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancelar
+          {t('Cancel')}
           </Button>
-          <Button variant="danger" onClick={confirmClearCart}>
-            Vaciar carrito
+          <Button className="custom-blue-btn" onClick={confirmClearCart}>
+          {t('cart-clear-confirm-btn')}
           </Button>
         </Modal.Footer>
       </Modal>

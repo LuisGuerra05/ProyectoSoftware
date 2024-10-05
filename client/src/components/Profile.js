@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../context/CartProvider'; // Importar el contexto del carrito
+import { CartContext } from '../context/CartProvider';
+import { useTranslation } from 'react-i18next'; // Importar hook para traducción
 
 const Profile = () => {
+  const { t } = useTranslation(); // Hook de traducción
   const navigate = useNavigate();
   
   // Recuperar el carrito y la función clearCart del contexto
@@ -27,7 +29,7 @@ const Profile = () => {
         }
       });
     } catch (error) {
-      console.error('Error al vaciar el carrito en la base de datos:', error);
+      console.error(t('Error clearing the cart in the database:'), error); // Mensaje traducido
     }
 
     // Eliminar los datos del localStorage
@@ -49,11 +51,11 @@ const Profile = () => {
         <Col md={6}>
           <Card className="shadow-sm">
             <Card.Body>
-              <h1 className="mb-4">Perfil de Usuario</h1>
-              <p><strong>Nombre:</strong> {username ? username : 'Usuario'}</p>
-              <p><strong>Email:</strong> {email ? email : 'correo@ejemplo.com'}</p> {/* Mostrar correo */}
+              <h1 className="mb-4">{t('profile-title')}</h1> {/* Título traducido */}
+              <p><strong>{t('profile-username')}:</strong> {username ? username : t('default-username')}</p> {/* Nombre de usuario traducido */}
+              <p><strong>{t('profile-email')}:</strong> {email ? email : t('default-email')}</p> {/* Correo electrónico traducido */}
               <Button className="custom-blue-btn" onClick={handleLogout}>
-                Cerrar Sesión
+                {t('profile-logout')} {/* Texto de botón traducido */}
               </Button>
             </Card.Body>
           </Card>

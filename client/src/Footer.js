@@ -1,14 +1,17 @@
 import React from 'react';
-import './Footer.css'; // Cargar estilos para el footer
+import './Footer.css';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
-    <footer class="footer">
-    <div class="container">
-        <p>© TODOS LOS DERECHOS RESERVADOS</p>
-        <p>Epic Kick, Santiago de Chile</p>
-    </div>
-</footer>
+    <footer className="footer">
+      <div className="container">
+        <p>© {t('footer-rights')}</p>
+        <p>{t('footer-location')}</p>
+      </div>
+    </footer>
   );
 };
 

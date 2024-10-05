@@ -1,6 +1,7 @@
 import React from 'react';
 import './HomePage.css';
-import PromotionsCarousel from './components/PromotionsCarousel'; // Importa el carrusel
+import PromotionsCarousel from './components/PromotionsCarousel';
+import { useTranslation } from 'react-i18next';
 
 const teams = [
   { name: 'FC Barcelona', logo: '/images/Barca/Barca_Escudo.png' },
@@ -26,18 +27,20 @@ const teams = [
 ];
 
 function HomePage() {
+  const { t } = useTranslation();
+
   return (
     <div className="homepage">
-      <PromotionsCarousel /> {/* Carrusel de promociones */}
-      <h2 className="homepage-title">Explora los productos de tu equipo favorito</h2>
-      <p className="homepage-subtitle">Adquiere la camiseta oficial de cualquiera de los 20 equipos de la liga española</p> {/* Subtítulo */}
+      <PromotionsCarousel />
+      <h2 className="homepage-title">{t('title')}</h2>
+      <p className="homepage-subtitle">{t('subtitle')}</p>
       <section className="home-content">
         <div className="grid-container">
           {teams.map((team, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="grid-item"
-              onClick={() => window.location.href = `/products?team=${encodeURIComponent(team.name)}`} // Usar encodeURIComponent
+              onClick={() => window.location.href = `/products?team=${encodeURIComponent(team.name)}`}
             >
               <img src={team.logo} alt={`${team.name} Escudo`} className="team-logo" />
               <p>{team.name}</p>

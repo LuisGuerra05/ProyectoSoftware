@@ -1,9 +1,12 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Importa los estilos del carrusel
-import './PromotionsCarousel.css'; // Archivo CSS opcional para estilos personalizados
+import { useTranslation } from 'react-i18next';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the carousel styles
+import './PromotionsCarousel.css'; // Optional CSS file for custom styles
 
 function PromotionsCarousel() {
+  const { t } = useTranslation(); // Hook para la traducción
+
   return (
     <Carousel
       showArrows={true}
@@ -14,16 +17,16 @@ function PromotionsCarousel() {
       stopOnHover={true}
     >
       <div>
-        <img src="/images/Barca/Local/Barca_Local_24_3.jpg" alt="Promoción 1" />
-        <p className="legend">¡Solo por tiempo limitado! 20% de descuento en las camisetas oficiales del FC Barcelona. ¡No te lo pierdas!</p>
+        <img src="/images/Barca/Local/Barca_Local_24_3.jpg" alt={t('Promotion 1')} />
+        <p className="legend">{t('Limited time only! 20% off on official FC Barcelona jerseys. Don\'t miss out!')}</p>
       </div>
       <div>
-        <img src="/images/Madrid/Madrid_Promocion.jpg" alt="Promoción 2" />
-        <p className="legend">¡Oferta 2x1 en camisetas del Real Madrid! Equípate y comparte con tus amigos. Válido hasta agotar existencias.</p>
+        <img src="/images/Madrid/Madrid_Promocion.jpg" alt={t('Promotion 2')} />
+        <p className="legend">{t('2x1 offer on Real Madrid jerseys! Gear up and share with your friends. Valid while supplies last.')}</p>
       </div>
       <div>
-        <img src="/images/Atletico/Local/Atletico_Local_24_3.jpg" alt="Promoción 3" />
-        <p className="legend">¡Exclusivo para socios! Obtén un 15% de descuento en la nueva camiseta del Atlético de Madrid. ¡Únete a la pasión rojiblanca!</p>
+        <img src="/images/Atletico/Local/Atletico_Local_24_3.jpg" alt={t('Promotion 3')} />
+        <p className="legend">{t('Exclusive for members! Get a 15% discount on the new Atlético de Madrid jersey. Join the red and white passion!')}</p>
       </div>
     </Carousel>
   );
