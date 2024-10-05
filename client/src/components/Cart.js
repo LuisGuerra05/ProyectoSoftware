@@ -4,6 +4,7 @@ import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import './Cart.css'; // Asegúrate de tener este archivo CSS
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -132,14 +133,16 @@ const Cart = () => {
                     <h5>{product.team}: {t(productTranslationKey)} 2024-2025</h5> {/* Traducir el nombre */}
                     <p>{t('size')}: {product.selectedSize}</p>
                   </Col>
-                  <Col xs={2} className="text-right">
+                  <Col xs={2} className="cart-price-col text-right">
                     <p>${product.price}</p>
                   </Col>
-                  <Col xs={2} className="text-right">
-                    <p>{t('quantity')}: 1</p>
-                    <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
-                      <FaTrash color="#6c757d" />
-                    </Button>
+                  <Col xs={2} className="cart-trash-col text-right">
+                    <div className="d-flex flex-column align-items-end">
+                      <p>{t('quantity')}: 1</p>
+                      <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
+                        <FaTrash color="#6c757d" />
+                      </Button>
+                    </div>
                   </Col>
                 </Row>
               </Card>
