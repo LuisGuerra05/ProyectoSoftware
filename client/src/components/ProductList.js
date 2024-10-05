@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import './ProductList.css';
 import { CartContext } from '../context/CartProvider'; // Importar el contexto del carrito
@@ -50,16 +51,28 @@ const ProductList = () => {
   const [selectedTeams, setSelectedTeams] = useState(Object.keys(teamFolderMap)); // Equipos seleccionados (todos por defecto)
   const [selectAll, setSelectAll] = useState(true); // Estado para el checkbox "Todos"
   const { t } = useTranslation();
+  const location = useLocation();
 
   useEffect(() => {
     fetch('http://localhost:5000/api/products')
       .then(response => response.json())
       .then(data => {
         setProducts(data);
-        setFilteredProducts(data);
+
+        // Filtrar automáticamente si se especifica un equipo en la URL
+        const params = new URLSearchParams(location.search);
+        const teamParam = params.get('team');
+
+        if (teamParam) {
+          setSelectedTeams([teamParam]);
+          setFilteredProducts(data.filter(product => product.team === teamParam));
+          setSelectAll(false);
+        } else {
+          setFilteredProducts(data);
+        }
       })
       .catch(error => console.error('Error al cargar los productos:', error));
-  }, []);
+  }, [location.search]);
 
   // Función para filtrar productos por los equipos seleccionados
   const handleTeamCheckboxChange = (team) => {
