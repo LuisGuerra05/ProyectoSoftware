@@ -3,7 +3,7 @@ import { CartContext } from '../context/CartProvider';
 import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // Importar para navegar
+import { useNavigate } from 'react-router-dom';
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -39,6 +39,21 @@ const getImageUrl = (team, name) => {
                       name.includes('Cuarta') ? 'Cuarta' : 'Portero';
   const fileName = `${teamFolder}_${productType}_24_1.jpg`;
   return `${basePath}/${teamFolder}/${productType}/${fileName}`;
+};
+
+// Función para obtener la clave de traducción según el nombre del producto
+const getProductTranslationKey = (name) => {
+  if (name.includes('Local')) {
+    return 'Home Jersey';
+  } else if (name.includes('Visita')) {
+    return 'Away Jersey';
+  } else if (name.includes('Tercera')) {
+    return 'Third Jersey';
+  } else if (name.includes('Cuarta')) {
+    return 'Fourth Jersey';
+  } else {
+    return 'Goalkeeper Jersey';
+  }
 };
 
 const Cart = () => {
@@ -92,79 +107,80 @@ const Cart = () => {
         </Card>
       ) : (
         <>
-          {cart.map((product, index) => (
-            <Card key={index} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
-              <Row className="align-items-center">
-                <Col xs={2} className="d-flex align-items-center justify-content-center">
-                  <img 
-                    src={getImageUrl(product.team, product.name)} 
-                    alt={product.name} 
-                    style={{ 
-                      maxWidth: '100px', 
-                      maxHeight: '100px', 
-                      objectFit: 'contain',
-                      padding: '5px'
-                    }}  
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/default-product.png';
-                    }}
-                  />
-                </Col>
-                <Col xs={6}>
-                  <h5>{product.team}: {product.name}</h5>
-                  <p>{t('size')}: {product.selectedSize}</p>
-                </Col>
-                <Col xs={2} className="text-right">
-                  <p>${product.price}</p>
-                </Col>
-                <Col xs={2} className="text-right">
-                  <p>{t('quantity')}: 1</p>
-                  <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
-                  <FaTrash color="#6c757d" />
-                </Button>
-                </Col>
-              </Row>
-            </Card>
-          ))}
+          {cart.map((product, index) => {
+            const productTranslationKey = getProductTranslationKey(product.name);
+            return (
+              <Card key={index} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
+                <Row className="align-items-center">
+                  <Col xs={2} className="d-flex align-items-center justify-content-center">
+                    <img 
+                      src={getImageUrl(product.team, product.name)} 
+                      alt={t(productTranslationKey)} 
+                      style={{ 
+                        maxWidth: '100px', 
+                        maxHeight: '100px', 
+                        objectFit: 'contain',
+                        padding: '5px'
+                      }}  
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/default-product.png';
+                      }}
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <h5>{product.team}: {t(productTranslationKey)} 2024-2025</h5> {/* Traducir el nombre */}
+                    <p>{t('size')}: {product.selectedSize}</p>
+                  </Col>
+                  <Col xs={2} className="text-right">
+                    <p>${product.price}</p>
+                  </Col>
+                  <Col xs={2} className="text-right">
+                    <p>{t('quantity')}: 1</p>
+                    <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
+                      <FaTrash color="#6c757d" />
+                    </Button>
+                  </Col>
+                </Row>
+              </Card>
+            );
+          })}
 
           {/* Mostrar el total de la compra */}
           <Row className="mt-4 cart-footer">
             <Col xs={6}>
-              <h4>Total: ${calculateTotal()}</h4>
+              <h4>{t('Total')}: ${calculateTotal()}</h4>
             </Col>
           </Row>
 
           {/* Botones debajo del carrito */}
           <Row className="mt-4 cart-footer">
             <Col>
-            <Button variant="secondary" onClick={handleClearCart}>
-              {t('cart-clear')}
-            </Button>
+              <Button variant="secondary" onClick={handleClearCart}>
+                {t('cart-clear')}
+              </Button>
             </Col>
             <Col className="text-right">
-            <Button className="custom-blue-btn" onClick={handlePurchase}>
-              {t('Buy')}
-            </Button>
+              <Button className="custom-blue-btn" onClick={handlePurchase}>
+                {t('Buy')}
+              </Button>
             </Col>
           </Row>
         </>
       )}
 
       {/* Modal de confirmación para vaciar el carrito */}
-      <Modal show={showModal}  className="clear-cart-modal" onHide={() => setShowModal(false)}>
+      <Modal show={showModal} className="clear-cart-modal" onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{t('confirm')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-        {t('cart-clear-confirm')}
-        </Modal.Body>
+        <Modal.Body>{t('cart-clear-confirm')}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
-          {t('Cancel')}
+            {t('Cancel')}
           </Button>
           <Button className="custom-blue-btn" onClick={confirmClearCart}>
-          {t('cart-clear-confirm-btn')}
+            {t('cart-clear-confirm-btn')}
           </Button>
         </Modal.Footer>
       </Modal>

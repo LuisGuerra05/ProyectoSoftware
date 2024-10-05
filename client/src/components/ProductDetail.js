@@ -6,6 +6,21 @@ import ProductCarousel from './ProductCarousel';
 import './ProductDetail.css';
 import { CartContext } from '../context/CartProvider'; // Importa el contexto del carrito
 
+// Función para obtener la clave de traducción según el nombre del producto
+const getProductTranslationKey = (name) => {
+  if (name.includes('Local')) {
+    return 'Home Jersey';
+  } else if (name.includes('Visita')) {
+    return 'Away Jersey';
+  } else if (name.includes('Tercera')) {
+    return 'Third Jersey';
+  } else if (name.includes('Cuarta')) {
+    return 'Fourth Jersey';
+  } else {
+    return 'Goalkeeper Jersey';
+  }
+};
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -45,6 +60,8 @@ const ProductDetail = () => {
     setErrorMessageKey('');
   };
 
+  const productTranslationKey = getProductTranslationKey(product.name);
+
   return (
     <Container className="product-detail-container">
       <Row>
@@ -55,7 +72,7 @@ const ProductDetail = () => {
           <div className="product-info">
             <small>{product.brand}</small>
             <h2 className="product-title" style={{ textAlign: 'left' }}>{product.team}</h2>
-            <p className="product-name">{product.name}</p>
+            <p className="product-name">{t(productTranslationKey)} 2024-2025</p> {/* Traducir el nombre */}
             <h3 className="product-price">${product.price}</h3>
 
             <div className="size-selection">

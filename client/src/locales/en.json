@@ -42,6 +42,11 @@
     "Close" : "Close", 
     "select-size" : "Select size",
     "Debe seleccionar una talla" : "You must select a size",
+    "Home Jersey": "Home Jersey",
+    "Away Jersey": "Away Jersey",
+    "Third Jersey": "Third Jersey",
+    "Fourth Jersey": "Fourth Jersey",
+    "Goalkeeper Jersey": "Goalkeeper Jersey",
 
     "login-title": "Login",
     "Por favor, introduce una dirección de correo electrónico válida." : "Please enter a valid email address.",

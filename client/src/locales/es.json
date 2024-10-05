@@ -42,6 +42,12 @@
     "Close" : "Cerrar",
     "select-size" : "Selecciona talla",
     "Debe seleccionar una talla" : "Debe seleccionar una talla",
+    "Home Jersey": "Camiseta Local",
+    "Away Jersey": "Camiseta Visita",
+    "Third Jersey": "Camiseta Tercera",
+    "Fourth Jersey": "Camiseta Cuarta",
+    "Goalkeeper Jersey": "Camiseta de Portero",
+
 
     "login-title": "Inicia Sesión",
     "Por favor, introduce una dirección de correo electrónico válida." : "Por favor, introduce una dirección de correo electrónico válida.",
