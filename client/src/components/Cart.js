@@ -113,37 +113,39 @@ const Cart = () => {
             return (
               <Card key={index} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
                 <Row className="align-items-center">
-                  <Col xs={2} className="d-flex align-items-center justify-content-center">
+                  {/* Imagen */}
+                  <Col xs={12} sm={2} className="d-flex align-items-center justify-content-center mb-3 mb-sm-0">
                     <img 
                       src={getImageUrl(product.team, product.name)} 
                       alt={t(productTranslationKey)} 
-                      style={{ 
-                        maxWidth: '100px', 
-                        maxHeight: '100px', 
-                        objectFit: 'contain',
-                        padding: '5px'
-                      }}  
+                      style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain', padding: '5px' }}  
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = '/images/default-product.png';
                       }}
                     />
                   </Col>
-                  <Col xs={6}>
-                    <h5>{product.team}: {t(productTranslationKey)} 2024-2025</h5> {/* Traducir el nombre */}
+                  
+                  {/* Detalles del producto */}
+                  <Col xs={12} sm={6} className="text-center text-sm-left mb-3 mb-sm-0">
+                    <h5>{product.team}: {t(productTranslationKey)} 2024-2025</h5>
                     <p>{t('size')}: {product.selectedSize}</p>
+                    {/* Precio debajo de la talla */}
+                    <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>${product.price}</p>
                   </Col>
-                  <Col xs={2} className="cart-price-col text-right">
-                    <p>${product.price}</p>
-                  </Col>
-                  <Col xs={2} className="cart-trash-col text-right">
-                    <div className="d-flex flex-column align-items-end">
-                      <p>{t('quantity')}: 1</p>
-                      <Button className="custom-trash-button" onClick={() => removeFromCart(index)}>
-                        <FaTrash color="#6c757d" />
-                      </Button>
-                    </div>
-                  </Col>
+
+                 {/* Cantidad y eliminar */}
+                <Col xs={12} sm={4} className="text-center text-sm-right d-flex align-items-center justify-content-sm-end">
+                  <p className="mb-0 mr-2">{t('quantity')}: 1</p>
+                  <Button 
+                    className="custom-trash-button" 
+                    onClick={() => removeFromCart(index)} 
+                    style={{ marginLeft: '10px' }}  // Ajusta el valor según lo que necesites
+                  >
+                    <FaTrash color="#6c757d" />
+                  </Button>
+                </Col>
+
                 </Row>
               </Card>
             );
