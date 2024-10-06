@@ -4,7 +4,6 @@ import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import './Cart.css'; // Asegúrate de tener este archivo CSS
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
