@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { Card, Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Modal, Form, Dropdown } from 'react-bootstrap';
 import './ProductList.css';
-import { CartContext } from '../context/CartProvider'; // Importar el contexto del carrito
+import { CartContext } from '../context/CartProvider';
 
-// Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
   'FC Barcelona': 'Barca',
   'Atlético de Madrid': 'Atletico',
@@ -25,7 +24,7 @@ const teamFolderMap = {
   'Sevilla FC': 'Sevilla',
   'U.D. Las Palmas': 'Palmas',
   'Valencia': 'Valencia',
-  'Real Valladolid': 'Valladolid',
+  'Valladolid': 'Valladolid',
   'Villarreal': 'Villarreal'
 };
 
@@ -41,15 +40,26 @@ const getImageUrl = (team, name) => {
   return `${basePath}/${teamFolder}/${productType}/${fileName}`;
 };
 
+// Función para traducir el nombre del producto
+const getProductTranslationKey = (name) => {
+  if (!name) return 'Unknown Jersey';
+
+  if (name.includes('Local')) return 'Home Jersey';
+  if (name.includes('Visita')) return 'Away Jersey';
+  if (name.includes('Tercera')) return 'Third Jersey';
+  if (name.includes('Cuarta')) return 'Fourth Jersey';
+  return 'Goalkeeper Jersey';
+};
+
 const ProductList = () => {
-  const { addToCart } = useContext(CartContext); // Usar el contexto del carrito
+  const { addToCart } = useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null); // Estado para la talla seleccionada
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
-  const [selectedTeams, setSelectedTeams] = useState(Object.keys(teamFolderMap)); // Equipos seleccionados (todos por defecto)
-  const [selectAll, setSelectAll] = useState(true); // Estado para el checkbox "Todos"
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedTeams, setSelectedTeams] = useState(Object.keys(teamFolderMap));
+  const [selectAll, setSelectAll] = useState(true);
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -74,11 +84,9 @@ const ProductList = () => {
       .catch(error => console.error('Error al cargar los productos:', error));
   }, [location.search]);
 
-  // Función para filtrar productos por los equipos seleccionados
   const handleTeamCheckboxChange = (team) => {
     let newSelectedTeams;
     if (team === 'all') {
-      // Manejar el checkbox "Todos"
       if (selectAll) {
         newSelectedTeams = [];
         setSelectAll(false);
@@ -87,104 +95,131 @@ const ProductList = () => {
         setSelectAll(true);
       }
     } else {
-      // Manejar checkboxes individuales de equipos
       newSelectedTeams = selectedTeams.includes(team)
         ? selectedTeams.filter((t) => t !== team)
         : [...selectedTeams, team];
-      
       setSelectAll(newSelectedTeams.length === Object.keys(teamFolderMap).length);
     }
 
     setSelectedTeams(newSelectedTeams);
 
-    // Aplicar filtro a los productos solo si hay algún equipo seleccionado
     if (newSelectedTeams.length > 0) {
-      setFilteredProducts(products.filter(product => newSelectedTeams.includes(product.team)));
+      const filtered = products.filter(product =>
+        newSelectedTeams.some(selectedTeam => selectedTeam.toLowerCase() === product.team.toLowerCase())
+      );
+      setFilteredProducts(filtered);
     } else {
-      setFilteredProducts([]); // No mostrar ningún producto si no hay selección
+      setFilteredProducts([]);
     }
   };
 
-  // Función para abrir el modal
   const handleAddToCart = (e, product) => {
-    e.stopPropagation(); // Detiene la propagación del click
+    e.stopPropagation();
     setSelectedProduct(product);
-    setSelectedSize(null); // Reiniciar la talla seleccionada
-    setErrorMessage(''); // Limpiar el mensaje de error cuando se abre el modal
+    setSelectedSize(null);
+    setErrorMessage('');
   };
 
-  // Función para cerrar el modal
   const handleClose = () => {
     setSelectedProduct(null);
-    setErrorMessage(''); // Limpiar el mensaje de error cuando se cierra el modal
+    setErrorMessage('');
   };
 
-  // Función para seleccionar la talla
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
-    setErrorMessage(''); // Limpiar el mensaje de error al seleccionar una talla
+    setErrorMessage('');
   };
 
-  // Función para agregar el producto al carrito
   const handleConfirmAddToCart = () => {
     if (!selectedSize) {
-      setErrorMessage(t('Debe seleccionar una talla')); // Mostrar mensaje de error si no se selecciona una talla
+      setErrorMessage(t('Debe seleccionar una talla'));
       return;
     }
-
-    // Agregar el producto al carrito con la talla seleccionada
     addToCart(selectedProduct, selectedSize);
-    handleClose(); // Cerrar el modal
+    handleClose();
   };
 
   return (
     <Container fluid style={{ paddingTop: '45px' }}>
-      <Row>
-        {/* Columna para el filtro de equipos */}
-        <Col xs={12} md={3}>
-          <Form.Group>
-            <Form.Label>{t('Selecciona equipos')}</Form.Label>
-            <Form.Check
-              type="checkbox"
-              label="Todos"
-              value="all"
-              onChange={() => handleTeamCheckboxChange('all')}
-              checked={selectAll}
-            />
-            {Object.keys(teamFolderMap).map((team) => (
-              <Form.Check 
-                key={team}
+      <Row className="product-list-row">
+        {/* Dropdown para pantallas lg y más pequeñas */}
+        <Col lg={12} className="dropdown-filter"> {/* El dropdown se mostrará desde lg hacia abajo */}
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-secondary" className="dropdown-button">
+              {t('Filtro por equipo')}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Form.Check
                 type="checkbox"
-                label={team}
-                value={team}
-                onChange={() => handleTeamCheckboxChange(team)}
-                checked={selectedTeams.includes(team)}
+                label="Todos"
+                value="all"
+                onChange={() => handleTeamCheckboxChange('all')}
+                checked={selectAll}
               />
-            ))}
-          </Form.Group>
+              {Object.keys(teamFolderMap).map((team) => (
+                <Form.Check 
+                  key={team}
+                  type="checkbox"
+                  label={team}
+                  value={team}
+                  onChange={() => handleTeamCheckboxChange(team)}
+                  checked={selectedTeams.includes(team)}
+                />
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+
+        {/* Columna para el filtro de equipos para pantallas xl y más grandes */}
+        <Col xl={3} className="team-filter"> {/* El filtro se mostrará solo en pantallas xl hacia arriba */}
+          <div className="checkbox-container">
+            <Form.Group>
+              <Form.Label>{t('Filtro por equipo')}</Form.Label>
+              <Form.Check
+                type="checkbox"
+                label="Todos"
+                value="all"
+                onChange={() => handleTeamCheckboxChange('all')}
+                checked={selectAll}
+              />
+              {Object.keys(teamFolderMap).map((team) => (
+                <Form.Check 
+                  key={team}
+                  type="checkbox"
+                  label={team}
+                  value={team}
+                  onChange={() => handleTeamCheckboxChange(team)}
+                  checked={selectedTeams.includes(team)}
+                />
+              ))}
+            </Form.Group>
+          </div>
         </Col>
 
         {/* Columna para la lista de productos */}
-        <Col xs={12} md={9}>
+        <Col xl={9} className="col-products">
           <Row>
             {filteredProducts.length > 0 ? (
               filteredProducts.map(product => (
-                <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                <Col
+                  key={product.id}
+                  xs={12} sm={12} md={6} lg={4} xl={3} className="mb-4"
+                >
                   <Card className="h-100 clickable-card" onClick={() => window.location.href = `/product/${product.id}`}>
-                    {/* Link al detalle del producto */}
-                    <Card.Img 
-                      variant="top" 
-                      src={getImageUrl(product.team, product.name)} 
-                      alt={product.name} 
+                    <Card.Img
+                      variant="top"
+                      src={getImageUrl(product.team, product.name)}
+                      alt={product.name}
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = '/images/default-product.png';
-                      }} 
+                      }}
                     />
                     <Card.Body>
                       <small>{product.brand}</small>
                       <Card.Title>{product.team}</Card.Title>
-                      <Card.Text>{product.name}</Card.Text>
+                      <Card.Text>{t(getProductTranslationKey(product.name))} 2024-2025</Card.Text>
                       <h4>${product.price}</h4>
                       <div className="d-flex justify-content-center mt-2">
                         <Button className="custom-blue-btn" onClick={(e) => handleAddToCart(e, product)}>
@@ -202,13 +237,14 @@ const ProductList = () => {
         </Col>
       </Row>
 
+
       {/* Modal para seleccionar talla y agregar al carrito */}
       <Modal show={!!selectedProduct} onHide={handleClose} className="fixed-size-modal">
         <Modal.Header closeButton>
           <Modal.Title>
             <span style={{ fontSize: '1.2em' }}>{selectedProduct?.team}</span>
             <br />
-            <span style={{ fontSize: '0.8em', color: '#555' }}>{selectedProduct?.name}</span>
+            <span style={{ fontSize: '0.8em', color: '#555' }}>{t(getProductTranslationKey(selectedProduct?.name))} 2024-2025</span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -230,7 +266,6 @@ const ProductList = () => {
               ))}
             </div>
 
-            {/* Mostrar el mensaje de error debajo de las tallas */}
             {errorMessage && (
               <p style={{ color: 'red', marginTop: '10px' }}>
                 {errorMessage}

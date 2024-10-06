@@ -1,5 +1,13 @@
-.product-detail-container {
+/* Estilo específico para la información del producto */
+.product-info-container {
+  padding: 20px; /* Espacio interno */
+  border: 1px solid #ddd; /* Borde alrededor del contenedor */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  background-color: #fff; /* Fondo blanco */
   margin-top: 20px;
+  margin-bottom: 20px; /* Margen inferior para dar espacio antes del footer */
+  min-height: 90%;
 }
 
 .product-info {
@@ -51,8 +59,16 @@
   box-shadow: none;
 }
 
+/* Ajusta la altura mínima y el espaciado del contenedor principal */
+.product-detail-container {
+  padding-top: 30px; /* Espacio superior para que no quede pegado al navbar */
+  margin-bottom: 40px; /* Margen inferior para que no quede pegado al footer */
+  min-height: calc(100vh - 160px); /* Ajusta la altura mínima tomando en cuenta navbar y footer */
+}
+
 @media (min-width: 768px) {
   .product-detail-container {
-    padding-top: 30px; /* Añadir padding superior para evitar que se corte con el navbar */
+    padding-top: 50px; /* Añadir padding superior para evitar que se corte con el navbar */
+    margin-bottom: 40px; /* Ajustar margen inferior en pantallas más grandes */
   }
 }

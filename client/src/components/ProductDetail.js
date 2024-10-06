@@ -64,11 +64,13 @@ const ProductDetail = () => {
 
   return (
     <Container className="product-detail-container">
-      <Row>
-        <Col md={6}>
-          <ProductCarousel productId={product.id} />
-        </Col>
-        <Col md={6}>
+    <Row>
+      <Col md={6}>
+        <ProductCarousel productId={product.id} />
+      </Col>
+      <Col md={6}>
+        {/* Aquí agregamos el nuevo contenedor para la info del producto */}
+        <div className="product-info-container">
           <div className="product-info">
             <small>{product.brand}</small>
             <h2 className="product-title" style={{ textAlign: 'left' }}>{product.team}</h2>
@@ -102,9 +104,11 @@ const ProductDetail = () => {
               </p>
             )}
           </div>
-        </Col>
-      </Row>
-    </Container>
+        </div> {/* Cierre del nuevo contenedor */}
+      </Col>
+    </Row>
+  </Container>
+
   );
 };
 

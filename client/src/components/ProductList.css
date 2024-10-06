@@ -1,3 +1,29 @@
+/* Ajuste de márgenes en la columna de los checkboxes */
+.container-fluid {
+  padding-left: 120px;  /* Ajustar margen izquierdo */
+  padding-right: 120px; /* Ajustar margen derecho */
+}
+
+.form-group {
+  margin-left: 10px;  /* Separación a la derecha del borde */
+}
+
+.checkbox-container {
+  border: 1px solid #ddd; /* Borde alrededor del contenedor */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  padding: 15px; /* Espacio alrededor de los checkboxes */
+  background-color: white; /* Fondo blanco */
+  margin-bottom: 20px; /* Separación del resto del contenido */
+}
+
+
+/* Ajuste de la columna de productos para que no esté pegada al borde */
+.col-products {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /* Estilos generales de las tarjetas de producto */
 .card {
   height: 100%;
@@ -87,3 +113,62 @@ button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-succ
   max-height: auto; /* Ajusta el contenido sin límite de altura */
 }
 
+/* Muestra el dropdown solo en pantallas grandes y más pequeñas */
+.dropdown-filter {
+  display: none;  /* Oculta el dropdown por defecto */
+}
+
+/* Oculta el checklist en pantallas pequeñas */
+.team-filter {
+  display: block;  /* Muestra el checklist lateral por defecto */
+}
+
+/* Media query para pantallas grandes (lg) y más pequeñas */
+@media (max-width: 1199px) { /* lg: hasta 1199px */
+  .team-filter {
+    display: none;  /* Oculta el checklist lateral en pantallas lg y más pequeñas */
+  }
+  
+  .dropdown-filter {
+    display: block;  /* Muestra el dropdown en pantallas lg y más pequeñas */
+    margin-bottom: 20px;
+  }
+
+  .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .form-group {
+    margin-left: 0;  /* Reduce el margen en pantallas lg */
+  }
+
+  .col-products {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+
+/* Estiliza el botón del dropdown para que mantenga el mismo fondo al hacer clic */
+.dropdown-button {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco ligeramente transparente */
+  color: #000; /* Texto en negro */
+  border: 1px solid #ddd; /* Borde suave */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cambia el fondo cuando se hace hover (pasar el mouse por encima) */
+.dropdown-button:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Más visible al hacer hover */
+  color: #000; /* Mantén el color del texto */
+}
+
+
+/* Cambia el fondo cuando se hace clic (gris muy clarito y transparente) */
+.dropdown-button:focus, .dropdown-button:active {
+  background-color: rgba(230, 230, 230, 0.4) !important; /* Gris más claro y transparente */
+  color: #000 !important; /* Mantén el color del texto */
+  outline: none !important;
+  box-shadow: none !important; /* Sin contorno o sombra en focus */
+}
