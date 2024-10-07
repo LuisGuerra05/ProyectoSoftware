@@ -154,16 +154,17 @@ button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-succ
 .dropdown-button {
   background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco ligeramente transparente */
   color: #000; /* Texto en negro */
-  border: 1px solid #ddd; /* Borde suave */
+  border: 1px solid #808080; /* Mismo borde gris que los otros botones */
+  border-radius: 5px; /* Redondez similar a los otros botones */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Cambia el fondo cuando se hace hover (pasar el mouse por encima) */
 .dropdown-button:hover {
-  background-color: rgba(255, 255, 255, 0.8); /* Más visible al hacer hover */
+  background-color: rgba(223, 223, 223, 0.9); /* Más visible al hacer hover */
   color: #000; /* Mantén el color del texto */
+  border-color: #808080; /* Mantén el borde gris en hover */
 }
-
 
 /* Cambia el fondo cuando se hace clic (gris muy clarito y transparente) */
 .dropdown-button:focus, .dropdown-button:active {
@@ -171,4 +172,5 @@ button.btn-danger:focus, button.btn-danger:active, .modal-footer button.btn-succ
   color: #000 !important; /* Mantén el color del texto */
   outline: none !important;
   box-shadow: none !important; /* Sin contorno o sombra en focus */
+  border-color: #808080; /* Mantén el borde gris en focus y active */
 }

@@ -4,6 +4,7 @@ import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import '../App.css';
 
 // Diccionario de mapeo entre nombres de equipos y nombres de carpetas
 const teamFolderMap = {
@@ -133,18 +134,17 @@ const Cart = () => {
                     <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>${product.price}</p>
                   </Col>
 
-                 {/* Cantidad y eliminar */}
-                <Col xs={12} sm={4} className="text-center text-sm-right d-flex align-items-center justify-content-sm-end">
-                  <p className="mb-0 mr-2">{t('quantity')}: 1</p>
-                  <Button 
-                    className="custom-trash-button" 
-                    onClick={() => removeFromCart(index)} 
-                    style={{ marginLeft: '10px' }}  // Ajusta el valor según lo que necesites
-                  >
-                    <FaTrash color="#6c757d" />
-                  </Button>
-                </Col>
-
+                  {/* Cantidad y eliminar */}
+                  <Col xs={12} sm={4} className="text-center text-sm-right d-flex align-items-center justify-content-sm-end">
+                    <p className="mb-0 mr-2">{t('quantity')}: 1</p>
+                    <Button 
+                      className="custom-trash-button" 
+                      onClick={() => removeFromCart(index)} 
+                      style={{ marginLeft: '10px' }}  
+                    >
+                      <FaTrash color="#6c757d" />
+                    </Button>
+                  </Col>
                 </Row>
               </Card>
             );

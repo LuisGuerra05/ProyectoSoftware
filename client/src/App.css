@@ -116,36 +116,56 @@ body, html {
 .custom-trash-button {
   border-color: #808080; /* Gris */
   background-color: transparent; /* Fondo transparente */
-}
-
-.custom-trash-button:hover {
-  background-color: #cdcdcd; /* Cambia el color de fondo cuando pasas el mouse */
-  border-color: #808080; /* Mantén el borde gris */
-}
-
-.custom-trash-button:focus {
-  box-shadow: none; /* Elimina el efecto de enfoque si lo deseas */
-}
-
-/* Estilo del botón "Vaciar" en el carrito */
-button.btn-secondary {
-  background-color: #6c757d; /* Gris oscuro */
-  color: white;
-  border: none;
+  color: #000; /* Texto en negro para que coincida con el secondary */
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave en colores */
 }
 
+.custom-trash-button:hover {
+  background-color: rgba(223, 223, 223, 0.9); /* Más visible al hacer hover, coincide con btn-secondary */
+  border-color: #808080; /* Mantén el borde gris */
+  color: #000; /* Mantén el color del texto */
+}
+
+.custom-trash-button:focus, .custom-trash-button:active {
+  background-color: rgba(230, 230, 230, 0.4) !important; /* Gris más claro y transparente */
+  color: #000 !important; /* Mantén el color del texto */
+  outline: none !important;
+  box-shadow: none !important; /* Sin sombra en focus o active */
+}
+
+
+
+/* Estilo del botón "Vaciar" en el carrito con los mismos colores y efectos, y borde como el de basura */
+button.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco ligeramente transparente */
+  color: #000; /* Texto en negro */
+  border: 1px solid #808080; /* Mismo borde gris que el botón de basura */
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cambia el fondo cuando se hace hover */
 button.btn-secondary:hover {
-  background-color: #5a6268; /* Más oscuro en hover */
+  background-color: rgba(223, 223, 223, 0.9); /* Más visible al hacer hover */
+  color: #000; /* Mantén el color del texto */
+  border-color: #808080; /* Mantén el borde gris en hover */
 }
 
+/* Cambia el fondo cuando se hace clic o focus */
 button.btn-secondary:focus, button.btn-secondary:active {
-  background-color: #6c757d; /* Mantén el gris en focus o active */
-  box-shadow: none;
-  outline: none;
+  background-color: rgba(230, 230, 230, 0.4) !important; /* Gris más claro y transparente */
+  color: #000 !important; /* Mantén el color del texto */
+  outline: none !important;
+  box-shadow: none !important; /* Sin contorno o sombra en focus */
+  border-color: #808080; /* Mantén el borde gris en focus y active */
 }
+
+
 
 /* Estilo del botón "Comprar" en el carrito */
 button.btn-danger {
@@ -187,7 +207,6 @@ button.custom-blue-btn:focus, button.custom-blue-btn:active, .modal-footer butto
   outline: none;
   box-shadow: none;
 }
-
 
 
 
