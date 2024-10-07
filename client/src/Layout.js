@@ -14,6 +14,8 @@ function Layout({ children }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(true);
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false); // Estado para el colapso
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // Estado para el menú de idioma
   const lastScrollY = useRef(0); 
   const { cart } = useContext(CartContext); // Consumir el contexto del carrito
 
@@ -21,6 +23,8 @@ function Layout({ children }) {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 50) {
         setShowNavbar(false);
+        setIsNavbarCollapsed(false); // Cierra el navbar si la barra sticky se oculta
+        setIsLanguageMenuOpen(false); // Cierra el menú de idioma si se hace scroll
       } else {
         setShowNavbar(true);
       }
@@ -34,8 +38,26 @@ function Layout({ children }) {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.navbar') && isNavbarCollapsed) {
+        setIsNavbarCollapsed(false); // Cierra el navbar si haces clic fuera
+      }
+      if (!event.target.closest('.language-switcher') && isLanguageMenuOpen) {
+        setIsLanguageMenuOpen(false); // Cierra el menú de idioma si haces clic fuera
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isNavbarCollapsed, isLanguageMenuOpen]);
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    setIsLanguageMenuOpen(false); // Cierra el menú de idioma al seleccionar un idioma
   };
 
   const isAuthenticated = !!localStorage.getItem('token');
@@ -60,6 +82,7 @@ function Layout({ children }) {
         expand="lg"
         className={`navbar ${showNavbar ? 'navbar-show' : 'navbar-hide'}`}
         fixed="top"
+        expanded={isNavbarCollapsed} // Controla la visibilidad del colapso
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -68,26 +91,39 @@ function Layout({ children }) {
               <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{t('Epic Kick')}</span>
             </div>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle 
+            aria-controls="basic-navbar-nav" 
+            onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)} // Cambia el estado al hacer clic en el toggle
+          />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="me-auto" onClick={() => setIsNavbarCollapsed(false)}> {/* Cierra el navbar al hacer clic en una opción */}
               <Nav.Link as={Link} to="/">{t('inicio')}</Nav.Link>
               <Nav.Link as={Link} to="/products">{t('productos')}</Nav.Link>
               <Nav.Link as={Link} to="/about">{t('Acerca de Nosotros')}</Nav.Link>
             </Nav>
 
-            <LanguageSwitcher changeLanguage={changeLanguage} />
+            <LanguageSwitcher 
+              changeLanguage={changeLanguage} 
+              isOpen={isLanguageMenuOpen}
+              toggle={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)} // Cambia el estado del menú de idioma
+            />
 
             <CgProfile 
               size={40}
-              onClick={handleProfileClick}
+              onClick={() => {
+                handleProfileClick();
+                setIsNavbarCollapsed(false); // Cierra el navbar después de clic
+              }}
               style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px', color: 'white' }} 
             />
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
-            <FaCartShopping
+              <FaCartShopping
                 size={30}
-                onClick={handleCartClick}
+                onClick={() => {
+                  handleCartClick();
+                  setIsNavbarCollapsed(false); // Cierra el navbar después de clic
+                }}
                 style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
               />
               {cart.length > 0 && (
