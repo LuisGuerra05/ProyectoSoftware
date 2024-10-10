@@ -9,6 +9,7 @@ Este proyecto es un sitio web de e-commerce para la venta de camisetas de fútbo
 - [Proyecto Semestral - Tienda de Camisetas de Fútbol](#proyecto-semestral---tienda-de-camisetas-de-fútbol)
   - [Tabla de contenidos](#tabla-de-contenidos)
   - [Descripción del Proyecto](#descripción-del-proyecto)
+  - [Características Principales](#características-principales)
   - [Requisitos](#requisitos)
   - [Configuración del Proyecto](#configuración-del-proyecto)
     - [Paso 1: Clonar el repositorio](#paso-1-clonar-el-repositorio)
@@ -25,8 +26,9 @@ Este proyecto es un sitio web de e-commerce para la venta de camisetas de fútbo
 
 ## Descripción del Proyecto
 
-Este proyecto es una tienda de camisetas de fútbol en línea que cumple con los requisitos de diseño y funcionalidad requeridos. Las características principales incluyen:
+Este proyecto es una tienda de camisetas de fútbol en línea que cumple con los requisitos de diseño y funcionalidad requeridos. El objetivo principal es proporcionar una experiencia de usuario fluida y atractiva, permitiendo a los usuarios navegar por una amplia selección de camisetas, gestionar su carrito de compras y completar transacciones de manera segura.
 
+## Características Principales
 - **Autenticación de Usuarios**: Los usuarios pueden registrarse y acceder a su cuenta utilizando un sistema seguro de autenticación con contraseñas cifradas en la base de datos, y validación mediante JWT (JSON Web Tokens).
 
 - **Validación de Contraseña**: La contraseña está cifrada en la base de datos y se utiliza una API que conecta la base de datos con la aplicación.
@@ -37,7 +39,11 @@ Este proyecto es una tienda de camisetas de fútbol en línea que cumple con los
   
 - **Local Storage**: Utilizamos Local Storage para almacenar información básica del usuario, como el nombre y la preferencia de idioma, lo que asegura que el idioma preferido se mantenga en futuras sesiones. Además, Local Storage también se emplea para gestionar el carrito de compras de usuarios no autenticados. Esto permite que un usuario que no ha iniciado sesión pueda añadir productos al carrito, y su selección se mantendrá temporalmente guardada en su navegador hasta que decida proceder con la compra o autenticarse.
 
-- **Carrito de Compras**: Los usuarios pueden agregar camisetas al carrito y gestionar su compra. La funcionalidad del carrito está disponible tanto para usuarios autenticados como no autenticados.
+- **Gestión de Carrito de Compras**: 
+  - **Usuarios No Autenticados**: Los usuarios pueden agregar productos al carrito sin necesidad de estar autenticados. El carrito se almacena en el Local Storage del navegador, permitiendo que los productos seleccionados permanezcan en el carrito incluso si el usuario navega fuera del sitio o cierra el navegador temporalmente.
+  - **Persistencia del Carrito**: Si un usuario no autenticado agrega productos al carrito y luego se registra o inicia sesión, el carrito de invitado se combina con el carrito existente asociado a su cuenta en la base de datos. Esto asegura que ningún producto seleccionado se pierda durante el proceso de autenticación.
+  - **Sincronización de Carritos**: Cuando un usuario autenticado agrega productos al carrito, estos se almacenan en la base de datos. Si el usuario cierra sesión y luego vuelve a iniciar sesión, el carrito recupera los productos asociados a su cuenta, manteniendo una experiencia de compra continua.
+  - **Unión de Carritos**: Si un usuario con una cuenta existente (que ya tiene productos en su carrito) agrega productos al carrito mientras no está autenticado y luego inicia sesión, los productos del carrito de invitado se combinan con los del carrito en la base de datos, sumando las cantidades de productos duplicados y evitando la pérdida de productos.
 
 - **Filtro de Productos por Equipo**: Los productos (camisetas) pueden ser filtrados por equipo. Las imágenes son dinámicas, mostrando la camiseta local, de visita, tercera o de portero, según corresponda.
 
