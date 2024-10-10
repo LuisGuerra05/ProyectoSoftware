@@ -7,9 +7,9 @@ const PEPPER = process.env.PEPPER;
 
 // Registro de usuario
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address } = req.body;  // Incluimos address en el registro
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !address) {  // Validamos también la dirección
     return res.status(400).json({ message: 'Por favor, completa todos los campos' });
   }
 
@@ -29,9 +29,9 @@ const register = async (req, res) => {
       const passwordWithPepper = password + PEPPER;
       const hashedPassword = await bcrypt.hash(passwordWithPepper, 10);
 
-      // Insertar el nuevo usuario
-      const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-      db.query(sql, [name, email, hashedPassword], (err, result) => {
+      // Insertar el nuevo usuario con la dirección
+      const sql = 'INSERT INTO users (username, email, password, address) VALUES (?, ?, ?, ?)';
+      db.query(sql, [name, email, hashedPassword, address], (err, result) => {
         if (err) {
           console.error('Error insertando usuario:', err);
           return res.status(500).json({ message: 'Error en el servidor al insertar el usuario' });
@@ -48,6 +48,7 @@ const register = async (req, res) => {
           message: `¡Bienvenido, ${name}!`,
           token: token,
           username: name,
+          address: address  // Incluir también la dirección en la respuesta
         });
       });
     } catch (err) {
@@ -93,10 +94,12 @@ const login = (req, res) => {
         { expiresIn: '1h' }
       );
 
+      // Incluir la dirección en la respuesta del login
       res.status(200).json({
         token,
         username: user.username,
         email: user.email,
+        address: user.address,  // Asegurarse de que la dirección esté aquí
         message: 'Inicio de sesión exitoso'
       });
     } catch (err) {

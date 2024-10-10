@@ -1,5 +1,3 @@
-// frontend/components/Login.js
-
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
@@ -50,6 +48,7 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
+        localStorage.setItem('address', data.address); // Guardar la dirección en localStorage
 
         // Después de iniciar sesión exitosamente
         const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -70,7 +69,7 @@ const Login = () => {
 
         setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
 
-        navigate('/');
+        navigate('/profile'); // Redirigir al perfil o página deseada
       } else {
         setMessage(data.message);
         setIsSuccess(false);

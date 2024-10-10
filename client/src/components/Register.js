@@ -12,13 +12,14 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState(''); // Nuevo estado para dirección
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
 
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(CartContext); // Obtenemos setIsLoggedIn del contexto
+  const { setIsLoggedIn } = useContext(CartContext);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,12 +29,10 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Limpiamos mensajes anteriores
     setMessage('');
     setError('');
     setEmailError('');
 
-    // Validación de email personalizada
     if (!validateEmail(email)) {
       setEmailError(t('Please enter a valid email address.'));
       return;
@@ -45,7 +44,7 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, address }), // Enviar dirección
       });
 
       const data = await response.json();
@@ -55,27 +54,11 @@ const Register = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', email);
+        localStorage.setItem('address', address); // Guardar dirección en localStorage
 
-        // Después de registrarse exitosamente
-        const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
-        if (guestCart.length > 0) {
-          // Enviar el carrito de invitado al backend para asociarlo
-          const token = data.token;
-          await fetch('http://localhost:5000/api/cart/merge', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({ guestCart }),
-          });
-          // Limpiar el carrito de localStorage
-          localStorage.removeItem('cart');
-        }
+        setIsLoggedIn(true);
 
-        setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
-
-        navigate('/'); // Redirigir a la página de inicio
+        navigate('/');
       } else {
         setError(data.message || t('Unknown registration error.'));
       }
@@ -91,7 +74,6 @@ const Register = () => {
         <Col>
           <h1 className="text-center">{t('register-title')}</h1>
           <Form onSubmit={handleSubmit} noValidate>
-            {/* Deshabilitar la validación automática del navegador */}
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>{t('register-name')}</Form.Label>
               <Form.Control
@@ -122,6 +104,17 @@ const Register = () => {
                 placeholder={t('login-password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicAddress">
+              <Form.Label>{t('register-address')}</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={t('register-address')}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 required
               />
             </Form.Group>

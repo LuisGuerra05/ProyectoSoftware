@@ -1,3 +1,8 @@
+/* Si tu navbar es fixed, agrega un padding al body o contenedor principal */
+body {
+  padding-top: 20px; /* Ajusta esto al tamaño de tu navbar */
+}
+
 /* Estilo contenedor del login */
 .login-container {
   max-width: 400px;
