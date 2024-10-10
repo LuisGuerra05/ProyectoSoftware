@@ -1,49 +1,64 @@
-const Cart = require('../models/cartModel'); // Importar el modelo del carrito
-const db = require('../models/db'); // Importar la conexión a la base de datos
+// backend/controllers/cartController.js
 
-// Obtener el carrito del usuario
+const Cart = require('../models/cartModel');
+
 exports.getCart = (req, res) => {
-  const userId = req.user.id; // Obtener el ID del usuario autenticado
-  Cart.getCartByUserId(userId, (err, results) => {
+  const userId = req.user.id;
+  Cart.getCart(userId, (err, cartItems) => {
     if (err) return res.status(500).json({ message: 'Error al obtener el carrito' });
-    res.json(results);
+    res.json({ cartItems });
   });
 };
 
-// Añadir un producto al carrito
 exports.addToCart = (req, res) => {
   const userId = req.user.id;
-  const { productId, quantity = 1  } = req.body; // Aquí le asignamos el valor por defecto de 1
-
-  // Comprobar que el producto exista
-  const sqlCheckProduct = 'SELECT * FROM products WHERE id = ?';
-  db.query(sqlCheckProduct, [productId], (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error al buscar el producto' });
-    if (results.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
-
-    // Añadir el producto al carrito
-    Cart.addItemToCart(userId, productId, quantity, (err) => {
-      if (err) return res.status(500).json({ message: 'Error al añadir al carrito' });
-      res.json({ message: 'Producto añadido al carrito' });
-    });
+  const { productId, size, quantity } = req.body;
+  Cart.addToCart(userId, productId, size, quantity, (err) => {
+    if (err) return res.status(500).json({ message: 'Error al agregar al carrito' });
+    res.json({ message: 'Producto agregado al carrito' });
   });
 };
 
-// Eliminar un producto del carrito
 exports.removeFromCart = (req, res) => {
   const userId = req.user.id;
-  const { productId } = req.body;
-  Cart.removeItemFromCart(userId, productId, (err) => {
+  const { productId, size, quantity = 1 } = req.body;
+  Cart.removeItemFromCart(userId, productId, size, quantity, (err) => {
+    if (err) return res.status(500).json({ message: 'Error al eliminar del carrito' });
+    res.json({ message: 'Cantidad actualizada en el carrito' });
+  });
+};
+
+exports.removeAllFromCart = (req, res) => {
+  const userId = req.user.id;
+  const { productId, size } = req.body;
+  Cart.removeAllItemsFromCart(userId, productId, size, (err) => {
     if (err) return res.status(500).json({ message: 'Error al eliminar del carrito' });
     res.json({ message: 'Producto eliminado del carrito' });
   });
 };
 
-// Vaciar el carrito
 exports.clearCart = (req, res) => {
   const userId = req.user.id;
   Cart.clearCart(userId, (err) => {
     if (err) return res.status(500).json({ message: 'Error al vaciar el carrito' });
     res.json({ message: 'Carrito vaciado' });
+  });
+};
+
+// Nueva función para combinar carritos
+exports.mergeCarts = (req, res) => {
+  const userId = req.user.id;
+  const guestCart = req.body.guestCart;
+
+  if (!Array.isArray(guestCart) || guestCart.length === 0) {
+    return res.status(400).json({ message: 'El carrito de invitado está vacío.' });
+  }
+
+  Cart.mergeCarts(userId, guestCart, (err) => {
+    if (err) {
+      console.error('Error al combinar los carritos:', err);
+      return res.status(500).json({ message: 'Error al combinar los carritos.' });
+    }
+    res.json({ message: 'Carritos combinados exitosamente.' });
   });
 };

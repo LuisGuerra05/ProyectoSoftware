@@ -19,6 +19,9 @@ function Layout({ children }) {
   const lastScrollY = useRef(0); 
   const { cart } = useContext(CartContext); // Consumir el contexto del carrito
 
+  // Nuevo: Calcula el total de productos en el carrito considerando las cantidades
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 50) {
@@ -126,9 +129,9 @@ function Layout({ children }) {
                 }}
                 style={{ cursor: 'pointer', color: 'white', marginRight: '15px' }} 
               />
-              {cart.length > 0 && (
+              {totalItems > 0 && (
                 <span className="cart-count">
-                  {cart.length}
+                  {totalItems}
                 </span>
               )}
             </div>

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+// frontend/components/Login.js
+
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { CartContext } from '../context/CartProvider';
 import './Login.css';
 
 const Login = () => {
@@ -13,6 +16,8 @@ const Login = () => {
   const [emailError, setEmailError] = useState('');
   const navigate = useNavigate();
 
+  const { setIsLoggedIn } = useContext(CartContext); // Obtenemos setIsLoggedIn del contexto
+
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -23,7 +28,7 @@ const Login = () => {
 
     // Validación de email personalizada
     if (!validateEmail(email)) {
-      setEmailError(t('Por favor, introduce una dirección de correo electrónico válida.')); // Mensaje en español o traducido
+      setEmailError(t('Por favor, introduce una dirección de correo electrónico válida.'));
       return;
     } else {
       setEmailError('');
@@ -46,6 +51,25 @@ const Login = () => {
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
 
+        // Después de iniciar sesión exitosamente
+        const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (guestCart.length > 0) {
+          // Enviar el carrito de invitado al backend para combinarlo
+          const token = data.token;
+          await fetch('http://localhost:5000/api/cart/merge', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ guestCart }),
+          });
+          // Limpiar el carrito de localStorage
+          localStorage.removeItem('cart');
+        }
+
+        setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
+
         navigate('/');
       } else {
         setMessage(data.message);
@@ -63,7 +87,8 @@ const Login = () => {
       <Row className="justify-content-md-center">
         <Col>
           <h1 className="text-center">{t('login-title')}</h1>
-          <Form onSubmit={handleLogin} noValidate> {/* Deshabilitar validación automática del navegador */}
+          <Form onSubmit={handleLogin} noValidate>
+            {/* Deshabilitar validación automática del navegador */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>{t('login-email')}</Form.Label>
               <Form.Control
@@ -98,7 +123,12 @@ const Login = () => {
             </Alert>
           )}
           <div className="mt-3 text-center">
-            <p>{t('register-title')} <Link to="/register" className="register-link">{t('register-submit')}</Link></p>
+            <p>
+              {t('register-title')}{' '}
+              <Link to="/register" className="register-link">
+                {t('register-submit')}
+              </Link>
+            </p>
           </div>
         </Col>
       </Row>

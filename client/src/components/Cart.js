@@ -1,3 +1,5 @@
+// frontend/components/Cart.js
+
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartProvider';
 import { Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
@@ -58,7 +60,7 @@ const getProductTranslationKey = (name) => {
 };
 
 const Cart = () => {
-  const { cart, clearCart, removeFromCart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart, removeProduct, clearCart } = useContext(CartContext);
   const { t } = useTranslation();
   const navigate = useNavigate(); // Para navegar a la página de login
   const [showModal, setShowModal] = useState(false); // Estado para mostrar/ocultar el modal
@@ -81,8 +83,8 @@ const Cart = () => {
   // Calcular el total de la compra
   const calculateTotal = () => {
     return cart
-      .reduce((total, product) => total + parseFloat(product.price || 0), 0)
-      .toFixed(2); // Asegúrate de convertir a número con parseFloat
+      .reduce((total, product) => total + parseFloat(product.price || 0) * product.quantity, 0)
+      .toFixed(2);
   };
 
   // Función para manejar la acción de vaciar el carrito
@@ -108,10 +110,11 @@ const Cart = () => {
         </Card>
       ) : (
         <>
-          {cart.map((product, index) => {
+          {cart.map((product) => {
+            const { product_id, size } = product;
             const productTranslationKey = getProductTranslationKey(product.name);
             return (
-              <Card key={index} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
+              <Card key={`${product_id}-${size}`} className="mb-4 shadow-sm" style={{ minHeight: '150px', padding: '15px' }}>
                 <Row className="align-items-center">
                   {/* Imagen */}
                   <Col xs={12} sm={2} className="d-flex align-items-center justify-content-center mb-3 mb-sm-0">
@@ -129,17 +132,38 @@ const Cart = () => {
                   {/* Detalles del producto */}
                   <Col xs={12} sm={6} className="text-center text-sm-left mb-3 mb-sm-0">
                     <h5>{product.team}: {t(productTranslationKey)} 2024-2025</h5>
-                    <p>{t('size')}: {product.selectedSize}</p>
+                    <p>{t('size')}: {product.size}</p>
                     {/* Precio debajo de la talla */}
                     <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>${product.price}</p>
                   </Col>
 
-                  {/* Cantidad y eliminar */}
+                  {/* Cantidad y acciones */}
                   <Col xs={12} sm={4} className="text-center text-sm-right d-flex align-items-center justify-content-sm-end">
-                    <p className="mb-0 mr-2">{t('quantity')}: 1</p>
+                    {/* Botón de disminuir cantidad */}
+                    <Button 
+                      variant="outline-secondary" 
+                      onClick={() => removeFromCart(product_id, size)} 
+                    >
+                      -
+                    </Button>
+                    <p className="mb-0 mx-2">{t('quantity')}: {product.quantity}</p>
+                    {/* Botón de aumentar cantidad */}
+                    <Button 
+                      variant="outline-secondary" 
+                      onClick={() => addToCart({
+                        id: product_id,
+                        name: product.name,
+                        team: product.team,
+                        brand: product.brand,
+                        price: product.price
+                      }, size)}
+                    >
+                      +
+                    </Button>
+                    {/* Botón de eliminar producto */}
                     <Button 
                       className="custom-trash-button" 
-                      onClick={() => removeFromCart(index)} 
+                      onClick={() => removeProduct(product_id, size)} 
                       style={{ marginLeft: '10px' }}  
                     >
                       <FaTrash color="#6c757d" />

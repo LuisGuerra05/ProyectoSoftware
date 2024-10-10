@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+// frontend/components/Register.js
+
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next'; // Importamos el hook para traducción
+import { useTranslation } from 'react-i18next';
+import { CartContext } from '../context/CartProvider';
 import './Register.css';
 
 const Register = () => {
-  const { t } = useTranslation(); // Hook de traducción
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const navigate = useNavigate();
 
-  // Función para validar el email
+  const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(CartContext); // Obtenemos setIsLoggedIn del contexto
+
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -47,9 +52,29 @@ const Register = () => {
 
       if (response.ok) {
         setMessage(data.message);
-        localStorage.setItem('token', data.token); // Guardamos el token en el localStorage
-        localStorage.setItem('username', data.username); // Guardamos el nombre de usuario
-        localStorage.setItem('email', email); // Guardamos el email del usuario
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', email);
+
+        // Después de registrarse exitosamente
+        const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (guestCart.length > 0) {
+          // Enviar el carrito de invitado al backend para asociarlo
+          const token = data.token;
+          await fetch('http://localhost:5000/api/cart/merge', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ guestCart }),
+          });
+          // Limpiar el carrito de localStorage
+          localStorage.removeItem('cart');
+        }
+
+        setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
+
         navigate('/'); // Redirigir a la página de inicio
       } else {
         setError(data.message || t('Unknown registration error.'));
@@ -65,7 +90,8 @@ const Register = () => {
       <Row className="justify-content-md-center">
         <Col>
           <h1 className="text-center">{t('register-title')}</h1>
-          <Form onSubmit={handleSubmit} noValidate> {/* Deshabilitar la validación automática del navegador */}
+          <Form onSubmit={handleSubmit} noValidate>
+            {/* Deshabilitar la validación automática del navegador */}
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>{t('register-name')}</Form.Label>
               <Form.Control

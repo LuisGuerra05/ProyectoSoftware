@@ -1,12 +1,18 @@
-const express = require('express');
-const cartController = require('../controllers/cartController'); // Importar el controlador del carrito
-const router = express.Router();
-const authenticate = require('../middleware/authenticate'); // Middleware de autenticación
+// backend/routes/cartRoutes.js
 
-// Rutas del carrito
-router.get('/', authenticate, cartController.getCart); // Ruta para obtener el carrito
-router.post('/add', authenticate, cartController.addToCart); // Ruta para añadir productos al carrito
-router.post('/remove', authenticate, cartController.removeFromCart); // Ruta para eliminar productos del carrito
-router.post('/clear', authenticate, cartController.clearCart); // Ruta para vaciar el carrito
+const express = require('express');
+const router = express.Router();
+const authenticate = require('../middleware/authenticate');
+const cartController = require('../controllers/cartController');
+
+// Rutas existentes
+router.get('/', authenticate, cartController.getCart);
+router.post('/add', authenticate, cartController.addToCart);
+router.post('/remove', authenticate, cartController.removeFromCart);
+router.post('/removeAll', authenticate, cartController.removeAllFromCart);
+router.post('/clear', authenticate, cartController.clearCart);
+
+// Nueva ruta para combinar carritos
+router.post('/merge', authenticate, cartController.mergeCarts);
 
 module.exports = router;
