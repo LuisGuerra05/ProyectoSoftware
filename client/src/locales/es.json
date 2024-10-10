@@ -51,15 +51,20 @@
 
 
     "login-title": "Inicia Sesión",
-    "Por favor, introduce una dirección de correo electrónico válida." : "Por favor, introduce una dirección de correo electrónico válida.",
-    "Please enter a valid email address.": "Por favor, introduce una dirección de correo electrónico válida.",
+    "Por favor, introduce una dirección de correo electrónico válida." : "Por favor, introduce una dirección de correo electrónico válida",
+    "Please enter a valid email address.": "Por favor, introduce una dirección de correo electrónico válida",
     "Unknown registration error.": "Error desconocido en el registro.",
     "Registration error": "Error en el registro",
+    "Error al iniciar sesión:": "Error al iniciar sesión:",
+    "Error en el inicio de sesión": "Error en el inicio de sesión",
+    "Email o contraseña incorrectos": "Email o contraseña incorrectos",
+    "Por favor, ingresa todos los campos": "Por favor, ingresa todos los campos",
+    "Please enter your address.": "Por favor, introduce tu dirección",
       
     "login-email": "Email",
     "login-password": "Contraseña",
     "login-submit": "Iniciar Sesión",
-    "register-title": "Regístrate",
+    "register-title": "¿No tienes cuenta?",
     "register-name": "Nombre",
     "register-submit": "Registrarse",
     "profile-title": "Perfil de Usuario",

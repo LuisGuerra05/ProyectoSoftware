@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -6,15 +6,22 @@ import { CartContext } from '../context/CartProvider';
 import './Login.css';
 
 const Login = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  const [emailError, setEmailError] = useState('');
+  const [emailError, setEmailError] = useState(''); // Para manejar los errores de email
+  const [serverErrorMessage, setServerErrorMessage] = useState(''); // Para manejar los errores del servidor
   const navigate = useNavigate();
 
   const { setIsLoggedIn } = useContext(CartContext); // Obtenemos setIsLoggedIn del contexto
+
+  useEffect(() => {
+    // Forzar re-renderizado cuando cambia el idioma para traducir el mensaje de error
+    if (serverErrorMessage) {
+      setServerErrorMessage(t(serverErrorMessage));
+    }
+  }, [i18n.language, serverErrorMessage, t]);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,10 +33,15 @@ const Login = () => {
 
     // Validación de email personalizada
     if (!validateEmail(email)) {
-      setEmailError(t('Por favor, introduce una dirección de correo electrónico válida.'));
+      setEmailError('invalid-email'); // Clave para error de email no válido
       return;
     } else {
       setEmailError('');
+    }
+
+    if (!email || !password) {
+      setServerErrorMessage('missing-fields'); // Error si faltan campos
+      return;
     }
 
     try {
@@ -43,7 +55,7 @@ const Login = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage(data.message);
+        setServerErrorMessage(''); // Limpiamos cualquier error previo
         setIsSuccess(true);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
@@ -53,7 +65,6 @@ const Login = () => {
         // Después de iniciar sesión exitosamente
         const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
         if (guestCart.length > 0) {
-          // Enviar el carrito de invitado al backend para combinarlo
           const token = data.token;
           await fetch('http://localhost:5000/api/cart/merge', {
             method: 'POST',
@@ -63,20 +74,18 @@ const Login = () => {
             },
             body: JSON.stringify({ guestCart }),
           });
-          // Limpiar el carrito de localStorage
           localStorage.removeItem('cart');
         }
 
         setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
-
         navigate('/profile'); // Redirigir al perfil o página deseada
       } else {
-        setMessage(data.message);
+        setServerErrorMessage('invalid-credentials'); // Error de credenciales
         setIsSuccess(false);
       }
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      setMessage('Error en el inicio de sesión');
+      console.error(t('Error al iniciar sesión:'), error);
+      setServerErrorMessage('login-error'); // Error genérico
       setIsSuccess(false);
     }
   };
@@ -97,7 +106,9 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+              {emailError === 'invalid-email' && (
+                <div style={{ color: 'red' }}>{t('Por favor, introduce una dirección de correo electrónico válida.')}</div>
+              )}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -116,11 +127,15 @@ const Login = () => {
             </Button>
           </Form>
 
-          {message && (
-            <Alert variant={isSuccess ? 'success' : 'danger'} className="mt-3">
-              {message}
+          {/* Mostrar mensaje de error del servidor */}
+          {serverErrorMessage && (
+            <Alert variant="danger" className="mt-3">
+              {serverErrorMessage === 'invalid-credentials' && t('Email o contraseña incorrectos')}
+              {serverErrorMessage === 'missing-fields' && t('Por favor, ingresa todos los campos')}
+              {serverErrorMessage === 'login-error' && t('Error en el inicio de sesión')}
             </Alert>
           )}
+
           <div className="mt-3 text-center">
             <p>
               {t('register-title')}{' '}

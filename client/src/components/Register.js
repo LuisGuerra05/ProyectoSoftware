@@ -1,6 +1,4 @@
-// frontend/components/Register.js
-
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -8,18 +6,26 @@ import { CartContext } from '../context/CartProvider';
 import './Register.css';
 
 const Register = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [address, setAddress] = useState(''); // Nuevo estado para dirección
+  const [address, setAddress] = useState('');
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [addressError, setAddressError] = useState(''); // Estado para manejar error de dirección
 
   const navigate = useNavigate();
   const { setIsLoggedIn } = useContext(CartContext);
+
+  useEffect(() => {
+    // Actualizar los mensajes de error cuando cambie el idioma
+    if (emailError) setEmailError(t('Please enter a valid email address.'));
+    if (addressError) setAddressError(t('Please enter your address.'));
+    if (error) setError(t('Por favor, ingresa todos los campos')); // Actualizar el mensaje de error general al cambiar de idioma
+  }, [i18n.language, t, emailError, addressError, error]);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,9 +38,23 @@ const Register = () => {
     setMessage('');
     setError('');
     setEmailError('');
+    setAddressError('');
 
+    // Validación de email
     if (!validateEmail(email)) {
       setEmailError(t('Please enter a valid email address.'));
+      return;
+    }
+
+    // Validación de dirección vacía
+    if (!address.trim()) {
+      setAddressError(t('Please enter your address.'));
+      return;
+    }
+
+    // Validación de campos vacíos
+    if (!name || !email || !password || !address) {
+      setError(t('Please fill in all the fields.')); // Mensaje general de campos vacíos
       return;
     }
 
@@ -44,7 +64,7 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, address }), // Enviar dirección
+        body: JSON.stringify({ name, email, password, address }),
       });
 
       const data = await response.json();
@@ -72,7 +92,7 @@ const Register = () => {
     <Container className="register-container" style={{ marginTop: '50px', maxWidth: '500px' }}>
       <Row className="justify-content-md-center">
         <Col>
-          <h1 className="text-center">{t('register-title')}</h1>
+          <h1 className="text-center">{t('register-submit')}</h1>
           <Form onSubmit={handleSubmit} noValidate>
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>{t('register-name')}</Form.Label>
@@ -117,6 +137,7 @@ const Register = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 required
               />
+              {addressError && <div style={{ color: 'red' }}>{addressError}</div>}
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
