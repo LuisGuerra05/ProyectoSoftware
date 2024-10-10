@@ -60,7 +60,18 @@
     "Email o contraseña incorrectos": "Email o contraseña incorrectos",
     "Por favor, ingresa todos los campos": "Por favor, ingresa todos los campos",
     "Please enter your address.": "Por favor, introduce tu dirección",
-      
+    "profile-address-update-error": "Error al actualizar la dirección",
+    
+    "profile-save": "Guardar",
+    "profile-cancel": "Cancelar",
+    "profile-edit": "Editar",
+    "default-address": "Sin dirección",
+    "Address is required": "Se requiere una dirección",
+    "Address updated successfully": "Dirección actualizada exitosamente",
+    "Error updating the address": "Error al actualizar la dirección",
+    "profile-address-required": "Se requiere una dirección",
+    "profile-address-updated": "Dirección actualizada exitosamente",
+
     "login-email": "Email",
     "login-password": "Contraseña",
     "login-submit": "Iniciar Sesión",

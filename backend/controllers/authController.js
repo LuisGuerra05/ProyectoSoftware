@@ -106,4 +106,29 @@ const login = (req, res) => {
   });
 };
 
-module.exports = { register, login };
+
+// Actualizar la dirección del usuario
+const updateAddress = (req, res) => {
+  const { address } = req.body;
+  const userId = req.user.id;  // Extraer el id del usuario del token
+
+  if (!address) {
+    return res.status(400).json({ message: 'Address is required' });
+  }
+
+  const sql = 'UPDATE users SET address = ? WHERE id = ?';
+  db.query(sql, [address, userId], (err, result) => {
+    if (err) {
+      console.error('Error updating address:', err);
+      return res.status(500).json({ message: 'Error updating the address' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Address updated successfully' });
+  });
+};
+
+module.exports = { register, login, updateAddress};
