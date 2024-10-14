@@ -4,6 +4,7 @@ const db = require('../models/db');
 
 // Cargar la pimienta desde una variable de entorno
 const PEPPER = process.env.PEPPER;
+const SALT_ROUNDS = 10; 
 
 // Registro de usuario
 const register = async (req, res) => {
@@ -27,7 +28,7 @@ const register = async (req, res) => {
     try {
       // Añadir la pimienta a la contraseña y cifrarla
       const passwordWithPepper = password + PEPPER;
-      const hashedPassword = await bcrypt.hash(passwordWithPepper, 10);
+      const hashedPassword = await bcrypt.hash(passwordWithPepper, SALT_ROUNDS);
 
       // Insertar el nuevo usuario
       const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
