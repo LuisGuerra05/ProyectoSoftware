@@ -61,6 +61,7 @@
     "Por favor, ingresa todos los campos": "Por favor, ingresa todos los campos",
     "Please enter your address.": "Por favor, introduce tu dirección",
     "profile-address-update-error": "Error al actualizar la dirección",
+    "register-email-exists": "Este correo electrónico ya está registrado.",
     
     "profile-save": "Guardar",
     "profile-cancel": "Cancelar",

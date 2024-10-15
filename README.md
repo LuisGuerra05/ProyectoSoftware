@@ -49,7 +49,7 @@ Este proyecto es una tienda de camisetas de fútbol en línea que cumple con los
 
 - **Base de Datos MySQL**: La tienda utiliza una base de datos MySQL para gestionar los productos y los usuarios. Los modelos de productos y usuarios están completamente implementados y conectados a través de una API segura.
 
-- **Seguridad en Credenciales**: Las credenciales de acceso a la base de datos están protegidas en archivos .env y no se suben al repositorio público para mantener la seguridad de la información. Para la autenticación de usuarios, utilizamos JSON Web Tokens (JWT), asegurando que las sesiones sean seguras y fáciles de manejar. Además, para aumentar la seguridad de las contraseñas, implementamos una capa adicional de protección mediante un pepper, lo que asegura que incluso si una contraseña se ve comprometida, siga siendo extremadamente difícil de descifrar sin este valor extra.
+- **Seguridad en Credenciales**: Las credenciales de acceso a la base de datos están protegidas en archivos .env y no se suben al repositorio público para mantener la seguridad de la información. Para la autenticación de usuarios, utilizamos JSON Web Tokens (JWT), asegurando que las sesiones sean seguras y fáciles de manejar. Además, para aumentar la seguridad de las contraseñas, implementamos una capa adicional de protección mediante un pepper y 10 rounds de salt, lo que asegura que incluso si una contraseña se ve comprometida, siga siendo extremadamente difícil de descifrar sin este valor extra.
 
 
 ---

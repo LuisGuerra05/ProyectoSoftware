@@ -8,12 +8,9 @@ const SALT_ROUNDS = 10;
 
 // Registro de usuario
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Por favor, completa todos los campos' });
-  }
-
+  // Primero verificamos si el correo ya está registrado
   const checkEmailQuery = 'SELECT * FROM users WHERE email = ?';
   db.query(checkEmailQuery, [email], async (err, results) => {
     if (err) {
@@ -22,17 +19,21 @@ const register = async (req, res) => {
     }
 
     if (results.length > 0) {
-      return res.status(400).json({ message: 'Este email ya está registrado' });
+      return res.status(400).json({ message: 'Este correo electrónico ya está registrado.' });
+    }
+
+    // Ahora validamos los demás campos
+    if (!name || !email || !password || !address) {
+      return res.status(400).json({ message: 'Por favor, completa todos los campos' });
     }
 
     try {
-      // Añadir la pimienta a la contraseña y cifrarla
       const passwordWithPepper = password + PEPPER;
       const hashedPassword = await bcrypt.hash(passwordWithPepper, SALT_ROUNDS);
 
-      // Insertar el nuevo usuario
-      const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-      db.query(sql, [name, email, hashedPassword], (err, result) => {
+      // Insertar el nuevo usuario, incluyendo la dirección
+      const sql = 'INSERT INTO users (username, email, password, address) VALUES (?, ?, ?, ?)';
+      db.query(sql, [name, email, hashedPassword, address], (err, result) => {
         if (err) {
           console.error('Error insertando usuario:', err);
           return res.status(500).json({ message: 'Error en el servidor al insertar el usuario' });
@@ -57,6 +58,8 @@ const register = async (req, res) => {
     }
   });
 };
+
+
 
 // Login de usuario
 const login = (req, res) => {

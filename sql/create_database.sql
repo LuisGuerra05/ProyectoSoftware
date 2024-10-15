@@ -219,8 +219,7 @@ INSERT INTO product_images (product_id, image_url)
 VALUES 
 (@product_id, '/images/Madrid/Portero/Madrid_Portero_24_1.jpg'),
 (@product_id, '/images/Madrid/Portero/Madrid_Portero_24_2.jpg'),
-(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg'),
-(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_4.jpg');
+(@product_id, '/images/Madrid/Portero/Madrid_Portero_24_3.jpg');
 
 -- Athletic de Club
 

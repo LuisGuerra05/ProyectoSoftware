@@ -69,6 +69,7 @@
     "Error updating the address": "Error updating the address", 
     "profile-address-required": "Address is required",
     "profile-address-updated": "Address updated successfully",
+    "register-email-exists": "This email is already registered.",
     
     "login-email": "Email",
     "login-password": "Password",

@@ -15,17 +15,18 @@ const Register = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [addressError, setAddressError] = useState(''); // Estado para manejar error de dirección
+  const [addressError, setAddressError] = useState('');
+  const [emailExistsError, setEmailExistsError] = useState('');  // Estado para manejar el error de email existente
 
   const navigate = useNavigate();
   const { setIsLoggedIn } = useContext(CartContext);
 
   useEffect(() => {
-    // Actualizar los mensajes de error cuando cambie el idioma
     if (emailError) setEmailError(t('Please enter a valid email address.'));
     if (addressError) setAddressError(t('Please enter your address.'));
-    if (error) setError(t('Por favor, ingresa todos los campos')); // Actualizar el mensaje de error general al cambiar de idioma
-  }, [i18n.language, t, emailError, addressError, error]);
+    if (error) setError(t('Please fill in all the fields.'));
+    if (emailExistsError) setEmailExistsError(t('register-email-exists'));  // Actualizar el mensaje de correo ya existente
+  }, [i18n.language, t, emailError, addressError, error, emailExistsError]);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,52 +36,72 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Limpiar mensajes previos
     setMessage('');
     setError('');
     setEmailError('');
     setAddressError('');
+    setEmailExistsError('');  // Limpiar el error del correo duplicado
+
+    // Validar los campos antes de enviarlos
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const trimmedAddress = address.trim();
 
     // Validación de email
-    if (!validateEmail(email)) {
+    if (!validateEmail(trimmedEmail)) {
       setEmailError(t('Please enter a valid email address.'));
       return;
     }
 
     // Validación de dirección vacía
-    if (!address.trim()) {
+    if (!trimmedAddress) {
       setAddressError(t('Please enter your address.'));
       return;
     }
 
     // Validación de campos vacíos
-    if (!name || !email || !password || !address) {
-      setError(t('Please fill in all the fields.')); // Mensaje general de campos vacíos
+    if (!trimmedName || !trimmedEmail || !trimmedPassword || !trimmedAddress) {
+      setError(t('Please fill in all the fields.'));
       return;
     }
 
+    // Enviar los datos al backend
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, address }),
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail,
+          password: trimmedPassword,
+          address: trimmedAddress,
+        }),
       });
 
       const data = await response.json();
 
+      // Si el correo ya está registrado
+      if (response.status === 400) {
+        setEmailExistsError(t('register-email-exists'));  // Usar el mensaje traducido
+        return;
+      }
+
+      // Si la respuesta es correcta, navegar a la página de inicio
       if (response.ok) {
         setMessage(data.message);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        localStorage.setItem('email', email);
-        localStorage.setItem('address', address); // Guardar dirección en localStorage
+        localStorage.setItem('email', trimmedEmail);
+        localStorage.setItem('address', trimmedAddress);
 
         setIsLoggedIn(true);
-
         navigate('/');
       } else {
-        setError(data.message || t('Unknown registration error.'));
+        setError(t('Unknown registration error.'));
       }
     } catch (error) {
       console.error('Error registrando el usuario:', error);
@@ -148,6 +169,12 @@ const Register = () => {
           {message && (
             <Alert variant="success" className="mt-3">
               {message}
+            </Alert>
+          )}
+
+          {emailExistsError && (  // Mostrar el mensaje de error del correo duplicado
+            <Alert variant="danger" className="mt-3">
+              {emailExistsError}
             </Alert>
           )}
 
