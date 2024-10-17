@@ -101,6 +101,7 @@ const login = (req, res) => {
         token,
         username: user.username,
         email: user.email,
+        address: user.address,
         message: 'Inicio de sesión exitoso'
       });
     } catch (err) {
