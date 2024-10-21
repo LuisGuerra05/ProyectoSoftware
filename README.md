@@ -2,6 +2,8 @@
 
 Este proyecto es un sitio web de e-commerce para la venta de camisetas de fútbol. Está desarrollado con **Node.js** y **Express** en el backend, y **React** en el frontend. La base de datos utilizada es **MySQL**.
 
+Puedes ver el video de la primera entrega aquí: [Link Video Primera Entrega](https://www.youtube.com/watch?v=5kOdmAvwMZs&ab_channel=LuisGuerra)
+
 ---
 
 ## Tabla de contenidos
