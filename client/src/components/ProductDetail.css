@@ -72,3 +72,15 @@
     margin-bottom: 40px; /* Ajustar margen inferior en pantallas más grandes */
   }
 }
+
+/* Sobrescribe el color verde del toast de éxito */
+.Toastify__toast--success {
+  box-shadow: none !important; /* Eliminar cualquier sombra predeterminada */
+}
+/* Sobrescribe el color de la barra de progreso */
+.Toastify__progress-bar--success {
+  background-color: rgba(0, 123, 255, 0.85) !important; /* Azul fuerte para la barra de progreso */
+}
+
+
+
