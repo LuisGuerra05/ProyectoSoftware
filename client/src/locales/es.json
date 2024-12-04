@@ -52,7 +52,7 @@
 
 
     "login-title": "Inicia Sesión",
-    "Por favor, introduce una dirección de correo electrónico válida." : "Por favor, introduce una dirección de correo electrónico válida",
+    "Invalid email format" : "Formato de correo inválido",
     "Please enter a valid email address.": "Por favor, introduce una dirección de correo electrónico válida",
     "Unknown registration error.": "Error desconocido en el registro.",
     "Registration error": "Error en el registro",
@@ -63,6 +63,8 @@
     "Please enter your address.": "Por favor, introduce tu dirección",
     "profile-address-update-error": "Error al actualizar la dirección",
     "register-email-exists": "Este correo electrónico ya está registrado.",
+    "Invalid characters": "Caracteres inválidos",
+    "Please fill in this field": "Por favor, completa este campo",
     
     "profile-save": "Guardar",
     "profile-cancel": "Cancelar",

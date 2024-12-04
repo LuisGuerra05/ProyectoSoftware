@@ -14,23 +14,71 @@ const Register = () => {
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [addressError, setAddressError] = useState('');
-  const [emailExistsError, setEmailExistsError] = useState('');  // Estado para manejar el error de email existente
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [emailExistsError, setEmailExistsError] = useState('');
 
   const navigate = useNavigate();
   const { setIsLoggedIn } = useContext(CartContext);
 
+  // Actualización de mensajes de error al cambiar el idioma
   useEffect(() => {
-    if (emailError) setEmailError(t('Please enter a valid email address.'));
-    if (addressError) setAddressError(t('Please enter your address.'));
-    if (error) setError(t('Please fill in all the fields.'));
-    if (emailExistsError) setEmailExistsError(t('register-email-exists'));  // Actualizar el mensaje de correo ya existente
-  }, [i18n.language, t, emailError, addressError, error, emailExistsError]);
+    setFieldErrors((prev) => {
+      const updatedErrors = {};
+      for (const [key, value] of Object.entries(prev)) {
+        if (value === 'Please fill in this field') {
+          updatedErrors[key] = t('Please fill in this field');
+        } else if (value === 'Invalid email format') {
+          updatedErrors[key] = t('Invalid email format');
+        } else if (value === 'Invalid characters') {
+          updatedErrors[key] = t('Invalid characters');
+        }
+      }
+      return updatedErrors;
+    });
+
+    if (emailExistsError) setEmailExistsError(t('register-email-exists'));
+    if (error) setError(t(error));
+  }, [i18n.language, t, emailExistsError, error]);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
+  };
+
+  const validateNoSpecialChars = (value) => {
+    const regex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ,.@-]*$/;
+    return regex.test(value);
+  };
+
+  const handleFieldChange = (field, value) => {
+    switch (field) {
+      case 'name':
+        setName(value);
+        if (value.trim() && validateNoSpecialChars(value)) {
+          setFieldErrors((prev) => ({ ...prev, name: '' }));
+        }
+        break;
+      case 'email':
+        setEmail(value);
+        if (value.trim() && validateEmail(value)) {
+          setFieldErrors((prev) => ({ ...prev, email: '' }));
+        }
+        break;
+      case 'password':
+        setPassword(value);
+        if (value.trim() && validateNoSpecialChars(value)) {
+          setFieldErrors((prev) => ({ ...prev, password: '' }));
+        }
+        break;
+      case 'address':
+        setAddress(value);
+        if (value.trim() && validateNoSpecialChars(value)) {
+          setFieldErrors((prev) => ({ ...prev, address: '' }));
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -39,35 +87,53 @@ const Register = () => {
     // Limpiar mensajes previos
     setMessage('');
     setError('');
-    setEmailError('');
-    setAddressError('');
-    setEmailExistsError('');  // Limpiar el error del correo duplicado
+    setFieldErrors({});
+    setEmailExistsError('');
 
-    // Validar los campos antes de enviarlos
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
     const trimmedAddress = address.trim();
 
-    // Validación de email
-    if (!validateEmail(trimmedEmail)) {
-      setEmailError(t('Please enter a valid email address.'));
-      return;
-    }
-
-    // Validación de dirección vacía
-    if (!trimmedAddress) {
-      setAddressError(t('Please enter your address.'));
-      return;
-    }
+    const newFieldErrors = {};
 
     // Validación de campos vacíos
-    if (!trimmedName || !trimmedEmail || !trimmedPassword || !trimmedAddress) {
-      setError(t('Please fill in all the fields.'));
+    if (!trimmedName) {
+      newFieldErrors.name = t('Please fill in this field');
+    }
+    if (!trimmedEmail) {
+      newFieldErrors.email = t('Please fill in this field');
+    }
+    if (!trimmedPassword) {
+      newFieldErrors.password = t('Please fill in this field');
+    }
+    if (!trimmedAddress) {
+      newFieldErrors.address = t('Please fill in this field');
+    }
+
+    // Validación de email
+    if (trimmedEmail && !validateEmail(trimmedEmail)) {
+      newFieldErrors.email = t('Invalid email format');
+    }
+
+    // Validación de caracteres especiales
+    if (trimmedName && !validateNoSpecialChars(trimmedName)) {
+      newFieldErrors.name = t('Invalid characters');
+    }
+    if (trimmedPassword && !validateNoSpecialChars(trimmedPassword)) {
+      newFieldErrors.password = t('Invalid characters');
+    }
+    if (trimmedAddress && !validateNoSpecialChars(trimmedAddress)) {
+      newFieldErrors.address = t('Invalid characters');
+    }
+
+    // Si hay errores, actualiza el estado y detén el envío
+    if (Object.keys(newFieldErrors).length > 0) {
+      setFieldErrors(newFieldErrors);
       return;
     }
 
-    // Enviar los datos al backend
+    // Enviar los datos al backend si no hay errores
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
@@ -86,7 +152,7 @@ const Register = () => {
 
       // Si el correo ya está registrado
       if (response.status === 400) {
-        setEmailExistsError(t('register-email-exists'));  // Usar el mensaje traducido
+        setEmailExistsError(t('register-email-exists'));
         return;
       }
 
@@ -121,9 +187,10 @@ const Register = () => {
                 type="text"
                 placeholder={t('register-name')}
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => handleFieldChange('name', e.target.value)}
                 required
               />
+              {fieldErrors.name && <div style={{ color: 'red' }}>{fieldErrors.name}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -132,10 +199,10 @@ const Register = () => {
                 type="email"
                 placeholder={t('login-email')}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleFieldChange('email', e.target.value)}
                 required
               />
-              {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+              {fieldErrors.email && <div style={{ color: 'red' }}>{fieldErrors.email}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -144,9 +211,10 @@ const Register = () => {
                 type="password"
                 placeholder={t('login-password')}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handleFieldChange('password', e.target.value)}
                 required
               />
+              {fieldErrors.password && <div style={{ color: 'red' }}>{fieldErrors.password}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicAddress">
@@ -155,10 +223,10 @@ const Register = () => {
                 type="text"
                 placeholder={t('register-address')}
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                onChange={(e) => handleFieldChange('address', e.target.value)}
                 required
               />
-              {addressError && <div style={{ color: 'red' }}>{addressError}</div>}
+              {fieldErrors.address && <div style={{ color: 'red' }}>{fieldErrors.address}</div>}
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
@@ -172,7 +240,7 @@ const Register = () => {
             </Alert>
           )}
 
-          {emailExistsError && (  // Mostrar el mensaje de error del correo duplicado
+          {emailExistsError && (
             <Alert variant="danger" className="mt-3">
               {emailExistsError}
             </Alert>

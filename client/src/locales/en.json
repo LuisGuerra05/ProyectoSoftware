@@ -51,7 +51,7 @@
 
     "login-title": "Login",
     "Por favor, introduce una dirección de correo electrónico válida." : "Please enter a valid email address",
-    "Please enter a valid email address.": "Please enter a valid email address",
+    "Invalid email format": "Invalid email format",
     "Unknown registration error.": "Unknown registration error.",
     "Registration error": "Registration error",
     "Error en el inicio de sesión": "Login error",
@@ -59,6 +59,7 @@
     "Por favor, ingresa todos los campos": "Please fill in all the fields",
     "Please enter your address.": "Please enter your address",
     "profile-address-update-error": "Error updating the address",
+    "Please fill in this field": "Please fill in this field",
 
     "profile-save": "Save",
     "profile-cancel": "Cancel",
@@ -71,6 +72,7 @@
     "profile-address-updated": "Address updated successfully",
     "register-email-exists": "This email is already registered.",
     "Producto agregado al carrito con éxito":"Product added to cart successfully",
+    "Invalid characters": "Invalid characters",
     
     "login-email": "Email",
     "login-password": "Password",

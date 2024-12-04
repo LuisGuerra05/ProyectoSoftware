@@ -9,15 +9,26 @@ const Login = () => {
   const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [emailError, setEmailError] = useState(''); // Para manejar los errores de email
-  const [serverErrorMessage, setServerErrorMessage] = useState(''); // Para manejar los errores del servidor
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const { setIsLoggedIn } = useContext(CartContext); // Obtenemos setIsLoggedIn del contexto
+  const { setIsLoggedIn } = useContext(CartContext);
 
   useEffect(() => {
-    // Forzar re-renderizado cuando cambia el idioma para traducir el mensaje de error
+    // Actualizar mensajes de error al cambiar el idioma
+    setFieldErrors((prev) => {
+      const updatedErrors = {};
+      for (const [key, value] of Object.entries(prev)) {
+        if (value === 'Please fill in this field') {
+          updatedErrors[key] = t('Please fill in this field');
+        } else if (value === 'Invalid email format') {
+          updatedErrors[key] = t('Invalid email format');
+        }
+      }
+      return updatedErrors;
+    });
+
     if (serverErrorMessage) {
       setServerErrorMessage(t(serverErrorMessage));
     }
@@ -28,41 +39,74 @@ const Login = () => {
     return regex.test(email);
   };
 
+  const handleFieldChange = (field, value) => {
+    switch (field) {
+      case 'email':
+        setEmail(value);
+        if (value.trim() && validateEmail(value)) {
+          setFieldErrors((prev) => ({ ...prev, email: '' }));
+        }
+        break;
+      case 'password':
+        setPassword(value);
+        if (value.trim()) {
+          setFieldErrors((prev) => ({ ...prev, password: '' }));
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Validación de email personalizada
-    if (!validateEmail(email)) {
-      setEmailError('invalid-email'); // Clave para error de email no válido
-      return;
-    } else {
-      setEmailError('');
+    setFieldErrors({});
+    setServerErrorMessage('');
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    const newFieldErrors = {};
+
+    // Validaciones por campo
+    if (!trimmedEmail) {
+      newFieldErrors.email = t('Please fill in this field');
+    } else if (!validateEmail(trimmedEmail)) {
+      newFieldErrors.email = t('Invalid email format');
     }
 
-    if (!email || !password) {
-      setServerErrorMessage('missing-fields'); // Error si faltan campos
+    if (!trimmedPassword) {
+      newFieldErrors.password = t('Please fill in this field');
+    }
+
+    // Si hay errores, detener el envío
+    if (Object.keys(newFieldErrors).length > 0) {
+      setFieldErrors(newFieldErrors);
       return;
     }
 
+    // Intentar iniciar sesión si no hay errores
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: trimmedEmail, password: trimmedPassword }),
       });
 
       const data = await response.json();
+
       if (response.ok) {
-        setServerErrorMessage(''); // Limpiamos cualquier error previo
-        setIsSuccess(true);
+        // Limpieza de errores y configuración exitosa
+        setServerErrorMessage('');
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
-        localStorage.setItem('address', data.address); // Guardar la dirección en localStorage
+        localStorage.setItem('address', data.address);
 
-        // Después de iniciar sesión exitosamente
+        // Sincronizar carrito de compras
         const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
         if (guestCart.length > 0) {
           const token = data.token;
@@ -70,23 +114,21 @@ const Login = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ guestCart }),
           });
           localStorage.removeItem('cart');
         }
 
-        setIsLoggedIn(true); // Actualizamos el estado de autenticación en el contexto
+        setIsLoggedIn(true);
         navigate('/profile'); // Redirigir al perfil o página deseada
       } else {
-        setServerErrorMessage('invalid-credentials'); // Error de credenciales
-        setIsSuccess(false);
+        setServerErrorMessage(t('Invalid email or password')); // Error de credenciales
       }
     } catch (error) {
-      console.error(t('Error al iniciar sesión:'), error);
-      setServerErrorMessage('login-error'); // Error genérico
-      setIsSuccess(false);
+      console.error('Error al iniciar sesión:', error);
+      setServerErrorMessage(t('An error occurred while logging in')); // Error genérico
     }
   };
 
@@ -96,19 +138,16 @@ const Login = () => {
         <Col>
           <h1 className="text-center">{t('login-title')}</h1>
           <Form onSubmit={handleLogin} noValidate>
-            {/* Deshabilitar validación automática del navegador */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>{t('login-email')}</Form.Label>
               <Form.Control
                 type="email"
                 placeholder={t('login-email')}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleFieldChange('email', e.target.value)}
                 required
               />
-              {emailError === 'invalid-email' && (
-                <div style={{ color: 'red' }}>{t('Por favor, introduce una dirección de correo electrónico válida.')}</div>
-              )}
+              {fieldErrors.email && <div style={{ color: 'red' }}>{fieldErrors.email}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -117,9 +156,10 @@ const Login = () => {
                 type="password"
                 placeholder={t('login-password')}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handleFieldChange('password', e.target.value)}
                 required
               />
+              {fieldErrors.password && <div style={{ color: 'red' }}>{fieldErrors.password}</div>}
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
@@ -127,12 +167,9 @@ const Login = () => {
             </Button>
           </Form>
 
-          {/* Mostrar mensaje de error del servidor */}
           {serverErrorMessage && (
             <Alert variant="danger" className="mt-3">
-              {serverErrorMessage === 'invalid-credentials' && t('Email o contraseña incorrectos')}
-              {serverErrorMessage === 'missing-fields' && t('Por favor, ingresa todos los campos')}
-              {serverErrorMessage === 'login-error' && t('Error en el inicio de sesión')}
+              {serverErrorMessage}
             </Alert>
           )}
 

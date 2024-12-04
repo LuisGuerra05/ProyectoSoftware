@@ -1,22 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Container, Row, Col, Card, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartProvider';
 import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
-  const { t, i18n } = useTranslation(); // i18n añadido para detectar cambios de idioma
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearCart, setIsLoggedIn } = useContext(CartContext);
 
   const [isEditing, setIsEditing] = useState(false);
   const [newAddress, setNewAddress] = useState(localStorage.getItem('address') || '');
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [fieldErrorKey, setFieldErrorKey] = useState('');
 
   const username = localStorage.getItem('username');
   const email = localStorage.getItem('email');
-  const address = localStorage.getItem('address');  // Obtener la dirección desde localStorage
+  const address = localStorage.getItem('address');
+
+  const validateNoSpecialChars = (value) => {
+    const regex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ,.@-]*$/;
+    return regex.test(value);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -30,12 +35,16 @@ const Profile = () => {
   };
 
   const handleSaveAddress = async () => {
-    setError('');
+    setFieldErrorKey('');
     setMessage('');
 
-    // Validar que la dirección no esté vacía
     if (!newAddress || newAddress.trim() === '') {
-      setError(t('Address is required'));
+      setFieldErrorKey('Address is required');
+      return;
+    }
+
+    if (!validateNoSpecialChars(newAddress)) {
+      setFieldErrorKey('Invalid characters');
       return;
     }
 
@@ -45,7 +54,7 @@ const Profile = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ address: newAddress }),
       });
@@ -54,32 +63,26 @@ const Profile = () => {
 
       if (response.ok) {
         localStorage.setItem('address', newAddress);
-        setMessage(t('Address updated successfully'));
+        setMessage('Address updated successfully');
         setIsEditing(false);
+
+        setTimeout(() => {
+          setMessage('');
+        }, 3000);
       } else {
-        setError(t(data.message || 'Error updating the address'));
+        setFieldErrorKey(data.message || 'Error updating the address');
       }
     } catch (error) {
-      setError(t('Error updating the address'));
+      setFieldErrorKey('Error updating the address');
     }
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setError(''); // Limpiar el mensaje de error
-    setMessage(''); // Limpiar el mensaje de éxito
-    setNewAddress(localStorage.getItem('address') || ''); // Restaurar la dirección original
+    setFieldErrorKey('');
+    setMessage('');
+    setNewAddress(localStorage.getItem('address') || '');
   };
-
-  // Efecto para actualizar los mensajes al cambiar el idioma
-  useEffect(() => {
-    if (error) {
-      setError(t('Address is required'));
-    }
-    if (message) {
-      setMessage(t('Address updated successfully'));
-    }
-  }, [i18n.language]); // Detectar cambios en el idioma
 
   return (
     <Container style={{ marginTop: '50px' }}>
@@ -102,24 +105,24 @@ const Profile = () => {
                       type="text"
                       value={newAddress}
                       onChange={(e) => setNewAddress(e.target.value)}
-                      style={{ display: 'inline', width: 'auto', marginLeft: '10px' }}
+                      style={{ display: 'inline', width: 'auto', marginRight: '10px' }}
                     />
                     <Button
                       variant="secondary"
                       size="sm"
-                      style={{ marginLeft: '10px' }}
+                      style={{ marginRight: '10px' }}
                       onClick={handleSaveAddress}
                     >
                       {t('profile-save')}
                     </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      style={{ marginLeft: '10px' }}
-                      onClick={handleCancelEdit}
-                    >
+                    <Button variant="secondary" size="sm" onClick={handleCancelEdit}>
                       {t('profile-cancel')}
                     </Button>
+                    {fieldErrorKey && (
+                      <div style={{ color: 'red', marginTop: '5px' }}>
+                        {t(fieldErrorKey)}
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
@@ -135,8 +138,7 @@ const Profile = () => {
                   </>
                 )}
               </p>
-              {message && <Alert variant="success">{message}</Alert>}
-              {error && <Alert variant="danger">{error}</Alert>}
+              {message && <Alert variant="success">{t(message)}</Alert>}
               <Button className="custom-blue-btn" onClick={handleLogout}>
                 {t('profile-logout')}
               </Button>
