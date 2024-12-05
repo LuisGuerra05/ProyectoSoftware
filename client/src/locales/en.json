@@ -60,6 +60,7 @@
     "Please enter your address.": "Please enter your address",
     "profile-address-update-error": "Error updating the address",
     "Please fill in this field": "Please fill in this field",
+    "Invalid email or password": "Invalid email or password", 
 
     "profile-save": "Save",
     "profile-cancel": "Cancel",

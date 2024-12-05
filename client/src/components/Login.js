@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
-  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [serverErrorKey, setServerErrorKey] = useState(''); // Cambiar de mensaje traducido a clave
   const navigate = useNavigate();
 
   const { setIsLoggedIn } = useContext(CartContext);
@@ -28,11 +28,7 @@ const Login = () => {
       }
       return updatedErrors;
     });
-
-    if (serverErrorMessage) {
-      setServerErrorMessage(t(serverErrorMessage));
-    }
-  }, [i18n.language, serverErrorMessage, t]);
+  }, [i18n.language, t]);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,7 +58,7 @@ const Login = () => {
     e.preventDefault();
 
     setFieldErrors({});
-    setServerErrorMessage('');
+    setServerErrorKey('');
 
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
@@ -100,7 +96,7 @@ const Login = () => {
 
       if (response.ok) {
         // Limpieza de errores y configuración exitosa
-        setServerErrorMessage('');
+        setServerErrorKey('');
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
@@ -124,11 +120,11 @@ const Login = () => {
         setIsLoggedIn(true);
         navigate('/profile'); // Redirigir al perfil o página deseada
       } else {
-        setServerErrorMessage(t('Invalid email or password')); // Error de credenciales
+        setServerErrorKey('Invalid email or password'); // Guardar clave en lugar del mensaje
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      setServerErrorMessage(t('An error occurred while logging in')); // Error genérico
+      setServerErrorKey('An error occurred while logging in'); // Guardar clave en lugar del mensaje
     }
   };
 
@@ -167,9 +163,9 @@ const Login = () => {
             </Button>
           </Form>
 
-          {serverErrorMessage && (
+          {serverErrorKey && (
             <Alert variant="danger" className="mt-3">
-              {serverErrorMessage}
+              {t(serverErrorKey)}
             </Alert>
           )}
 

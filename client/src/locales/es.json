@@ -65,6 +65,7 @@
     "register-email-exists": "Este correo electrónico ya está registrado.",
     "Invalid characters": "Caracteres inválidos",
     "Please fill in this field": "Por favor, completa este campo",
+    "Invalid email or password": "Email o contraseña inválido",
     
     "profile-save": "Guardar",
     "profile-cancel": "Cancelar",
