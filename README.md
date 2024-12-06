@@ -4,6 +4,8 @@ Este proyecto es un sitio web de e-commerce para la venta de camisetas de fútbo
 
 Puedes ver el video de la primera entrega aquí: [Link Video Primera Entrega](https://www.youtube.com/watch?v=5kOdmAvwMZs&ab_channel=LuisGuerra)
 
+Puedes ver el video de la entrega final aquí: [Link Video Entrega Final](https://www.youtube.com/watch?v=DFOU04Sa63g&ab_channel=LuisGuerra)
+
 ---
 
 ## Tabla de contenidos
