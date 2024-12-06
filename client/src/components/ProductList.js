@@ -56,7 +56,7 @@ const getProductTranslationKey = (name) => {
 
 const ProductList = () => {
   const { addToCart } = useContext(CartContext);
-  const [products, setProducts] = useState([]);
+  const [, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
