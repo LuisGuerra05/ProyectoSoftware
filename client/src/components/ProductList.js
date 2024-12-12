@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Modal, Form, Dropdown } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './ProductList.css';
-import './ProductDetail.css';
 import { CartContext } from '../context/CartProvider';
-import { ToastContainer, toast } from 'react-toastify'; // Importa Toastify
-import 'react-toastify/dist/ReactToastify.css'; // Importa el CSS de Toastify
 
 const teamFolderMap = {
   'FC Barcelona': 'Barca',
@@ -56,7 +55,7 @@ const getProductTranslationKey = (name) => {
 
 const ProductList = () => {
   const { addToCart } = useContext(CartContext);
-  const [, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -71,8 +70,11 @@ const ProductList = () => {
       .then(response => response.json())
       .then(data => {
         setProducts(data);
+
+        // Filtrar automáticamente si se especifica un equipo en la URL
         const params = new URLSearchParams(location.search);
         const teamParam = params.get('team');
+
         if (teamParam) {
           setSelectedTeams([teamParam]);
           setFilteredProducts(data.filter(product => product.team === teamParam));
@@ -84,7 +86,34 @@ const ProductList = () => {
       .catch(error => console.error('Error al cargar los productos:', error));
   }, [location.search]);
 
-  const handleTeamCheckboxChange = (team) => { /* Función aquí */ };
+  const handleTeamCheckboxChange = (team) => {
+    let newSelectedTeams;
+    if (team === 'all') {
+      if (selectAll) {
+        newSelectedTeams = [];
+        setSelectAll(false);
+      } else {
+        newSelectedTeams = Object.keys(teamFolderMap);
+        setSelectAll(true);
+      }
+    } else {
+      newSelectedTeams = selectedTeams.includes(team)
+        ? selectedTeams.filter((t) => t !== team)
+        : [...selectedTeams, team];
+      setSelectAll(newSelectedTeams.length === Object.keys(teamFolderMap).length);
+    }
+
+    setSelectedTeams(newSelectedTeams);
+
+    if (newSelectedTeams.length > 0) {
+      const filtered = products.filter(product =>
+        newSelectedTeams.some(selectedTeam => selectedTeam.toLowerCase() === product.team.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts([]);
+    }
+  };
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
@@ -110,9 +139,9 @@ const ProductList = () => {
     }
     addToCart(selectedProduct, selectedSize);
     toast.success(t('Producto agregado al carrito con éxito'), {
-      className: 'custom-toast', // Clase personalizada
-      progressClassName: 'Toastify__progress-bar--blue', // Aplicar estilo al fondo
-      progressStyle: { backgroundColor: 'rgba(0, 123, 255, 0.85)' } // Color de la barra de progreso
+      className: 'custom-toast',
+      progressClassName: 'Toastify__progress-bar--blue',
+      progressStyle: { backgroundColor: 'rgba(0, 123, 255, 0.85)' }
     });
     handleClose();
   };
@@ -122,7 +151,7 @@ const ProductList = () => {
       <ToastContainer /> {/* Contenedor para las notificaciones */}
       <Row className="product-list-row">
         {/* Dropdown para pantallas lg y más pequeñas */}
-        <Col lg={12} className="dropdown-filter">
+        <Col lg={12} className="dropdown-filter"> 
           <Dropdown>
             <Dropdown.Toggle variant="outline-secondary" className="dropdown-button">
               {t('Filtro por equipo')}
@@ -151,13 +180,13 @@ const ProductList = () => {
         </Col>
 
         {/* Columna para el filtro de equipos para pantallas xl y más grandes */}
-        <Col xl={3} className="team-filter">
+        <Col xl={3} className="team-filter"> 
           <div className="checkbox-container">
             <Form.Group>
               <Form.Label>{t('Filtro por equipo')}</Form.Label>
               <Form.Check
                 type="checkbox"
-                label="Todos"
+                label={t('All')}
                 value="all"
                 onChange={() => handleTeamCheckboxChange('all')}
                 checked={selectAll}
